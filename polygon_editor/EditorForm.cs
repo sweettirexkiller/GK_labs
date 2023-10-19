@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using polygon_editor.Entities;
 
 namespace polygon_editor
 {
@@ -15,14 +16,16 @@ namespace polygon_editor
         public EditorForm()
         {
             InitializeComponent();
+            previouslyAddedPoint = null;
         }
 
         private List<Entities.Point> points = new List<Entities.Point>();
+        // private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
         private Vector3 currentPosition;
+        private Entities.Point previouslyAddedPoint;
         private int DrawIndex = -1;
         private bool active_drawing = false;
-        
-        
+
         private void EditorForm_Load(object sender, EventArgs e)
         {
             
@@ -58,6 +61,7 @@ namespace polygon_editor
         {
             currentPosition = PointToCartesian(e.Location);
             MovingMouseLabel.Text = string.Format("Mouse Position: ({0}, {1})", e.Location.X, e.Location.Y);
+            EditorPictureBox.Refresh();
         }
 
         private void EditorPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -69,7 +73,18 @@ namespace polygon_editor
                     switch (DrawIndex)
                     {
                         case 0:
-                            points.Add(new Entities.Point(currentPosition));
+                            if (previouslyAddedPoint != null)
+                            {
+                                previouslyAddedPoint = points.Last();
+                                points.Add(new Entities.Point(currentPosition));
+                            }
+                            else
+                            {
+                                Entities.Point newPoint = new Entities.Point(currentPosition);
+                                previouslyAddedPoint = newPoint;
+                                points.Add(newPoint);
+                            }
+
                             break;
                     }
                     EditorPictureBox.Refresh();
@@ -96,6 +111,11 @@ namespace polygon_editor
                 {
                     e.Graphics.DrawPoint(new Pen(Color.Black, 0), p);
                 }
+            }
+
+            if (previouslyAddedPoint != null)
+            {
+                e.Graphics.DrawLine(new Pen(Color.Gray, 0), (float)previouslyAddedPoint.Position.X, (float)previouslyAddedPoint.Position.Y , (float)currentPosition.X, (float)currentPosition.Y );
             }
         }
     }
