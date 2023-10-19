@@ -11,7 +11,7 @@ namespace polygon_editor
         {
             this.X = x;
             this.Y = y;
-            this.X=0.0;
+            this.Z=0.0;
         }
         
         //constructor 

@@ -16,11 +16,17 @@ namespace polygon_editor
         {
             InitializeComponent();
         }
-        
+
         private List<Entities.Point> points = new List<Entities.Point>();
         private Vector3 currentPosition;
         private int DrawIndex = -1;
         private bool active_drawing = false;
+        
+        
+        private void EditorForm_Load(object sender, EventArgs e)
+        {
+            
+        }
 
         // dots per inch
         private float DPI 
@@ -43,7 +49,7 @@ namespace polygon_editor
         //convert system point to world point
         private Vector3 PointToCartesian(System.Drawing.Point point)
         {
-            return new Vector3(PixelsToMillimeters(point.X), PixelsToMillimeters(point.Y));
+            return new Vector3(PixelsToMillimeters(point.X), PixelsToMillimeters(EditorPictureBox.Height - point.Y));
         }
         
         
@@ -51,7 +57,7 @@ namespace polygon_editor
         private void EditorPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             currentPosition = PointToCartesian(e.Location);
-            MovingMouseLabel.Text = string.Format("({0}, {1})", e.Location.X, e.Location.Y);
+            MovingMouseLabel.Text = string.Format("Mouse Position: ({0}, {1})", e.Location.X, e.Location.Y);
         }
 
         private void EditorPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -65,12 +71,32 @@ namespace polygon_editor
                         case 0:
                             points.Add(new Entities.Point(currentPosition));
                             break;
-                            break;
                     }
                     EditorPictureBox.Refresh();
                 }
             }
             
+        }
+
+        private void addPolygonButton_Click(object sender, EventArgs e)
+        {
+            DrawIndex = 0;
+            active_drawing = true;
+            EditorPictureBox.Cursor = Cursors.Cross;
+        }
+
+
+        private void EditorPictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.SetParameters(PixelsToMillimeters(EditorPictureBox.Height));
+
+            if (points.Count > 0)
+            {
+                foreach(Entities.Point p in points)
+                {
+                    e.Graphics.DrawPoint(new Pen(Color.Black, 0), p);
+                }
+            }
         }
     }
 }

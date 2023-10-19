@@ -31,6 +31,7 @@
         {
             this.EditorPictureBox = new System.Windows.Forms.PictureBox();
             this.MovingMouseLabel = new System.Windows.Forms.Label();
+            this.addPolygonButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -39,21 +40,32 @@
             this.EditorPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.EditorPictureBox.BackColor = System.Drawing.SystemColors.Window;
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.EditorPictureBox.Location = new System.Drawing.Point(120, 12);
+            this.EditorPictureBox.Location = new System.Drawing.Point(482, 12);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1538, 1056);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1176, 1016);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
+            this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
             this.EditorPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.EditorPictureBox_MouseDown);
             this.EditorPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.EditorPictureBox_MouseMove);
             // 
             // MovingMouseLabel
             // 
-            this.MovingMouseLabel.Location = new System.Drawing.Point(14, 21);
+            this.MovingMouseLabel.Location = new System.Drawing.Point(38, 51);
             this.MovingMouseLabel.Name = "MovingMouseLabel";
-            this.MovingMouseLabel.Size = new System.Drawing.Size(100, 23);
+            this.MovingMouseLabel.Size = new System.Drawing.Size(317, 23);
             this.MovingMouseLabel.TabIndex = 5;
             this.MovingMouseLabel.Text = "label1";
+            // 
+            // addPolygonButton
+            // 
+            this.addPolygonButton.Location = new System.Drawing.Point(38, 94);
+            this.addPolygonButton.Name = "addPolygonButton";
+            this.addPolygonButton.Size = new System.Drawing.Size(317, 47);
+            this.addPolygonButton.TabIndex = 6;
+            this.addPolygonButton.Text = "Add Polygon";
+            this.addPolygonButton.UseVisualStyleBackColor = true;
+            this.addPolygonButton.Click += new System.EventHandler(this.addPolygonButton_Click);
             // 
             // EditorForm
             // 
@@ -62,6 +74,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1670, 1063);
+            this.Controls.Add(this.addPolygonButton);
             this.Controls.Add(this.MovingMouseLabel);
             this.Controls.Add(this.EditorPictureBox);
             this.Name = "EditorForm";
@@ -70,6 +83,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button addPolygonButton;
 
         private System.Windows.Forms.Label MovingMouseLabel;
 

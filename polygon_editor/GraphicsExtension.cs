@@ -1,4 +1,3 @@
-using System.Drawing;
 
 namespace polygon_editor
 {
@@ -20,7 +19,7 @@ namespace polygon_editor
         public static void DrawPoint(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Point point)
         {
             g.SetTransform();
-            System.Drawing.PointF p = point.Position.ToPointF;
+            System.Drawing.PointF p = point.Position.ToPointF();
             g.DrawEllipse(pen, p.X - 1, p.Y - 1, 2, 2);
             g.ResetTransform();
         }
