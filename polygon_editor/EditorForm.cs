@@ -27,6 +27,7 @@ namespace polygon_editor
         private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
         private Vector3 currentPosition;
         private Entities.Line currentLine;
+        private Entities.Polygon currentPolygon;
         private Entities.Point previouslyAddedPoint;
         private bool is_adding_polygon = false;
         #endregion
@@ -92,13 +93,14 @@ namespace polygon_editor
             {
                 if (is_adding_polygon)
                 {
-                    Polygon currentPolygon = polygons.Last();
                     currentPolygon.AddPoint(new Entities.PolygonPoint(currentPolygon,currentPolygon.Points.Count, currentPosition));
                     previouslyAddedPoint = currentPolygon.Points.Last();
 
                     if (currentPolygon.IsClosed)
                     {
                         currentLine = null;
+                        polygons.Add(currentPolygon);
+                        currentPolygon = null;
                         is_adding_polygon = false;
                         EditorPictureBox.Cursor = Cursors.Default;
                         previouslyAddedPoint = null;
@@ -115,19 +117,44 @@ namespace polygon_editor
         #region Add Polygon Click
         private void addPolygonButton_Click(object sender, EventArgs e)
         {
-            is_adding_polygon = true;
-            EditorPictureBox.Cursor = Cursors.Cross;
-            Polygon newPolygon = new Polygon();
-            polygons.Add(newPolygon);
+            if (!is_adding_polygon)
+            {
+                is_adding_polygon = true;
+                EditorPictureBox.Cursor = Cursors.Cross;
+                currentPolygon = new Polygon();
+            }
+           
         }
         
         #endregion
 
 
-        #region Pain Picture box
+        #region Paint Picture box
         private void EditorPictureBox_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SetParameters(PixelsToMillimeters(EditorPictureBox.Height));
+            
+            // if currentPolygon is not null draw current polygon
+            if (currentPolygon != null)
+            {
+                foreach (Entities.PolygonPoint point in currentPolygon.Points)
+                {
+                    if(previouslyAddedPoint != null && point == previouslyAddedPoint && !currentPolygon.IsClosed)
+                        e.Graphics.DrawPoint(new Pen(Color.Red, 0), point);
+                    else
+                        e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
+                }
+                
+                foreach (Entities.Line line in currentPolygon.Lines)
+                {
+                    e.Graphics.DrawLine(new Pen(Color.Gray, 0), line);
+                }
+
+                if (currentLine != null && !currentPolygon.IsClosed)
+                {
+                    e.Graphics.DrawLine(new Pen(Color.Gainsboro, 0), currentLine);
+                }
+            }
 
             if (polygons.Count > 0)
             {
@@ -136,26 +163,33 @@ namespace polygon_editor
                 {
                     foreach(Entities.PolygonPoint point in polygon.Points)
                     {
-                        if(previouslyAddedPoint != null && point == previouslyAddedPoint && !polygon.IsClosed)
-                            e.Graphics.DrawPoint(new Pen(Color.Red, 0), point);
-                        else
-                            e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
+                        e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
                     }
                     
                     foreach (Entities.Line line in polygon.Lines)
                     {
                         e.Graphics.DrawLine(new Pen(Color.Gray, 0), line);
                     }
-
-                    if (currentLine != null && !polygon.IsClosed)
-                    {
-                        e.Graphics.DrawLine(new Pen(Color.Gainsboro, 0), currentLine);
-                    }
+                    
                 }
                 
             }
         }
         
         #endregion
+
+        private void CancelAll()
+        {
+            is_adding_polygon = false;
+            EditorPictureBox.Cursor = Cursors.Default;
+            currentLine = null;
+            previouslyAddedPoint = null;
+            currentPolygon = null;
+        }
+
+        private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CancelAll();
+        }
     }
 }

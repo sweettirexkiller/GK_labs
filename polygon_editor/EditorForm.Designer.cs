@@ -29,6 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorForm));
             this.EditorPictureBox = new System.Windows.Forms.PictureBox();
             this.ribbon1 = new System.Windows.Forms.Ribbon();
@@ -39,8 +40,11 @@
             this.removeBtn = new System.Windows.Forms.RibbonButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.coordinate = new System.Windows.Forms.ToolStripStatusLabel();
+            this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cancelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // EditorPictureBox
@@ -50,7 +54,7 @@
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.EditorPictureBox.Location = new System.Drawing.Point(12, 206);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1280, 993);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1304, 1065);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
             this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
@@ -73,7 +77,7 @@
             this.ribbon1.OrbDropDown.Size = new System.Drawing.Size(527, 447);
             this.ribbon1.OrbDropDown.TabIndex = 0;
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
-            this.ribbon1.Size = new System.Drawing.Size(1304, 200);
+            this.ribbon1.Size = new System.Drawing.Size(1328, 200);
             this.ribbon1.TabIndex = 7;
             this.ribbon1.Tabs.Add(this.editorTab);
             this.ribbon1.Text = "ribbon1";
@@ -123,9 +127,9 @@
             this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.coordinate });
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1202);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1274);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1304, 50);
+            this.statusStrip1.Size = new System.Drawing.Size(1328, 50);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip";
             // 
@@ -139,13 +143,27 @@
             this.coordinate.Size = new System.Drawing.Size(300, 45);
             this.coordinate.Text = "0.000 0.000";
             // 
+            // menuStrip
+            // 
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.cancelToolStripMenuItem });
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(162, 40);
+            // 
+            // cancelToolStripMenuItem
+            // 
+            this.cancelToolStripMenuItem.Name = "cancelToolStripMenuItem";
+            this.cancelToolStripMenuItem.Size = new System.Drawing.Size(161, 36);
+            this.cancelToolStripMenuItem.Text = "Cancel";
+            this.cancelToolStripMenuItem.Click += new System.EventHandler(this.cancelToolStripMenuItem_Click);
+            // 
             // EditorForm
             // 
             this.AccessibleName = "PolygonEditor";
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1304, 1252);
+            this.ClientSize = new System.Drawing.Size(1328, 1324);
+            this.ContextMenuStrip = this.menuStrip;
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ribbon1);
             this.Controls.Add(this.EditorPictureBox);
@@ -156,8 +174,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.ContextMenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem cancelToolStripMenuItem;
+
 
         private System.Windows.Forms.ToolStripStatusLabel coordinate;
 
