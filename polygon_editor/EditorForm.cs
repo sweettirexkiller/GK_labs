@@ -13,24 +13,33 @@ namespace polygon_editor
 {
     public partial class EditorForm : Form
     {
+        
+        #region Form Load
         public EditorForm()
         {
             InitializeComponent();
             previouslyAddedPoint = null;
         }
         
+        #endregion
+        
+        #region Properties
         private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
         private Vector3 currentPosition;
         private Entities.Line currentLine;
         private Entities.Point previouslyAddedPoint;
         private bool is_adding_polygon = false;
-
+        #endregion
+        
+        #region EditorForm_Load
         private void EditorForm_Load(object sender, EventArgs e)
         {
             
         }
+        
+        #endregion
 
-        // dots per inch
+        #region dots per inch
         private float DPI 
         {
             get
@@ -42,20 +51,26 @@ namespace polygon_editor
             }
         }
         
-        // convert pixels to millimeters
+        #endregion
+
+        #region convert pixels to millimeters
         private float PixelsToMillimeters(float pixels)
         {
             return pixels * 25.4f / DPI;
         }
         
-        //convert system point to world point
+        
+        #endregion
+        
+        #region convert system point to world point
         private Vector3 PointToCartesian(System.Drawing.Point point)
         {
             return new Vector3(PixelsToMillimeters(point.X), PixelsToMillimeters(EditorPictureBox.Height - point.Y));
         }
         
-        
+        #endregion
 
+        #region MouseMove
         private void EditorPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             currentPosition = PointToCartesian(e.Location);
@@ -66,7 +81,11 @@ namespace polygon_editor
             }
             EditorPictureBox.Refresh();
         }
+        
+        #endregion
 
+        #region MouseDown
+        
         private void EditorPictureBox_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -90,7 +109,10 @@ namespace polygon_editor
             }
             
         }
+        
+        #endregion
 
+        #region Add Polygon Click
         private void addPolygonButton_Click(object sender, EventArgs e)
         {
             is_adding_polygon = true;
@@ -98,8 +120,10 @@ namespace polygon_editor
             Polygon newPolygon = new Polygon();
             polygons.Add(newPolygon);
         }
-
-
+        
+        #endregion
+        
+        #region Pain Picture box
         private void EditorPictureBox_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SetParameters(PixelsToMillimeters(EditorPictureBox.Height));
@@ -130,5 +154,7 @@ namespace polygon_editor
                 
             }
         }
+        
+        #endregion
     }
 }

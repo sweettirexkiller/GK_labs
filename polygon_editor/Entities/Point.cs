@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace polygon_editor.Entities
 {
     public class Point
@@ -39,12 +41,14 @@ namespace polygon_editor.Entities
     {
         private int index;
         private Polygon polygon;
-        
+        private List<Line> lines;
+
         //constructor
         public PolygonPoint(Polygon polygon, int index,Vector3 position) : base(position)
         {
             this.Polygon = polygon;
             this.Index = index;
+            lines = new List<Line>();
         }
         
         public int Index
@@ -52,12 +56,22 @@ namespace polygon_editor.Entities
             get { return index; }
             set { index = value; }
         }
-        
+
+
+        public void AddLine(Line line)
+        {
+            Lines.Add(line);
+        }
     
         public Polygon Polygon
         {
             get { return polygon; }
             set { polygon = value; }
+        }
+        public List<Line> Lines
+        {
+            get => lines;
+            set => lines = value;
         }
     } 
 }

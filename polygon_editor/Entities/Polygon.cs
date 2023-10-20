@@ -27,13 +27,26 @@ namespace polygon_editor.Entities
                lastPoint = this.Points.Last();
             }
             
-            
+            // if new line would intercept with any other line then return
+            // if (lastPoint != null)
+            // {
+            //     foreach (Line line in lastPoint.Lines)
+            //     {
+            //         if (line.Intersects(new Line(lastPoint.Position, point.Position)))
+            //         {
+            //             // MessageBox.Show("Line intersects with another line");
+            //             return;
+            //         }
+            //     }
+            // }
             
             // if this.points.Count >= 3 and current point is close to first point then set isClosed to true
             if (this.Points.Count >= 3 && point.Position.DistanceTo(this.Points[0].Position) < 2)
             {
                 this.IsClosed = true;
                 Line line = new Line(lastPoint.Position, Points[0].Position);
+                lastPoint.AddLine(line);
+                Points[0].AddLine(line);
                 this.AddLine(line);
                 return;
             }
@@ -47,6 +60,8 @@ namespace polygon_editor.Entities
             if(lastPoint != null)
             {
                 Line line = new Line(lastPoint.Position, newPoint.Position);
+                lastPoint.AddLine(line);
+                newPoint.AddLine(line);
                 this.AddLine(line);
             }
 
