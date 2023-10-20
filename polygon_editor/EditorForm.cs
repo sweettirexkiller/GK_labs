@@ -74,7 +74,7 @@ namespace polygon_editor
         private void EditorPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             currentPosition = PointToCartesian(e.Location);
-            MovingMouseLabel.Text = string.Format("Mouse Position: ({0}, {1})", e.Location.X, e.Location.Y);
+            coordinate.Text = string.Format("({0}, {1})", e.Location.X, e.Location.Y);
             if (previouslyAddedPoint != null)
             {
                 currentLine = new Line(previouslyAddedPoint.Position, currentPosition);
@@ -122,7 +122,8 @@ namespace polygon_editor
         }
         
         #endregion
-        
+
+
         #region Pain Picture box
         private void EditorPictureBox_Paint(object sender, PaintEventArgs e)
         {

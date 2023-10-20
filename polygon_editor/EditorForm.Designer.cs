@@ -31,14 +31,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditorForm));
             this.EditorPictureBox = new System.Windows.Forms.PictureBox();
-            this.MovingMouseLabel = new System.Windows.Forms.Label();
             this.ribbon1 = new System.Windows.Forms.Ribbon();
             this.editorTab = new System.Windows.Forms.RibbonTab();
             this.polygonPanel = new System.Windows.Forms.RibbonPanel();
             this.addBtn = new System.Windows.Forms.RibbonButton();
             this.catchBtn = new System.Windows.Forms.RibbonButton();
             this.removeBtn = new System.Windows.Forms.RibbonButton();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.coordinate = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // EditorPictureBox
@@ -48,21 +50,12 @@
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.EditorPictureBox.Location = new System.Drawing.Point(12, 206);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1232, 858);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1280, 993);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
             this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
             this.EditorPictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.EditorPictureBox_MouseDown);
             this.EditorPictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.EditorPictureBox_MouseMove);
-            // 
-            // MovingMouseLabel
-            // 
-            this.MovingMouseLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.MovingMouseLabel.Location = new System.Drawing.Point(0, 1085);
-            this.MovingMouseLabel.Name = "MovingMouseLabel";
-            this.MovingMouseLabel.Size = new System.Drawing.Size(1256, 23);
-            this.MovingMouseLabel.TabIndex = 5;
-            this.MovingMouseLabel.Text = "label1";
             // 
             // ribbon1
             // 
@@ -80,7 +73,7 @@
             this.ribbon1.OrbDropDown.Size = new System.Drawing.Size(527, 447);
             this.ribbon1.OrbDropDown.TabIndex = 0;
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
-            this.ribbon1.Size = new System.Drawing.Size(1256, 200);
+            this.ribbon1.Size = new System.Drawing.Size(1304, 200);
             this.ribbon1.TabIndex = 7;
             this.ribbon1.Tabs.Add(this.editorTab);
             this.ribbon1.Text = "ribbon1";
@@ -124,23 +117,51 @@
             this.removeBtn.Name = "removeBtn";
             this.removeBtn.SmallImage = ((System.Drawing.Image)(resources.GetObject("removeBtn.SmallImage")));
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.AutoSize = false;
+            this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.coordinate });
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1202);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1304, 50);
+            this.statusStrip1.TabIndex = 8;
+            this.statusStrip1.Text = "statusStrip";
+            // 
+            // coordinate
+            // 
+            this.coordinate.AutoSize = false;
+            this.coordinate.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.coordinate.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.coordinate.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.coordinate.Name = "coordinate";
+            this.coordinate.Size = new System.Drawing.Size(300, 45);
+            this.coordinate.Text = "0.000 0.000";
+            // 
             // EditorForm
             // 
             this.AccessibleName = "PolygonEditor";
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1256, 1108);
+            this.ClientSize = new System.Drawing.Size(1304, 1252);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ribbon1);
-            this.Controls.Add(this.MovingMouseLabel);
             this.Controls.Add(this.EditorPictureBox);
             this.KeyPreview = true;
             this.Name = "EditorForm";
             this.Text = "PolygonEditor";
             this.Load += new System.EventHandler(this.EditorForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.ToolStripStatusLabel coordinate;
+
+        private System.Windows.Forms.StatusStrip statusStrip1;
 
         private System.Windows.Forms.RibbonButton removeBtn;
 
@@ -153,8 +174,6 @@
         private System.Windows.Forms.RibbonTab editorTab;
 
         private System.Windows.Forms.Ribbon ribbon1;
-
-        private System.Windows.Forms.Label MovingMouseLabel;
 
         private System.Windows.Forms.PictureBox EditorPictureBox;
 

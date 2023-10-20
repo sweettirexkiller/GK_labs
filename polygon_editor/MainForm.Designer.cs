@@ -43,7 +43,7 @@ namespace polygon_editor
             this.mainmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.fileToolStripMenuItem });
             this.mainmenu.Location = new System.Drawing.Point(0, 0);
             this.mainmenu.Name = "mainmenu";
-            this.mainmenu.Size = new System.Drawing.Size(984, 40);
+            this.mainmenu.Size = new System.Drawing.Size(1474, 40);
             this.mainmenu.TabIndex = 1;
             this.mainmenu.Text = "menuStrip1";
             // 
@@ -57,14 +57,14 @@ namespace polygon_editor
             // newBtn
             // 
             this.newBtn.Name = "newBtn";
-            this.newBtn.Size = new System.Drawing.Size(152, 36);
+            this.newBtn.Size = new System.Drawing.Size(138, 36);
             this.newBtn.Text = "New";
             this.newBtn.Click += new System.EventHandler(this.newBtn_Click);
             // 
             // exitBtn
             // 
             this.exitBtn.Name = "exitBtn";
-            this.exitBtn.Size = new System.Drawing.Size(152, 36);
+            this.exitBtn.Size = new System.Drawing.Size(138, 36);
             this.exitBtn.Text = "Exit";
             this.exitBtn.Click += new System.EventHandler(this.exitBtn_Click);
             // 
@@ -72,7 +72,7 @@ namespace polygon_editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 688);
+            this.ClientSize = new System.Drawing.Size(1474, 529);
             this.Controls.Add(this.mainmenu);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mainmenu;
