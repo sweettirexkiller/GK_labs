@@ -34,4 +34,30 @@ namespace polygon_editor.Entities
         }
 
     }
+
+    public class PolygonPoint : Point
+    {
+        private int index;
+        private Polygon polygon;
+        
+        //constructor
+        public PolygonPoint(Polygon polygon, int index,Vector3 position) : base(position)
+        {
+            this.Polygon = polygon;
+            this.Index = index;
+        }
+        
+        public int Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
+        
+    
+        public Polygon Polygon
+        {
+            get { return polygon; }
+            set { polygon = value; }
+        }
+    } 
 }

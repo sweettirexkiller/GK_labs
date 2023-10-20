@@ -1,3 +1,5 @@
+using System;
+
 namespace polygon_editor
 {
     public class Vector3
@@ -50,6 +52,11 @@ namespace polygon_editor
         public static Vector3 Zero
         {
             get { return new Vector3(0.0, 0.0, 0.0); }
+        }
+        
+        public double DistanceTo(Vector3 vector)
+        {
+            return Math.Sqrt(Math.Pow(this.X - vector.X, 2) + Math.Pow(this.Y - vector.Y, 2));
         }
         
     }

@@ -42,7 +42,7 @@
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.EditorPictureBox.Location = new System.Drawing.Point(482, 12);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1176, 1016);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1208, 1112);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
             this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
@@ -73,7 +73,7 @@
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1670, 1063);
+            this.ClientSize = new System.Drawing.Size(1702, 1159);
             this.Controls.Add(this.addPolygonButton);
             this.Controls.Add(this.MovingMouseLabel);
             this.Controls.Add(this.EditorPictureBox);
@@ -89,8 +89,6 @@
         private System.Windows.Forms.Label MovingMouseLabel;
 
         private System.Windows.Forms.PictureBox EditorPictureBox;
-
-        private System.Windows.Forms.GroupBox groupBox1;
 
         #endregion
     }

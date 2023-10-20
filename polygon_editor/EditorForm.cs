@@ -18,13 +18,12 @@ namespace polygon_editor
             InitializeComponent();
             previouslyAddedPoint = null;
         }
-
-        private List<Entities.Point> points = new List<Entities.Point>();
-        // private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
+        
+        private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
         private Vector3 currentPosition;
+        private Entities.Line currentLine;
         private Entities.Point previouslyAddedPoint;
-        private int DrawIndex = -1;
-        private bool active_drawing = false;
+        private bool is_adding_polygon = false;
 
         private void EditorForm_Load(object sender, EventArgs e)
         {
@@ -61,6 +60,10 @@ namespace polygon_editor
         {
             currentPosition = PointToCartesian(e.Location);
             MovingMouseLabel.Text = string.Format("Mouse Position: ({0}, {1})", e.Location.X, e.Location.Y);
+            if (previouslyAddedPoint != null)
+            {
+                currentLine = new Line(previouslyAddedPoint.Position, currentPosition);
+            }
             EditorPictureBox.Refresh();
         }
 
@@ -68,25 +71,20 @@ namespace polygon_editor
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (active_drawing)
+                if (is_adding_polygon)
                 {
-                    switch (DrawIndex)
-                    {
-                        case 0:
-                            if (previouslyAddedPoint != null)
-                            {
-                                previouslyAddedPoint = points.Last();
-                                points.Add(new Entities.Point(currentPosition));
-                            }
-                            else
-                            {
-                                Entities.Point newPoint = new Entities.Point(currentPosition);
-                                previouslyAddedPoint = newPoint;
-                                points.Add(newPoint);
-                            }
+                    Polygon currentPolygon = polygons.Last();
+                    currentPolygon.AddPoint(new Entities.PolygonPoint(currentPolygon,currentPolygon.Points.Count, currentPosition));
+                    previouslyAddedPoint = currentPolygon.Points.Last();
 
-                            break;
+                    if (currentPolygon.IsClosed)
+                    {
+                        currentLine = null;
+                        is_adding_polygon = false;
+                        EditorPictureBox.Cursor = Cursors.Default;
+                        previouslyAddedPoint = null;
                     }
+                    
                     EditorPictureBox.Refresh();
                 }
             }
@@ -95,9 +93,10 @@ namespace polygon_editor
 
         private void addPolygonButton_Click(object sender, EventArgs e)
         {
-            DrawIndex = 0;
-            active_drawing = true;
+            is_adding_polygon = true;
             EditorPictureBox.Cursor = Cursors.Cross;
+            Polygon newPolygon = new Polygon();
+            polygons.Add(newPolygon);
         }
 
 
@@ -105,17 +104,30 @@ namespace polygon_editor
         {
             e.Graphics.SetParameters(PixelsToMillimeters(EditorPictureBox.Height));
 
-            if (points.Count > 0)
+            if (polygons.Count > 0)
             {
-                foreach(Entities.Point p in points)
+                //for each polygon draw points and lines
+                foreach (Entities.Polygon polygon in polygons)
                 {
-                    e.Graphics.DrawPoint(new Pen(Color.Black, 0), p);
-                }
-            }
+                    foreach(Entities.PolygonPoint point in polygon.Points)
+                    {
+                        if(previouslyAddedPoint != null && point == previouslyAddedPoint && !polygon.IsClosed)
+                            e.Graphics.DrawPoint(new Pen(Color.Red, 0), point);
+                        else
+                            e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
+                    }
+                    
+                    foreach (Entities.Line line in polygon.Lines)
+                    {
+                        e.Graphics.DrawLine(new Pen(Color.Gray, 0), line);
+                    }
 
-            if (previouslyAddedPoint != null)
-            {
-                e.Graphics.DrawLine(new Pen(Color.Gray, 0), (float)previouslyAddedPoint.Position.X, (float)previouslyAddedPoint.Position.Y , (float)currentPosition.X, (float)currentPosition.Y );
+                    if (currentLine != null && !polygon.IsClosed)
+                    {
+                        e.Graphics.DrawLine(new Pen(Color.Gainsboro, 0), currentLine);
+                    }
+                }
+                
             }
         }
     }

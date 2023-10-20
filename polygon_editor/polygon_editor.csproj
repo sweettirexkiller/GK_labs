@@ -52,6 +52,7 @@
         <Compile Include="EditorForm.Designer.cs">
             <DependentUpon>EditorForm.cs</DependentUpon>
         </Compile>
+        <Compile Include="Entities\Line.cs" />
         <Compile Include="Entities\Point.cs" />
         <Compile Include="Entities\Polygon.cs" />
         <Compile Include="GraphicsExtension.cs" />
