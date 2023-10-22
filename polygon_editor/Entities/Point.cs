@@ -40,15 +40,17 @@ namespace polygon_editor.Entities
     public class PolygonPoint : Point
     {
         private int index;
+        private bool isMoving;
         private Polygon polygon;
-        private List<Line> lines;
+        private Line lineIn;
+        private Line lineOut;
 
         //constructor
         public PolygonPoint(Polygon polygon, int index,Vector3 position) : base(position)
         {
             this.Polygon = polygon;
             this.Index = index;
-            lines = new List<Line>();
+            isMoving = false;
         }
         
         public int Index
@@ -57,21 +59,26 @@ namespace polygon_editor.Entities
             set { index = value; }
         }
 
-
-        public void AddLine(Line line)
-        {
-            Lines.Add(line);
-        }
-    
         public Polygon Polygon
         {
             get { return polygon; }
             set { polygon = value; }
         }
-        public List<Line> Lines
+        public Line LineIn
         {
-            get => lines;
-            set => lines = value;
+            get => lineIn;
+            set => lineIn = value;
+        }
+        
+        public Line LineOut
+        {
+            get => lineOut;
+            set => lineOut = value;
+        }
+        public bool IsMoving
+        {
+            get => isMoving;
+            set => isMoving = value;
         }
     } 
 }

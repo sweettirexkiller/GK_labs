@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using polygon_editor.Entities;
+using Point = polygon_editor.Entities.Point;
 
 namespace polygon_editor
 {
@@ -24,18 +26,31 @@ namespace polygon_editor
         #endregion
         
         #region Properties
+        
+        private enum Mode
+        {
+            Add,
+            Catch,
+            Move,
+            Delete,
+            None
+        }
+        
         private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
         private Vector3 currentPosition;
         private Entities.Line currentLine;
         private Entities.Polygon currentPolygon;
         private Entities.Point previouslyAddedPoint;
-        private bool is_adding_polygon = false;
+        private Entities.PolygonPoint movingPoint;
+        private Vector3 movingPointBeginPosition;
+        private Mode mode;
+
         #endregion
         
         #region EditorForm_Load
         private void EditorForm_Load(object sender, EventArgs e)
         {
-            
+            mode = Mode.None;
         }
         
         #endregion
@@ -76,10 +91,22 @@ namespace polygon_editor
         {
             currentPosition = PointToCartesian(e.Location);
             coordinate.Text = string.Format("({0}, {1})", e.Location.X, e.Location.Y);
-            if (previouslyAddedPoint != null)
+
+            switch (mode)
             {
-                currentLine = new Line(previouslyAddedPoint.Position, currentPosition);
+                case Mode.Add:
+                    if (previouslyAddedPoint != null)
+                    {
+                        currentLine = new Line(previouslyAddedPoint, new Point(currentPosition));
+                    }
+                    break;
+                
+                case Mode.Move:
+                    movingPoint.Position = currentPosition;
+                    break;
+                
             }
+           
             EditorPictureBox.Refresh();
         }
         
@@ -91,23 +118,61 @@ namespace polygon_editor
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (is_adding_polygon)
+                switch (mode)
                 {
-                    currentPolygon.AddPoint(new Entities.PolygonPoint(currentPolygon,currentPolygon.Points.Count, currentPosition));
-                    previouslyAddedPoint = currentPolygon.Points.Last();
+                    case Mode.None:
 
-                    if (currentPolygon.IsClosed)
-                    {
-                        currentLine = null;
-                        polygons.Add(currentPolygon);
-                        currentPolygon = null;
-                        is_adding_polygon = false;
-                        EditorPictureBox.Cursor = Cursors.Default;
-                        previouslyAddedPoint = null;
-                    }
+
+                        break;
                     
-                    EditorPictureBox.Refresh();
+                    
+                    case Mode.Add:
+                        currentPolygon.AddPoint(new Entities.PolygonPoint(currentPolygon,currentPolygon.Points.Count, currentPosition));
+                        previouslyAddedPoint = currentPolygon.Points.Last();
+
+                        if (currentPolygon.IsClosed)
+                        {
+                            polygons.Add(currentPolygon);
+                            CancelAll();
+                        }
+                    
+                        EditorPictureBox.Refresh();
+                        break;
+                    
+                    
+                    case Mode.Catch:
+                        
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.PolygonPoint point in polygon.Points)
+                            {
+                                if (point.Position.DistanceTo(currentPosition) < 2)
+                                {
+                                    mode = Mode.Move;
+                                    movingPoint = point;
+                                    movingPointBeginPosition = point.Position;
+                                    movingPoint.IsMoving = true;
+                                }
+                            }
+                        }
+                        
+                        
+                        break;  
+                    
+                    case Mode.Move:
+                        movingPoint.Position = currentPosition;
+                        movingPoint.IsMoving = false;
+                        mode = Mode.None;
+                        CancelAll();
+
+                        break;
+                    case Mode.Delete:
+                        
+                        break;
+                    default:
+                        break;
                 }
+
             }
             
         }
@@ -117,11 +182,12 @@ namespace polygon_editor
         #region Add Polygon Click
         private void addPolygonButton_Click(object sender, EventArgs e)
         {
-            if (!is_adding_polygon)
+            if (mode != Mode.Add)
             {
-                is_adding_polygon = true;
+                mode = Mode.Add;
                 EditorPictureBox.Cursor = Cursors.Cross;
                 currentPolygon = new Polygon();
+                addBtn.Checked = true;
             }
            
         }
@@ -141,7 +207,7 @@ namespace polygon_editor
                 {
                     if(previouslyAddedPoint != null && point == previouslyAddedPoint && !currentPolygon.IsClosed)
                         e.Graphics.DrawPoint(new Pen(Color.Red, 0), point);
-                    else
+                    else 
                         e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
                 }
                 
@@ -163,7 +229,10 @@ namespace polygon_editor
                 {
                     foreach(Entities.PolygonPoint point in polygon.Points)
                     {
-                        e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
+                        if(point.IsMoving)
+                            e.Graphics.DrawPoint(new Pen(Color.Blue, 1), point);
+                        else 
+                            e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
                     }
                     
                     foreach (Entities.Line line in polygon.Lines)
@@ -178,18 +247,48 @@ namespace polygon_editor
         
         #endregion
 
+        #region Cancel All
+
         private void CancelAll()
         {
-            is_adding_polygon = false;
+            
             EditorPictureBox.Cursor = Cursors.Default;
+            if (movingPoint != null && mode == Mode.Move)
+            {
+                movingPoint.Position.X = movingPointBeginPosition.X;
+                movingPoint.Position.Y = movingPointBeginPosition.Y;
+                movingPointBeginPosition = null;
+                movingPoint.IsMoving = false;
+            }
+           
             currentLine = null;
             previouslyAddedPoint = null;
             currentPolygon = null;
+            addBtn.Checked = false;
+            catchBtn.Checked = false;
+            mode = Mode.None;
         }
 
         private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CancelAll();
         }
+
+        #endregion
+
+        #region Catch
+
+        private void catchBtn_Click(object sender, EventArgs e)
+        {
+            if (mode != Mode.Catch)
+            {
+                mode = Mode.Catch;
+                EditorPictureBox.Cursor = Cursors.Hand;
+                catchBtn.Checked = true;
+            } 
+         
+        }
+
+        #endregion
     }
 }

@@ -54,7 +54,7 @@
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.EditorPictureBox.Location = new System.Drawing.Point(12, 206);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1304, 1065);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1320, 1113);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
             this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
@@ -77,7 +77,7 @@
             this.ribbon1.OrbDropDown.Size = new System.Drawing.Size(527, 447);
             this.ribbon1.OrbDropDown.TabIndex = 0;
             this.ribbon1.RibbonTabFont = new System.Drawing.Font("Trebuchet MS", 9F);
-            this.ribbon1.Size = new System.Drawing.Size(1328, 200);
+            this.ribbon1.Size = new System.Drawing.Size(1344, 200);
             this.ribbon1.TabIndex = 7;
             this.ribbon1.Tabs.Add(this.editorTab);
             this.ribbon1.Text = "ribbon1";
@@ -113,6 +113,7 @@
             this.catchBtn.LargeImage = ((System.Drawing.Image)(resources.GetObject("catchBtn.LargeImage")));
             this.catchBtn.Name = "catchBtn";
             this.catchBtn.SmallImage = ((System.Drawing.Image)(resources.GetObject("catchBtn.SmallImage")));
+            this.catchBtn.Click += new System.EventHandler(this.catchBtn_Click);
             // 
             // removeBtn
             // 
@@ -127,9 +128,9 @@
             this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.coordinate });
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1274);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1322);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1328, 50);
+            this.statusStrip1.Size = new System.Drawing.Size(1344, 50);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip";
             // 
@@ -162,7 +163,7 @@
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1328, 1324);
+            this.ClientSize = new System.Drawing.Size(1344, 1372);
             this.ContextMenuStrip = this.menuStrip;
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ribbon1);

@@ -29,7 +29,7 @@ namespace polygon_editor
         public static void DrawLine(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Line line)
         {
             g.SetTransform();
-            g.DrawLine(pen, line.StartPoint.ToPointF(), line.EndPoint.ToPointF());
+            g.DrawLine(pen, line.StartPoint.Position.ToPointF(), line.EndPoint.Position.ToPointF());
             g.ResetTransform();
 
         }
