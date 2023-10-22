@@ -37,7 +37,7 @@ namespace polygon_editor
         }
         
         private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
-        private Vector3 currentPosition;
+        private Entities.Point currentPoint;
         private Entities.Line currentLine;
         private Entities.Polygon currentPolygon;
         private Entities.PolygonPoint previouslyAddedPoint;
@@ -89,7 +89,7 @@ namespace polygon_editor
         #region MouseMove
         private void EditorPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            currentPosition = PointToCartesian(e.Location);
+            currentPoint = new Point(PointToCartesian(e.Location));
             coordinate.Text = string.Format("({0}, {1})", e.Location.X, e.Location.Y);
 
             switch (mode)
@@ -97,12 +97,12 @@ namespace polygon_editor
                 case Mode.Add:
                     if (previouslyAddedPoint != null)
                     {
-                        currentLine = new Line(previouslyAddedPoint, new PolygonPoint(null, -1,currentPosition));
+                        currentLine = new Line(previouslyAddedPoint, new PolygonPoint(null, -1,currentPoint.Position));
                     }
                     break;
                 
                 case Mode.Move:
-                    movingPoint.Position = currentPosition;
+                    movingPoint.Position = currentPoint.Position;
                     break;
                 
             }
@@ -127,7 +127,53 @@ namespace polygon_editor
                     
                     
                     case Mode.Add:
-                        currentPolygon.AddPoint(new Entities.PolygonPoint(currentPolygon,currentPolygon.Points.Count, currentPosition));
+                        //if distance of current position from a line is less than 1.5 mm then add vertice to the line
+                        if (currentPolygon == null)
+                        {
+                            #region Add Point On the existing Line
+                            
+                                bool addPointOnTheLine = false;
+                                Line thisLine = null;
+                                Polygon thisPolygon = null;
+                                foreach (Entities.Polygon polygon in polygons)
+                                {
+                                    foreach (Entities.Line line in polygon.Lines)
+                                    {
+                                        if (currentPoint.DistanceToLine(line) < 1)
+                                        {
+                                            addPointOnTheLine = true;
+                                            thisLine = line;
+                                            thisPolygon = polygon;
+                                        }
+                                    }
+                                }
+                                
+                                if (addPointOnTheLine && thisLine != null && thisPolygon != null)
+                                {
+                                        
+                                    PolygonPoint end = thisLine.EndPoint;
+                                    PolygonPoint start = thisLine.StartPoint;
+                                    PolygonPoint middle = new PolygonPoint(thisPolygon, thisPolygon.Points.Count, currentPoint.Position);
+                                    Line newIn = new Line(start, middle);
+                                    Line newOut = new Line(middle, end);
+                                    middle.LineIn = newIn;
+                                    middle.LineOut = newOut;
+                                    start.LineOut = newIn;
+                                    end.LineIn = newOut;
+                                    thisPolygon.Lines.Add(newIn);
+                                    thisPolygon.Lines.Add(newOut);
+                                    thisPolygon.Lines.Remove(thisLine);
+                                    thisPolygon.Points.Add(middle);
+                                  
+                                    break;
+                                }
+                                
+                            #endregion
+
+                        }
+                       
+
+                        currentPolygon.AddPoint(new Entities.PolygonPoint(currentPolygon,currentPolygon.Points.Count, currentPoint.Position));
                         previouslyAddedPoint = currentPolygon.Points.Last();
 
                         if (currentPolygon.IsClosed)
@@ -146,7 +192,7 @@ namespace polygon_editor
                         {
                             foreach (Entities.PolygonPoint point in polygon.Points)
                             {
-                                if (point.Position.DistanceTo(currentPosition) < 2)
+                                if (point.Position.DistanceTo(currentPoint.Position) < 2)
                                 {
                                     mode = Mode.Move;
                                     movingPoint = point;
@@ -160,7 +206,7 @@ namespace polygon_editor
                         break;  
                     
                     case Mode.Move:
-                        movingPoint.Position = currentPosition;
+                        movingPoint.Position = currentPoint.Position;
                         movingPoint.IsMoving = false;
                         mode = Mode.None;
                         CancelAll();
@@ -172,7 +218,7 @@ namespace polygon_editor
                         {
                             foreach (Entities.PolygonPoint point in polygon.Points)
                             {
-                                if (point.Position.DistanceTo(currentPosition) < 2)
+                                if (point.Position.DistanceTo(currentPoint.Position) < 2)
                                 {
                                     
                                     polygon.RemovePoint(point);
@@ -190,9 +236,7 @@ namespace polygon_editor
                         {
                             polygons.Remove(polygon);
                         }
-                        
-                        
-                        
+
                         break;
                     default:
                         break;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace polygon_editor.Entities
@@ -33,6 +34,48 @@ namespace polygon_editor.Entities
         {
             get { return vector3; }
             set { vector3 = value; }
+        }
+
+        public double DistanceToLine(Line line)
+        {
+            //disatnce between point and line
+            Vector3 closestPoint;
+            double x1 = line.StartPoint.Position.X;
+            double y1 = line.StartPoint.Position.Y;
+            double x2 = line.EndPoint.Position.X;
+            double y2 = line.EndPoint.Position.Y;
+            double x0 = this.Position.X;
+            double y0 = this.Position.Y;
+
+            double dx = x2 - x1;
+            double dy = y2 - y1;
+
+            if ((dx == 0) && (dy == 0))
+            {
+                closestPoint = line.StartPoint.Position;
+                dx = x0 - x1;
+                dy = y0 - y1;
+                return Math.Sqrt(dx * dx + dy * dy);
+            }
+
+            double k = ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy);
+
+            closestPoint = new Vector3(x1 + k * dx, y1 + k * dy);
+
+            dx = x0 - closestPoint.X;
+            dy = y0 - closestPoint.Y;
+
+            if (k < 0)
+            {
+                closestPoint = new Vector3(x1, y1);
+            } else if (k > 1)
+            {
+                closestPoint = new Vector3(x2, y2);
+                dx = x0 - x2;
+                dy = y0 - y2;
+            }
+            
+            return Math.Sqrt(dx * dx + dy * dy);
         }
 
     }
