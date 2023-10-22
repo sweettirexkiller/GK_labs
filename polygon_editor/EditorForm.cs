@@ -40,7 +40,7 @@ namespace polygon_editor
         private Vector3 currentPosition;
         private Entities.Line currentLine;
         private Entities.Polygon currentPolygon;
-        private Entities.Point previouslyAddedPoint;
+        private Entities.PolygonPoint previouslyAddedPoint;
         private Entities.PolygonPoint movingPoint;
         private Vector3 movingPointBeginPosition;
         private Mode mode;
@@ -97,7 +97,7 @@ namespace polygon_editor
                 case Mode.Add:
                     if (previouslyAddedPoint != null)
                     {
-                        currentLine = new Line(previouslyAddedPoint, new Point(currentPosition));
+                        currentLine = new Line(previouslyAddedPoint, new PolygonPoint(null, -1,currentPosition));
                     }
                     break;
                 
@@ -167,6 +167,31 @@ namespace polygon_editor
 
                         break;
                     case Mode.Delete:
+                        List<Entities.Polygon> polygonsToRemove = new List<Entities.Polygon>();
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.PolygonPoint point in polygon.Points)
+                            {
+                                if (point.Position.DistanceTo(currentPosition) < 2)
+                                {
+                                    
+                                    polygon.RemovePoint(point);
+                                    if(polygon.Points.Count <3)
+                                        polygonsToRemove.Add(polygon);
+
+                                    mode = Mode.None;
+                                    CancelAll();
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        foreach (Entities.Polygon polygon in polygonsToRemove)
+                        {
+                            polygons.Remove(polygon);
+                        }
+                        
+                        
                         
                         break;
                     default:
@@ -266,6 +291,7 @@ namespace polygon_editor
             currentPolygon = null;
             addBtn.Checked = false;
             catchBtn.Checked = false;
+            removeBtn.Checked = false;
             mode = Mode.None;
         }
 
@@ -287,6 +313,21 @@ namespace polygon_editor
                 catchBtn.Checked = true;
             } 
          
+        }
+
+        #endregion
+
+
+        #region Delete Click
+
+        private void removeBtn_Click(object sender, EventArgs e)
+        {
+            if (mode != Mode.Delete)
+            {
+                mode = Mode.Delete;
+                EditorPictureBox.Cursor = Cursors.No;
+                removeBtn.Checked = true;
+            }
         }
 
         #endregion

@@ -121,6 +121,7 @@
             this.removeBtn.LargeImage = ((System.Drawing.Image)(resources.GetObject("removeBtn.LargeImage")));
             this.removeBtn.Name = "removeBtn";
             this.removeBtn.SmallImage = ((System.Drawing.Image)(resources.GetObject("removeBtn.SmallImage")));
+            this.removeBtn.Click += new System.EventHandler(this.removeBtn_Click);
             // 
             // statusStrip1
             // 

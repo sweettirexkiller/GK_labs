@@ -2,28 +2,28 @@ namespace polygon_editor.Entities
 {
     public class Line
     {
-        private Point startPoint;
-        private Point endPoint;
+        private PolygonPoint startPoint;
+        private PolygonPoint endPoint;
         private double thickness;
 
         public Line()
         {
         }
        
-        public Line(Point startPoint, Point endPoint)
+        public Line(PolygonPoint startPoint, PolygonPoint endPoint)
         {
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
             this.thickness = 0.0;
         }
 
-        public Point EndPoint
+        public PolygonPoint EndPoint
         {
             get { return endPoint; }
             set { endPoint = value; }
         }
 
-        public Point StartPoint
+        public PolygonPoint StartPoint
         {
             get { return startPoint; }
             set { startPoint = value; }

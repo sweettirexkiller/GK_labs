@@ -55,6 +55,33 @@ namespace polygon_editor.Entities
 
         }
         
+        //Remove point public function
+        public void RemovePoint(PolygonPoint point)
+        {
+            if (points.Count <= 3)
+            {
+                this.Points.Remove(point);
+                return;
+            }
+            else
+            {
+                PolygonPoint outEndPoint = point.LineOut.EndPoint;
+                PolygonPoint inStartPoint = point.LineIn.StartPoint;
+                Line line = new Line(inStartPoint, outEndPoint);
+                Lines.Add(line);
+                outEndPoint.LineIn = line;
+                inStartPoint.LineOut = line;
+
+
+                Lines.Remove(point.LineOut);
+                Lines.Remove(point.LineIn);
+                Points.Remove(point);
+            }
+        }
+        
+        
+        
+
         public void AddLine(Line line)
         {
             lines.Add(line);
