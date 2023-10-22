@@ -128,7 +128,7 @@ namespace polygon_editor
                     
                     case Mode.Add:
                         //if distance of current position from a line is less than 1.5 mm then add vertice to the line
-                        if (currentPolygon == null)
+                        if (currentPolygon.Points.Count == 0)
                         {
                             #region Add Point On the existing Line
                             
@@ -263,7 +263,6 @@ namespace polygon_editor
         
         #endregion
 
-
         #region Paint Picture box
         private void EditorPictureBox_Paint(object sender, PaintEventArgs e)
         {
@@ -346,7 +345,7 @@ namespace polygon_editor
 
         #endregion
 
-        #region Catch
+        #region Catch point
 
         private void catchBtn_Click(object sender, EventArgs e)
         {
@@ -360,8 +359,7 @@ namespace polygon_editor
         }
 
         #endregion
-
-
+        
         #region Delete Click
 
         private void removeBtn_Click(object sender, EventArgs e)
