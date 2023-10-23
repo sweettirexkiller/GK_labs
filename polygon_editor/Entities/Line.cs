@@ -7,6 +7,8 @@ namespace polygon_editor.Entities
         private PolygonPoint startPoint;
         private PolygonPoint endPoint;
         private double thickness;
+        private bool mustBeVertical;
+        private bool mustBeHorizontal;
 
         public Line()
         {
@@ -17,6 +19,8 @@ namespace polygon_editor.Entities
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
             this.thickness = 0.0;
+            this.mustBeHorizontal = false;
+            this.mustBeVertical = false;
         }
 
         public PolygonPoint EndPoint
@@ -35,6 +39,18 @@ namespace polygon_editor.Entities
         {
             get { return thickness; }
             set { thickness = value; }
+        }
+        
+        public bool MustBeVertical
+        {
+            get { return mustBeVertical; }
+            set { mustBeVertical = value; }
+        }
+        
+        public bool MustBeHorizontal
+        {
+            get { return mustBeHorizontal; }
+            set { mustBeHorizontal = value; }
         }
         
         public double DistanceToPoint(Point point)

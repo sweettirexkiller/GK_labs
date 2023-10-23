@@ -8,6 +8,7 @@ namespace polygon_editor.Entities
         private List<PolygonPoint> points;
         private List<Line> lines;
         private bool isClosed;
+        private bool isCought;
 
         //constructor
         public Polygon()
@@ -15,6 +16,7 @@ namespace polygon_editor.Entities
             Points = new List<PolygonPoint>();
             Lines = new List<Line>();
             IsClosed = false;
+            IsCought = false;
             
         }
 
@@ -92,6 +94,13 @@ namespace polygon_editor.Entities
         {
             get { return points; }
             set { points = value; }
+        }
+        
+        //setter and getter is_cought
+        public bool IsCought
+        {
+            get { return isCought; }
+            set { isCought = value; }
         }
         
         //setter and getter lines

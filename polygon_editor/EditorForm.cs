@@ -33,7 +33,14 @@ namespace polygon_editor
             Catch,
             Move,
             Delete,
-            None
+            None,
+            CatchPolygon,
+            MovePolygon,
+            AddVerRestriction,
+            RemoveVerRestriction,
+            AddHorRestriction,
+            RemoveHorRestriction
+            
         }
         
         private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
@@ -42,7 +49,10 @@ namespace polygon_editor
         private Entities.Polygon currentPolygon;
         private Entities.PolygonPoint previouslyAddedPoint;
         private Entities.PolygonPoint movingPoint;
+        private Polygon coughtPolygon;
+        private Polygon temporalMovingPolygon;
         private Vector3 movingPointBeginPosition;
+        private Vector3 catchingPolygonBeginPosition;
         private Mode mode;
 
         #endregion
@@ -102,7 +112,45 @@ namespace polygon_editor
                     break;
                 
                 case Mode.Move:
+                    
+                    if (movingPoint.LineIn != null && movingPoint.LineIn.MustBeHorizontal)
+                    {
+                        movingPoint.LineIn.StartPoint.Position.Y = movingPoint.Position.Y;
+                    } 
+                    
+                    if (movingPoint.LineOut != null && movingPoint.LineOut.MustBeHorizontal)
+                    {
+                        movingPoint.LineOut.EndPoint.Position.Y = movingPoint.Position.Y;
+                    } 
+                    
+                    if (movingPoint.LineIn != null && movingPoint.LineIn.MustBeVertical)
+                    {
+                        
+                        movingPoint.LineIn.StartPoint.Position.X = movingPoint.Position.X;
+                    } 
+                    
+                    if (movingPoint.LineOut != null && movingPoint.LineOut.MustBeVertical)
+                    {
+                       
+                        movingPoint.LineOut.EndPoint.Position.X = movingPoint.Position.X;
+                    }
+                    
+                    
                     movingPoint.Position = currentPoint.Position;
+
+                    
+                    break;
+                
+                case Mode.MovePolygon:
+                    
+                    // move each point in temporalMovingPolygon by the same distance as mouse moved from the begining of catching   
+                    Vector3 distance = new Vector3(currentPoint.Position.X - catchingPolygonBeginPosition.X, currentPoint.Position.Y - catchingPolygonBeginPosition.Y);
+                    for(int i = 0; i < temporalMovingPolygon.Points.Count; i++)
+                    {
+                        temporalMovingPolygon.Points[i].Position.X = coughtPolygon.Points[i].Position.X + distance.X;
+                        temporalMovingPolygon.Points[i].Position.Y = coughtPolygon.Points[i].Position.Y + distance.Y;
+                    }
+                    
                     break;
                 
             }
@@ -124,7 +172,6 @@ namespace polygon_editor
 
 
                         break;
-                    
                     
                     case Mode.Add:
                         //if distance of current position from a line is less than 1.5 mm then add vertice to the line
@@ -185,7 +232,6 @@ namespace polygon_editor
                         EditorPictureBox.Refresh();
                         break;
                     
-                    
                     case Mode.Catch:
                         
                         foreach (Entities.Polygon polygon in polygons)
@@ -212,6 +258,7 @@ namespace polygon_editor
                         CancelAll();
 
                         break;
+                    
                     case Mode.Delete:
                         List<Entities.Polygon> polygonsToRemove = new List<Entities.Polygon>();
                         foreach (Entities.Polygon polygon in polygons)
@@ -238,6 +285,158 @@ namespace polygon_editor
                         }
 
                         break;
+                    
+                    case Mode.CatchPolygon:
+                        
+                        
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.PolygonPoint point in polygon.Points)
+                            {
+                                if (point.Position.DistanceTo(currentPoint.Position) < 2)
+                                {
+                                    catchingPolygonBeginPosition = currentPoint.Position;
+                                    polygon.IsCought = true;
+                                    coughtPolygon = polygon;
+                                    break;
+                                }
+                            }
+
+                            if (polygon.IsCought) break;
+                            
+                            foreach (Entities.Line line in polygon.Lines)
+                            {
+                                if (currentPoint.DistanceToLine(line) < 1)
+                                {
+                                    catchingPolygonBeginPosition = currentPoint.Position;
+                                    polygon.IsCought = true;
+                                    coughtPolygon = polygon;
+                                    break;
+                                }
+                            }
+                            
+                            if(polygon.IsCought) break;
+                        }
+
+                        if (coughtPolygon != null)
+                        {
+                            mode = Mode.MovePolygon;
+                            temporalMovingPolygon = new Polygon();
+                            // make a deep copy of coughtPolygon to temporalMovingPolygon
+                            foreach (Entities.PolygonPoint point in coughtPolygon.Points)
+                            {
+                                temporalMovingPolygon.AddPoint(new PolygonPoint(temporalMovingPolygon, temporalMovingPolygon.Points.Count, new Vector3(point.Position.X, point.Position.Y)));
+                            }
+                            temporalMovingPolygon.Lines.Add(new Line(temporalMovingPolygon.Points[0], temporalMovingPolygon.Points.Last()));
+                            
+                            EditorPictureBox.Cursor = Cursors.SizeAll;
+                        }
+
+                        break;
+                    
+                    case Mode.MovePolygon:
+                        
+                        //move each point in coughtPolygin to position of temporalMovingPolygon points
+                        for(int i = 0; i < coughtPolygon.Points.Count; i++)
+                        {
+                            coughtPolygon.Points[i].Position.X = temporalMovingPolygon.Points[i].Position.X;
+                            coughtPolygon.Points[i].Position.Y = temporalMovingPolygon.Points[i].Position.Y;
+                        }
+                        
+                        CancelAll();
+                        break;
+                    
+                    case Mode.AddHorRestriction:
+                        
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.Line line in polygon.Lines)
+                            {
+                                if (currentPoint.DistanceToLine(line) < 1)
+                                {
+                                    //if lineOut or LineIn of startPoint or EndPoint is already set as mustBeHorizontal then do nothing
+                                    if (line.StartPoint.LineOut != null && line.StartPoint.LineOut.MustBeHorizontal)
+                                        break;
+                                    else if (line.StartPoint.LineIn != null && line.StartPoint.LineIn.MustBeHorizontal)
+                                        break;
+                                    else if(line.EndPoint.LineOut != null && line.EndPoint.LineOut.MustBeHorizontal)
+                                        break;
+                                    else if (line.EndPoint.LineIn != null && line.EndPoint.LineOut.MustBeHorizontal)
+                                        break;
+                                    else
+                                    {
+                                        // add restriction to this line that is has to be Horizontal
+                                        line.MustBeHorizontal = true;
+                                        // change end point of this line to be on the same height as start point
+                                        line.EndPoint.Position.Y = line.StartPoint.Position.Y;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
+                    
+                    case Mode.AddVerRestriction:
+
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.Line line in polygon.Lines)
+                            {
+                                if (currentPoint.DistanceToLine(line) < 1)
+                                {
+                                    //if lineOut or LineIn of startPoint or EndPoint is already set as mustBeHorizontal then do nothing
+                                    if (line.StartPoint.LineOut != null && line.StartPoint.LineOut.MustBeVertical)
+                                        break;
+                                    else if (line.StartPoint.LineIn != null && line.StartPoint.LineIn.MustBeVertical)
+                                        break;
+                                    else if(line.EndPoint.LineOut != null && line.EndPoint.LineOut.MustBeVertical)
+                                        break;
+                                    else if (line.EndPoint.LineIn != null && line.EndPoint.LineOut.MustBeVertical)
+                                        break;
+                                    else
+                                    {
+                                        // add restriction to this line that is has to be Horizontal
+                                        line.MustBeVertical = true;
+                                        // change end point of this line to be on the same height as start point
+                                        line.EndPoint.Position.X = line.StartPoint.Position.X;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        break;
+                    
+                    case Mode.RemoveVerRestriction:
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.Line line in polygon.Lines)
+                            {
+                                if (currentPoint.DistanceToLine(line) < 1)
+                                {
+                                    line.MustBeVertical = false;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        break;
+                    
+                    case Mode.RemoveHorRestriction:
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.Line line in polygon.Lines)
+                            {
+                                if (currentPoint.DistanceToLine(line) < 1)
+                                {
+                                    line.MustBeHorizontal = false;
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+
                     default:
                         break;
                 }
@@ -247,22 +446,7 @@ namespace polygon_editor
         }
         
         #endregion
-
-        #region Add Polygon Click
-        private void addPolygonButton_Click(object sender, EventArgs e)
-        {
-            if (mode != Mode.Add)
-            {
-                mode = Mode.Add;
-                EditorPictureBox.Cursor = Cursors.Cross;
-                currentPolygon = new Polygon();
-                addBtn.Checked = true;
-            }
-           
-        }
         
-        #endregion
-
         #region Paint Picture box
         private void EditorPictureBox_Paint(object sender, PaintEventArgs e)
         {
@@ -274,19 +458,19 @@ namespace polygon_editor
                 foreach (Entities.PolygonPoint point in currentPolygon.Points)
                 {
                     if(previouslyAddedPoint != null && point == previouslyAddedPoint && !currentPolygon.IsClosed)
-                        e.Graphics.DrawPoint(new Pen(Color.Red, 0), point);
+                        e.Graphics.DrawPoint(new Pen(Color.DarkRed, 1), point);
                     else 
-                        e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
+                        e.Graphics.DrawPoint(new Pen(Color.Black, 1), point);
                 }
                 
                 foreach (Entities.Line line in currentPolygon.Lines)
                 {
-                    e.Graphics.DrawLine(new Pen(Color.Gray, 0), line);
+                    e.Graphics.DrawLine(new Pen(Color.Gray, 1), line);
                 }
 
                 if (currentLine != null && !currentPolygon.IsClosed)
                 {
-                    e.Graphics.DrawLine(new Pen(Color.Gainsboro, 0), currentLine);
+                    e.Graphics.DrawLine(new Pen(Color.Gainsboro, 1), currentLine);
                 }
             }
 
@@ -298,28 +482,74 @@ namespace polygon_editor
                     foreach(Entities.PolygonPoint point in polygon.Points)
                     {
                         if(point.IsMoving)
-                            e.Graphics.DrawPoint(new Pen(Color.Blue, 1), point);
+                            e.Graphics.DrawPoint(new Pen(Color.CornflowerBlue, 1), point);
                         else 
-                            e.Graphics.DrawPoint(new Pen(Color.Black, 0), point);
+                            e.Graphics.DrawPoint(new Pen(Color.Black, 1), point);
                     }
                     
                     foreach (Entities.Line line in polygon.Lines)
                     {
-                        e.Graphics.DrawLine(new Pen(Color.Gray, 0), line);
+                        if (line.MustBeHorizontal)
+                        {
+                            Pen pen = new Pen(Color.Red, 1);
+                            pen.DashPattern = new float[] { 2, 2 };
+                            e.Graphics.DrawLine(pen, line);
+                        }
+                        else if(line.MustBeVertical)
+                        {
+                            e.Graphics.DrawLine(new Pen(Color.Blue, 1), line);}
+                        else
+                        {
+                            e.Graphics.DrawLine(new Pen(Color.Gray, 1), line);
+                        }
+                       
                     }
                     
                 }
+            }
+            
+                  
+            //draw temporal moving polygon
+            if (temporalMovingPolygon != null)
+            {
+                Pen dashedCyanPen = new Pen(Color.Pink, 1);
+                dashedCyanPen.DashPattern = new float[] { 2, 2 };
                 
+                foreach (Entities.PolygonPoint point in temporalMovingPolygon.Points)
+                {
+                    e.Graphics.DrawPoint(dashedCyanPen, point);
+                }
+                    
+                foreach (Entities.Line line in temporalMovingPolygon.Lines)
+                {
+                    e.Graphics.DrawLine(dashedCyanPen, line);
+                }
             }
         }
         
         #endregion
-
+        
+        #region Add Polygon Click
+        private void addPolygonButton_Click(object sender, EventArgs e)
+        {
+            CancelAll();
+            if (mode != Mode.Add)
+            {
+                mode = Mode.Add;
+                EditorPictureBox.Cursor = Cursors.Cross;
+                currentPolygon = new Polygon();
+                addBtn.Checked = true;
+            }
+           
+        }
+        
+        #endregion
+        
         #region Cancel All
 
         private void CancelAll()
         {
-            
+            mode = Mode.None;
             EditorPictureBox.Cursor = Cursors.Default;
             if (movingPoint != null && mode == Mode.Move)
             {
@@ -328,6 +558,16 @@ namespace polygon_editor
                 movingPointBeginPosition = null;
                 movingPoint.IsMoving = false;
             }
+
+            if (temporalMovingPolygon != null)
+                temporalMovingPolygon = null;
+
+            if (coughtPolygon != null)
+            {
+                coughtPolygon.IsCought = false;
+                coughtPolygon = null;
+            }
+              
            
             currentLine = null;
             previouslyAddedPoint = null;
@@ -335,7 +575,11 @@ namespace polygon_editor
             addBtn.Checked = false;
             catchBtn.Checked = false;
             removeBtn.Checked = false;
-            mode = Mode.None;
+            catchPolygonBtn.Checked = false;
+            addHRestrictionBtn.Checked = false;
+            addVRestrictionBtn.Checked = false;
+            removeHRestrictionBtn.Checked = false;
+            removeVRestrictionBtn.Checked = false;
         }
 
         private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -349,6 +593,7 @@ namespace polygon_editor
 
         private void catchBtn_Click(object sender, EventArgs e)
         {
+            CancelAll();
             if (mode != Mode.Catch)
             {
                 mode = Mode.Catch;
@@ -364,6 +609,7 @@ namespace polygon_editor
 
         private void removeBtn_Click(object sender, EventArgs e)
         {
+            CancelAll();
             if (mode != Mode.Delete)
             {
                 mode = Mode.Delete;
@@ -372,6 +618,53 @@ namespace polygon_editor
             }
         }
 
+        #endregion
+
+        #region Restrictions
+        
+        private void catchPolygonBtn_Click(object sender, EventArgs e)
+        {
+            CancelAll();
+            if (mode != Mode.CatchPolygon)
+            {
+                mode = Mode.CatchPolygon;
+                EditorPictureBox.Cursor = Cursors.Hand;
+                catchPolygonBtn.Checked = true;
+            }
+        }
+
+        private void addHRestrictionBtn_Click(object sender, EventArgs e)
+        {
+            CancelAll();
+            addHRestrictionBtn.Checked = true;
+            EditorPictureBox.Cursor = Cursors.Hand;
+            mode = Mode.AddHorRestriction;
+        }
+
+        private void removeHRestrictionBtn_Click(object sender, EventArgs e)
+        {
+            CancelAll();
+            removeHRestrictionBtn.Checked = true;
+            EditorPictureBox.Cursor = Cursors.No;
+            mode = Mode.RemoveHorRestriction;
+        }
+
+        private void addVRestrictionBtn_Click(object sender, EventArgs e)
+        {
+            CancelAll();
+            addVRestrictionBtn.Checked = true;
+            EditorPictureBox.Cursor = Cursors.Hand;
+
+            mode = Mode.AddVerRestriction;
+        }
+
+        private void removeVRestrictionBtn_Click(object sender, EventArgs e)
+        {
+            CancelAll();
+            removeVRestrictionBtn.Checked = true;
+            EditorPictureBox.Cursor = Cursors.No;
+            mode = Mode.RemoveVerRestriction;
+        }
         #endregion
     }
 }
