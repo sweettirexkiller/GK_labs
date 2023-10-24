@@ -44,7 +44,10 @@ namespace polygon_editor
             OffsetPolygonShow
             
         }
-        
+
+        private bool LibraryAlg;
+        private bool BresenhamAlg;
+        private bool SymetricBresenham;
         private List<Entities.Polygon> polygons = new List<Entities.Polygon>();
         private Entities.Point currentPoint;
         private Entities.Line currentLine;
@@ -65,6 +68,10 @@ namespace polygon_editor
         private void EditorForm_Load(object sender, EventArgs e)
         {
             mode = Mode.None;
+            libraryAlgBtn.Checked = true;
+            LibraryAlg = true;
+            BresenhamAlg = false;
+            SymetricBresenham = false;
         }
         
         #endregion
@@ -751,6 +758,17 @@ namespace polygon_editor
 
         private void trackBar1_Scroll_1(object sender, EventArgs e)
         {
+            //change offset of offsetPolygon
+            if (offsetPolygon != null)
+            {
+                offsetedPolygon = offsetPolygon.Offset(trackBar1.Value);
+                EditorPictureBox.Refresh();
+            }
+        }
+
+        private void libraryAlgBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            LibraryAlg = libraryAlgBtn.Checked;
         }
     }
 }

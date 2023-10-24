@@ -94,7 +94,7 @@ namespace polygon_editor.Entities
             for (int i = 0; i < this.Points.Count; i++)
             {
                 //find center of a polygon
-                Vector3 center = this.Center;
+                Vector3 center = this.Center();
                 
                 int next = (i == 0) ? this.Points.Count - 1 : i - 1;
                 Line l1 = new Line(this.Points[i].Copy(), this.Points[next].Copy());
@@ -126,7 +126,7 @@ namespace polygon_editor.Entities
             offsetPolygon.AddLine(new Line(offsetPolygon.Points[0], offsetPolygon.Points.Last()));
 
             return offsetPolygon;
-`
+
         }
 
         public double Area
@@ -153,23 +153,23 @@ namespace polygon_editor.Entities
             }
         }
 
-        public Vector3 Center
+        public Vector3 Center()
         {
-            get
-            {
+            
                 int length = this.Points.Count;
                 Vector3[] _points = new Vector3[length+1];
                 for (int i = 0; i < length; i++)
                 {
                     _points[i] = this.Points[i].Position.Copy();
                 }
+                _points[length] = this.Points[0].Position;
 
                 double X = 0, Y = 0, factor;
-                for(int i=0; i<length; i++)
+                for(int j=0; j<length; j++)
                 {
-                    factor = _points[i].X * _points[i + 1].Y - _points[i + 1].X * _points[i].Y;
-                    X+= (_points[i].X+_points[i+1].X)*factor;
-                    Y+= (_points[i].Y+_points[i+1].Y)*factor;
+                    factor = _points[j].X * _points[j + 1].Y - _points[j + 1].X * _points[j].Y;
+                    X+= (_points[j].X+_points[j+1].X)*factor;
+                    Y+= (_points[j].Y+_points[j+1].Y)*factor;
                 }
                 
                 X/= (6*Area);
@@ -183,7 +183,7 @@ namespace polygon_editor.Entities
 
 
                 return new Vector3(X, Y);
-            }
+            
         }
 
 
