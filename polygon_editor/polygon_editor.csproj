@@ -62,6 +62,12 @@
         <Compile Include="Entities\Point.cs" />
         <Compile Include="Entities\Polygon.cs" />
         <Compile Include="GraphicsExtension.cs" />
+        <Compile Include="LineForm.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="LineForm.Designer.cs">
+          <DependentUpon>LineForm.cs</DependentUpon>
+        </Compile>
         <Compile Include="MainForm.cs">
           <SubType>Form</SubType>
         </Compile>
@@ -73,6 +79,9 @@
         <Compile Include="Vector3.cs" />
         <EmbeddedResource Include="EditorForm.resx">
           <DependentUpon>EditorForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Include="LineForm.resx">
+          <DependentUpon>LineForm.cs</DependentUpon>
         </EmbeddedResource>
         <EmbeddedResource Include="MainForm.resx">
           <DependentUpon>MainForm.cs</DependentUpon>

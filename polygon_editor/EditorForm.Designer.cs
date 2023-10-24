@@ -46,6 +46,8 @@
             this.removeVRestrictionBtn = new System.Windows.Forms.RibbonButton();
             this.offSetPanel = new System.Windows.Forms.RibbonPanel();
             this.ofsetBtn = new System.Windows.Forms.RibbonButton();
+            this.lineEditPanel = new System.Windows.Forms.RibbonPanel();
+            this.thicknessChangeBtn = new System.Windows.Forms.RibbonButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.coordinate = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -62,10 +64,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ribbonColorChooser1 = new System.Windows.Forms.RibbonColorChooser();
             this.offsetLabel = new System.Windows.Forms.Label();
+            this.containerControl1 = new System.Windows.Forms.ContainerControl();
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            this.containerControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // EditorPictureBox
@@ -75,7 +79,7 @@
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.EditorPictureBox.Location = new System.Drawing.Point(12, 206);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1161, 787);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1161, 1060);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
             this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
@@ -109,6 +113,7 @@
             this.editorTab.Panels.Add(this.polygonPanel);
             this.editorTab.Panels.Add(this.restrictionsPanel);
             this.editorTab.Panels.Add(this.offSetPanel);
+            this.editorTab.Panels.Add(this.lineEditPanel);
             this.editorTab.Text = "Editor";
             // 
             // polygonPanel
@@ -214,13 +219,28 @@
             this.ofsetBtn.SmallImage = ((System.Drawing.Image)(resources.GetObject("ofsetBtn.SmallImage")));
             this.ofsetBtn.Click += new System.EventHandler(this.ofsetBtn_Click);
             // 
+            // lineEditPanel
+            // 
+            this.lineEditPanel.Items.Add(this.thicknessChangeBtn);
+            this.lineEditPanel.Name = "lineEditPanel";
+            this.lineEditPanel.Text = "Line Edit";
+            // 
+            // thicknessChangeBtn
+            // 
+            this.thicknessChangeBtn.Image = ((System.Drawing.Image)(resources.GetObject("thicknessChangeBtn.Image")));
+            this.thicknessChangeBtn.LargeImage = ((System.Drawing.Image)(resources.GetObject("thicknessChangeBtn.LargeImage")));
+            this.thicknessChangeBtn.Name = "thicknessChangeBtn";
+            this.thicknessChangeBtn.SmallImage = ((System.Drawing.Image)(resources.GetObject("thicknessChangeBtn.SmallImage")));
+            this.thicknessChangeBtn.Text = "Thikness";
+            this.thicknessChangeBtn.Click += new System.EventHandler(this.thicknessChangeBtn_Click_1);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.AutoSize = false;
             this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.coordinate });
-            this.statusStrip1.Location = new System.Drawing.Point(0, 996);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1269);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1574, 50);
             this.statusStrip1.TabIndex = 8;
@@ -280,48 +300,55 @@
             // 
             // trackBar1
             // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.Location = new System.Drawing.Point(1194, 874);
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.Location = new System.Drawing.Point(15, 564);
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(356, 90);
+            this.trackBar1.Size = new System.Drawing.Size(237, 90);
             this.trackBar1.TabIndex = 9;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll_1);
             // 
             // libraryAlgBtn
             // 
-            this.libraryAlgBtn.Location = new System.Drawing.Point(1211, 254);
+            this.libraryAlgBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.libraryAlgBtn.Location = new System.Drawing.Point(15, 198);
             this.libraryAlgBtn.Name = "libraryAlgBtn";
             this.libraryAlgBtn.Size = new System.Drawing.Size(200, 30);
             this.libraryAlgBtn.TabIndex = 10;
             this.libraryAlgBtn.TabStop = true;
             this.libraryAlgBtn.Text = "Library";
             this.libraryAlgBtn.UseVisualStyleBackColor = true;
+            this.libraryAlgBtn.CheckedChanged += new System.EventHandler(this.libraryAlgBtn_CheckedChanged);
             // 
             // bresenhamAlgBtn
             // 
-            this.bresenhamAlgBtn.Location = new System.Drawing.Point(1211, 300);
+            this.bresenhamAlgBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.bresenhamAlgBtn.Location = new System.Drawing.Point(15, 284);
             this.bresenhamAlgBtn.Name = "bresenhamAlgBtn";
-            this.bresenhamAlgBtn.Size = new System.Drawing.Size(181, 24);
+            this.bresenhamAlgBtn.Size = new System.Drawing.Size(181, 45);
             this.bresenhamAlgBtn.TabIndex = 11;
             this.bresenhamAlgBtn.TabStop = true;
             this.bresenhamAlgBtn.Text = "Bresenham";
             this.bresenhamAlgBtn.UseVisualStyleBackColor = true;
+            this.bresenhamAlgBtn.CheckedChanged += new System.EventHandler(this.bresenhamAlgBtn_CheckedChanged);
             // 
             // radioButton1
             // 
-            this.radioButton1.Location = new System.Drawing.Point(1211, 347);
+            this.radioButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.radioButton1.Location = new System.Drawing.Point(15, 392);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(214, 37);
             this.radioButton1.TabIndex = 12;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Symteric Bres.";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(1226, 228);
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Location = new System.Drawing.Point(122, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(130, 23);
+            this.label1.Size = new System.Drawing.Size(130, 269);
             this.label1.TabIndex = 13;
             this.label1.Text = "Algorythms:";
             // 
@@ -335,11 +362,27 @@
             // 
             // offsetLabel
             // 
-            this.offsetLabel.Location = new System.Drawing.Point(1211, 793);
+            this.offsetLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.offsetLabel.Location = new System.Drawing.Point(69, 484);
             this.offsetLabel.Name = "offsetLabel";
             this.offsetLabel.Size = new System.Drawing.Size(100, 23);
             this.offsetLabel.TabIndex = 14;
             this.offsetLabel.Text = "Offset";
+            // 
+            // containerControl1
+            // 
+            this.containerControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
+            this.containerControl1.Controls.Add(this.radioButton1);
+            this.containerControl1.Controls.Add(this.bresenhamAlgBtn);
+            this.containerControl1.Controls.Add(this.trackBar1);
+            this.containerControl1.Controls.Add(this.offsetLabel);
+            this.containerControl1.Controls.Add(this.libraryAlgBtn);
+            this.containerControl1.Controls.Add(this.label1);
+            this.containerControl1.Location = new System.Drawing.Point(1179, 206);
+            this.containerControl1.Name = "containerControl1";
+            this.containerControl1.Size = new System.Drawing.Size(383, 1060);
+            this.containerControl1.TabIndex = 15;
+            this.containerControl1.Text = "containerControl1";
             // 
             // EditorForm
             // 
@@ -347,14 +390,9 @@
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1574, 1046);
+            this.ClientSize = new System.Drawing.Size(1574, 1319);
             this.ContextMenuStrip = this.menuStrip;
-            this.Controls.Add(this.offsetLabel);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.radioButton1);
-            this.Controls.Add(this.bresenhamAlgBtn);
-            this.Controls.Add(this.libraryAlgBtn);
-            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.containerControl1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ribbon1);
             this.Controls.Add(this.EditorPictureBox);
@@ -368,9 +406,16 @@
             this.statusStrip1.PerformLayout();
             this.menuStrip.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            this.containerControl1.ResumeLayout(false);
+            this.containerControl1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
+
+        private System.Windows.Forms.RibbonButton thicknessChangeBtn;
+
+        private System.Windows.Forms.RibbonPanel lineEditPanel;
+
+        private System.Windows.Forms.ContainerControl containerControl1;
 
         private System.Windows.Forms.RibbonColorChooser ribbonColorChooser1;
         private System.Windows.Forms.Label offsetLabel;

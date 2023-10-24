@@ -18,7 +18,7 @@ namespace polygon_editor.Entities
         {
             this.StartPoint = startPoint;
             this.EndPoint = endPoint;
-            this.thickness = 0.0;
+            this.thickness = 1.0;
             this.mustBeHorizontal = false;
             this.mustBeVertical = false;
         }

@@ -104,14 +104,14 @@ namespace polygon_editor.Entities
                 
                if (flg) //if center of a polygon is under the line then add 90
                {
-                   angle = angle+90.0;
+                   angle = angle-90.0;
                }
                else // if center of a polygon is over the line then subtract 90
                {
-                   angle = angle-90.0;
+                   angle = angle+90.0;
                }
 
-               Vector3 start = l1.StartPoint.Position.Transfer2D(offsetValue, angle);
+                Vector3 start = l1.StartPoint.Position.Transfer2D(offsetValue, angle);
                 Vector3 end = l1.EndPoint.Position.Transfer2D(offsetValue, angle);
                 newLines.Add(new Line(new PolygonPoint(offsetPolygon , -1, start), new PolygonPoint(offsetPolygon, -1, end)));
             }

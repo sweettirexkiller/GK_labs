@@ -21,6 +21,10 @@ namespace polygon_editor
         {
             InitializeComponent();
             previouslyAddedPoint = null;
+            BresenhamAlg = false;
+            LibraryAlg = false;
+            SymetricBresenham = false;
+            
         }
         
         #endregion
@@ -41,7 +45,8 @@ namespace polygon_editor
             AddHorRestriction,
             RemoveHorRestriction,
             OffsetPolygonSelect,
-            OffsetPolygonShow
+            OffsetPolygonShow,
+            LineSelect
             
         }
 
@@ -60,6 +65,7 @@ namespace polygon_editor
         private Polygon temporalMovingPolygon;
         private Vector3 movingPointBeginPosition;
         private Vector3 catchingPolygonBeginPosition;
+        private Line selectedLine;
         private Mode mode;
 
         #endregion
@@ -481,7 +487,6 @@ namespace polygon_editor
                         if (selectedPolygon != null)
                         {
                             mode = Mode.OffsetPolygonShow;
-                            trackBar1.Visible = true;
                         }
 
 
@@ -489,11 +494,34 @@ namespace polygon_editor
                     
                     case Mode.OffsetPolygonShow:
                         
-                        offsetedPolygon = offsetPolygon.Offset(1);
+                        offsetedPolygon = offsetPolygon.Offset(trackBar1.Value);
 
                         break;
 
+                    
+                    case Mode.LineSelect:
+                        foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.Line line in polygon.Lines)
+                            {
+                                if (currentPoint.DistanceToLine(line) < 1)
+                                {
+                                    selectedLine = line;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (selectedLine != null)
+                        {
+                            //open form to set line parameters
+                            LineForm lineForm = new LineForm(ref selectedLine);
+                            lineForm.ShowDialog();
+                        }
+
+                        break;
                     default:
+                        
                         break;
                 }
 
@@ -507,8 +535,11 @@ namespace polygon_editor
         private void EditorPictureBox_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.SetParameters(PixelsToMillimeters(EditorPictureBox.Height));
-            
-            // if currentPolygon is not null draw current polygon
+
+
+            if (LibraryAlg)
+            {
+                 // if currentPolygon is not null draw current polygon
             if (currentPolygon != null)
             {
                 foreach (Entities.PolygonPoint point in currentPolygon.Points)
@@ -597,6 +628,108 @@ namespace polygon_editor
                     e.Graphics.DrawLine(dashedCyanPen, line);
                 }
             }
+            }
+
+            if (BresenhamAlg)
+            {
+                
+                 // if currentPolygon is not null draw current polygon
+            if (currentPolygon != null)
+            {
+                foreach (Entities.PolygonPoint point in currentPolygon.Points)
+                {
+                    if(previouslyAddedPoint != null && point == previouslyAddedPoint && !currentPolygon.IsClosed)
+                        e.Graphics.DrawPoint(new Pen(Color.DarkRed, 1), point);
+                    else 
+                        e.Graphics.DrawPoint(new Pen(Color.Black, 1), point);
+                }
+                
+                foreach (Entities.Line line in currentPolygon.Lines)
+                {
+                    e.Graphics.DrawLineBresenham(new Pen(Color.Gray, 1), line);
+                }
+
+                if (currentLine != null && !currentPolygon.IsClosed)
+                {
+                    e.Graphics.DrawLineBresenham(new Pen(Color.Gainsboro, 1), currentLine);
+                }
+            }
+
+            if (polygons.Count > 0)
+            {
+                //for each polygon draw points and lines
+                foreach (Entities.Polygon polygon in polygons)
+                {
+                    foreach(Entities.PolygonPoint point in polygon.Points)
+                    {
+                        if(point.IsMoving)
+                            e.Graphics.DrawPoint(new Pen(Color.CornflowerBlue, 1), point);
+                        else 
+                            e.Graphics.DrawPoint(new Pen(Color.Black, 1), point);
+                    }
+                    
+                    foreach (Entities.Line line in polygon.Lines)
+                    {
+                        if (line.MustBeHorizontal)
+                        {
+                            Pen pen = new Pen(Color.Red, 1);
+                            pen.DashPattern = new float[] { 2, 2 };
+                            e.Graphics.DrawLineBresenham(pen, line);
+                        }
+                        else if(line.MustBeVertical)
+                        {
+                            e.Graphics.DrawLineBresenham(new Pen(Color.Blue, 1), line);}
+                        else
+                        {
+                            e.Graphics.DrawLineBresenham(new Pen(Color.Gray, 1), line);
+                        }
+                       
+                    }
+                    
+                }
+            }
+            
+                  
+            //draw temporal moving polygon
+            if (temporalMovingPolygon != null)
+            {
+                Pen dashedCyanPen = new Pen(Color.Pink, 1);
+                dashedCyanPen.DashPattern = new float[] { 2, 2 };
+                
+                foreach (Entities.PolygonPoint point in temporalMovingPolygon.Points)
+                {
+                    e.Graphics.DrawPoint(dashedCyanPen, point);
+                }
+                    
+                foreach (Entities.Line line in temporalMovingPolygon.Lines)
+                {
+                    e.Graphics.DrawLineBresenham(dashedCyanPen, line);
+                }
+            }
+
+            if (offsetedPolygon != null)
+            {
+                Pen dashedCyanPen = new Pen(Color.Indigo, 0);
+                dashedCyanPen.DashPattern = new float[] { 2, 2 };
+                
+                foreach (Entities.PolygonPoint point in offsetedPolygon.Points)
+                {
+                    e.Graphics.DrawPoint(dashedCyanPen, point);
+                }
+                    
+                foreach (Entities.Line line in offsetedPolygon.Lines)
+                {
+                    e.Graphics.DrawLineBresenham(dashedCyanPen, line);
+                }
+            }
+                
+            }
+
+            if (SymetricBresenham)
+            {
+                
+            }
+           
         }
         
         #endregion
@@ -640,12 +773,12 @@ namespace polygon_editor
                 coughtPolygon = null;
             }
 
-            if (offsetPolygon != null)
-            {
-                offsetPolygon = null;
-                offsetedPolygon = null;
-            }
-              
+            // if (offsetPolygon != null)
+            // {
+            //     offsetPolygon = null;
+            //     offsetedPolygon = null;
+            // }
+            //   
            
             currentLine = null;
             previouslyAddedPoint = null;
@@ -659,6 +792,7 @@ namespace polygon_editor
             removeHRestrictionBtn.Checked = false;
             removeVRestrictionBtn.Checked = false;
             ofsetBtn.Checked = false;
+            thicknessChangeBtn.Checked = false;
             // trackBar1.Visible = false;
         }
 
@@ -752,7 +886,6 @@ namespace polygon_editor
             // trackBar1.Visible = true;
             CancelAll();
             ofsetBtn.Checked = true;
-            trackBar1.Visible = true;
             mode = Mode.OffsetPolygonSelect;
         }
 
@@ -762,13 +895,42 @@ namespace polygon_editor
             if (offsetPolygon != null)
             {
                 offsetedPolygon = offsetPolygon.Offset(trackBar1.Value);
+                offsetLabel.Text =  string.Format("Offset {0}", trackBar1.Value);
                 EditorPictureBox.Refresh();
             }
         }
 
+     
+
+        private void bresenhamAlgBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            BresenhamAlg = (bresenhamAlgBtn.Checked == true);
+            EditorPictureBox.Refresh();
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            SymetricBresenham = (radioButton1.Checked == true);
+            EditorPictureBox.Refresh();
+        }
+
         private void libraryAlgBtn_CheckedChanged(object sender, EventArgs e)
         {
-            LibraryAlg = libraryAlgBtn.Checked;
+            LibraryAlg = (libraryAlgBtn.Checked == true);
+            EditorPictureBox.Refresh();
+        }
+
+        private void thicknessChangeBtn_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void thicknessChangeBtn_Click_1(object sender, EventArgs e)
+        {
+            CancelAll();
+            mode = Mode.LineSelect;
+            EditorPictureBox.Cursor = Cursors.Hand;
+            thicknessChangeBtn.Checked = true;
         }
     }
 }

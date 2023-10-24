@@ -1,4 +1,7 @@
 
+using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using polygon_editor.Entities;
 
@@ -29,10 +32,56 @@ namespace polygon_editor
 
         public static void DrawLine(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Line line)
         {
+            pen.Width = (float)line.Thikness;
             g.SetTransform();
             g.DrawLine(pen, line.StartPoint.Position.ToPointF(), line.EndPoint.Position.ToPointF());
             g.ResetTransform();
 
+        }
+        
+        public static void DrawLineBresenham(this System.Drawing.Graphics g, System.Drawing.Pen pen, Entities.Line line)
+        {
+            g.SetTransform();
+
+            double x = line.StartPoint.Position.X;
+            double y = line.StartPoint.Position.Y;
+            double x2 =  line.EndPoint.Position.X;
+            double y2 = line.EndPoint.Position.Y;
+            
+
+            double w = x2 - x ;
+            double h = y2 - y ;
+            int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0 ;
+            if (w<0) dx1 = -1 ; else if (w>0) dx1 = 1 ;
+            if (h<0) dy1 = -1 ; else if (h>0) dy1 = 1 ;
+            if (w<0) dx2 = -1 ; else if (w>0) dx2 = 1 ;
+            double longest = Math.Abs(w) ;
+            double shortest = Math.Abs(h) ;
+            if (!(longest>shortest)) {
+                longest = Math.Abs(h) ;
+                shortest = Math.Abs(w) ;
+                if (h<0) dy2 = -1 ; else if (h>0) dy2 = 1 ;
+                dx2 = 0 ;            
+            }
+            double numerator = longest  / 2 ;
+            Brush aBrush = (Brush)Brushes.Black;
+            for (int i=0;i<=longest;i++) {
+                
+                g.FillRectangle(aBrush,(float) x,(float) y, (float)1, (float)1);
+                
+                numerator += shortest ;
+                if (!(numerator<longest)) {
+                    numerator -= longest ;
+                    x += dx1 ;
+                    y += dy1 ;
+                } else {
+                    x += dx2 ;
+                    y += dy2 ;
+                }
+            }
+            
+            
+            g.ResetTransform();
         }
 
         public static Vector3 LineLineIntersection(Entities.Line line1, Entities.Line line2, bool extended = false)
