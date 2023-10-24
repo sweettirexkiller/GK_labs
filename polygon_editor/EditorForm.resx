@@ -449,6 +449,36 @@
         hwAAHYcBj+XxZQAAABNJREFUOE9jGAWjYBSMAjBgYAAABBAAAadEfGMAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="ofsetBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EwAACxMBAJqcGAAAAWpJREFUaEPtmUGOwjAMRbtAcwNguP+aFRyAHXuYgeOAv8BSVOrGIS4O4Cd9UazU
+        8a+JWbQLgqCYNely1xaBO63Fs2Ax34gkTGvxt2dD+ghD3J0srTtWG1EvdAIPGQ87y1RGfkgnEufX6mnU
+        jguZkf5IQ8WO6S2Zkw6kMSPNT60F6UhC8amZPlL8AQ/HqQl8ojPVRtQLjYAJPjswge9AqsN9ag2RduJM
+        +iUx1XVMNbX6LEn/JBSLjnAnmGojryBnAkhGmpla6ZnAz2lFGkIyIsUfmNIxzgD/u6Mj6IxEtRH1wkJg
+        Ah1A7pwJINXhOrVSE+hIzgTYk3a3y+ewnlp9E+mInRTuiLWsTKjP8FARFrLqBOfLol6oxC2f28ZK3KaW
+        dT41YUTAOl/x1LLCLZ/bxkrU+dw2VhJTq5YwIhBTqxa3fG4bK4mpVUsYEfjeqWUtPEW+xitnpjTOsSy8
+        0Fql79GlOK5VUysIAqbrrpwod08Mpb0nAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="ofsetBtn.LargeImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EwAACxMBAJqcGAAAAWpJREFUaEPtmUGOwjAMRbtAcwNguP+aFRyAHXuYgeOAv8BSVOrGIS4O4Cd9UazU
+        8a+JWbQLgqCYNely1xaBO63Fs2Ax34gkTGvxt2dD+ghD3J0srTtWG1EvdAIPGQ87y1RGfkgnEufX6mnU
+        jguZkf5IQ8WO6S2Zkw6kMSPNT60F6UhC8amZPlL8AQ/HqQl8ojPVRtQLjYAJPjswge9AqsN9ag2RduJM
+        +iUx1XVMNbX6LEn/JBSLjnAnmGojryBnAkhGmpla6ZnAz2lFGkIyIsUfmNIxzgD/u6Mj6IxEtRH1wkJg
+        Ah1A7pwJINXhOrVSE+hIzgTYk3a3y+ewnlp9E+mInRTuiLWsTKjP8FARFrLqBOfLol6oxC2f28ZK3KaW
+        dT41YUTAOl/x1LLCLZ/bxkrU+dw2VhJTq5YwIhBTqxa3fG4bK4mpVUsYEfjeqWUtPEW+xitnpjTOsSy8
+        0Fql79GlOK5VUysIAqbrrpwod08Mpb0nAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="ofsetBtn.SmallImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAd
+        hwAAHYcBj+XxZQAAABNJREFUOE9jGAWjYBSMAjBgYAAABBAAAadEfGMAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

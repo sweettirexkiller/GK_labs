@@ -39,7 +39,9 @@ namespace polygon_editor
             AddVerRestriction,
             RemoveVerRestriction,
             AddHorRestriction,
-            RemoveHorRestriction
+            RemoveHorRestriction,
+            OffsetPolygonSelect,
+            OffsetPolygonShow
             
         }
         
@@ -50,6 +52,8 @@ namespace polygon_editor
         private Entities.PolygonPoint previouslyAddedPoint;
         private Entities.PolygonPoint movingPoint;
         private Polygon coughtPolygon;
+        private Polygon offsetPolygon;
+        private Polygon offsetedPolygon;
         private Polygon temporalMovingPolygon;
         private Vector3 movingPointBeginPosition;
         private Vector3 catchingPolygonBeginPosition;
@@ -436,6 +440,51 @@ namespace polygon_editor
                             }
                         }
                         break;
+                    
+                    case Mode.OffsetPolygonSelect:
+
+                        bool selectedPolygon = false;
+                         foreach (Entities.Polygon polygon in polygons)
+                        {
+                            foreach (Entities.PolygonPoint point in polygon.Points)
+                            {
+                                if (point.Position.DistanceTo(currentPoint.Position) < 2)
+                                {
+                                    offsetPolygon = polygon;
+                                    selectedPolygon = true;
+                                    break;
+                                }
+                            }
+
+                            if (selectedPolygon) break;
+                            
+                            foreach (Entities.Line line in polygon.Lines)
+                            {
+                                if (currentPoint.DistanceToLine(line) < 1)
+                                {
+                                    offsetPolygon = polygon;
+                                    selectedPolygon = true;
+                                    break;
+                                }
+                            }
+                            
+                            if(selectedPolygon) break;
+                        }
+
+                        if (selectedPolygon != null)
+                        {
+                            mode = Mode.OffsetPolygonShow;
+                            trackBar1.Visible = true;
+                        }
+
+
+                        break;
+                    
+                    case Mode.OffsetPolygonShow:
+                        
+                        offsetedPolygon = offsetPolygon.Offset(1);
+
+                        break;
 
                     default:
                         break;
@@ -525,6 +574,22 @@ namespace polygon_editor
                     e.Graphics.DrawLine(dashedCyanPen, line);
                 }
             }
+
+            if (offsetedPolygon != null)
+            {
+                Pen dashedCyanPen = new Pen(Color.Indigo, 0);
+                dashedCyanPen.DashPattern = new float[] { 2, 2 };
+                
+                foreach (Entities.PolygonPoint point in offsetedPolygon.Points)
+                {
+                    e.Graphics.DrawPoint(dashedCyanPen, point);
+                }
+                    
+                foreach (Entities.Line line in offsetedPolygon.Lines)
+                {
+                    e.Graphics.DrawLine(dashedCyanPen, line);
+                }
+            }
         }
         
         #endregion
@@ -567,6 +632,12 @@ namespace polygon_editor
                 coughtPolygon.IsCought = false;
                 coughtPolygon = null;
             }
+
+            if (offsetPolygon != null)
+            {
+                offsetPolygon = null;
+                offsetedPolygon = null;
+            }
               
            
             currentLine = null;
@@ -580,6 +651,8 @@ namespace polygon_editor
             addVRestrictionBtn.Checked = false;
             removeHRestrictionBtn.Checked = false;
             removeVRestrictionBtn.Checked = false;
+            ofsetBtn.Checked = false;
+            // trackBar1.Visible = false;
         }
 
         private void cancelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -666,5 +739,18 @@ namespace polygon_editor
             mode = Mode.RemoveVerRestriction;
         }
         #endregion
+
+        private void ofsetBtn_Click(object sender, EventArgs e)
+        {
+            // trackBar1.Visible = true;
+            CancelAll();
+            ofsetBtn.Checked = true;
+            trackBar1.Visible = true;
+            mode = Mode.OffsetPolygonSelect;
+        }
+
+        private void trackBar1_Scroll_1(object sender, EventArgs e)
+        {
+        }
     }
 }

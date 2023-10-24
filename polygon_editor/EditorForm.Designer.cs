@@ -44,6 +44,8 @@
             this.removeHRestrictionBtn = new System.Windows.Forms.RibbonButton();
             this.addVRestrictionBtn = new System.Windows.Forms.RibbonButton();
             this.removeVRestrictionBtn = new System.Windows.Forms.RibbonButton();
+            this.offSetPanel = new System.Windows.Forms.RibbonPanel();
+            this.ofsetBtn = new System.Windows.Forms.RibbonButton();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.coordinate = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -53,9 +55,11 @@
             this.ribbonButton2 = new System.Windows.Forms.RibbonButton();
             this.ribbonItemGroup1 = new System.Windows.Forms.RibbonItemGroup();
             this.ribbonButton3 = new System.Windows.Forms.RibbonButton();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // EditorPictureBox
@@ -65,7 +69,7 @@
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.EditorPictureBox.Location = new System.Drawing.Point(12, 206);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1408, 1611);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1408, 1620);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
             this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
@@ -98,6 +102,7 @@
             this.editorTab.Name = "editorTab";
             this.editorTab.Panels.Add(this.polygonPanel);
             this.editorTab.Panels.Add(this.restrictionsPanel);
+            this.editorTab.Panels.Add(this.offSetPanel);
             this.editorTab.Text = "Editor";
             // 
             // polygonPanel
@@ -189,13 +194,27 @@
             this.removeVRestrictionBtn.Text = "Remove";
             this.removeVRestrictionBtn.Click += new System.EventHandler(this.removeVRestrictionBtn_Click);
             // 
+            // offSetPanel
+            // 
+            this.offSetPanel.Items.Add(this.ofsetBtn);
+            this.offSetPanel.Name = "offSetPanel";
+            this.offSetPanel.Text = "Offset";
+            // 
+            // ofsetBtn
+            // 
+            this.ofsetBtn.Image = ((System.Drawing.Image)(resources.GetObject("ofsetBtn.Image")));
+            this.ofsetBtn.LargeImage = ((System.Drawing.Image)(resources.GetObject("ofsetBtn.LargeImage")));
+            this.ofsetBtn.Name = "ofsetBtn";
+            this.ofsetBtn.SmallImage = ((System.Drawing.Image)(resources.GetObject("ofsetBtn.SmallImage")));
+            this.ofsetBtn.Click += new System.EventHandler(this.ofsetBtn_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.AutoSize = false;
             this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.coordinate });
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1820);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1829);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1432, 50);
             this.statusStrip1.TabIndex = 8;
@@ -253,14 +272,24 @@
             this.ribbonButton3.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton3.SmallImage")));
             this.ribbonButton3.Text = "asdasd";
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.trackBar1.Location = new System.Drawing.Point(1017, 1832);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(356, 90);
+            this.trackBar1.TabIndex = 9;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll_1);
+            // 
             // EditorForm
             // 
             this.AccessibleName = "PolygonEditor";
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1432, 1870);
+            this.ClientSize = new System.Drawing.Size(1432, 1879);
             this.ContextMenuStrip = this.menuStrip;
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.ribbon1);
             this.Controls.Add(this.EditorPictureBox);
@@ -273,8 +302,14 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
+
+        private System.Windows.Forms.TrackBar trackBar1;
+
+        private System.Windows.Forms.RibbonButton ofsetBtn;
 
         private System.Windows.Forms.RibbonButton removeVRestrictionBtn;
 
@@ -292,7 +327,7 @@
 
         private System.Windows.Forms.MainMenu mainMenu1;
 
-        private System.Windows.Forms.RibbonPanel ribbonPanel1;
+        private System.Windows.Forms.RibbonPanel offSetPanel;
 
         private System.Windows.Forms.RibbonButton catchPolygonBtn;
 

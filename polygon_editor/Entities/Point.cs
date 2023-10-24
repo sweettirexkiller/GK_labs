@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms.VisualStyles;
 
 namespace polygon_editor.Entities
 {
@@ -128,6 +129,11 @@ namespace polygon_editor.Entities
         {
             get => isMoving;
             set => isMoving = value;
+        }
+        
+        public PolygonPoint Copy()
+        {
+            return new PolygonPoint(this.Polygon,this.Index,this.Position.Copy());
         }
     } 
 }
