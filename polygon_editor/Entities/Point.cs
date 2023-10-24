@@ -7,14 +7,14 @@ namespace polygon_editor.Entities
     {
         private Vector3 vector3;
         private double thickness;
-        
+
         //constructor
         public Point()
         {
             this.Position = Vector3.Zero;
             this.Thickness = 0.0;
         }
-        
+
         //constructor
         public Point(Vector3 position)
         {
@@ -28,7 +28,7 @@ namespace polygon_editor.Entities
             get { return thickness; }
             set { thickness = value; }
         }
-        
+
         //setter and getter vector
         public Vector3 Position
         {
@@ -68,16 +68,22 @@ namespace polygon_editor.Entities
             if (k < 0)
             {
                 closestPoint = new Vector3(x1, y1);
-            } else if (k > 1)
+            }
+            else if (k > 1)
             {
                 closestPoint = new Vector3(x2, y2);
                 dx = x0 - x2;
                 dy = y0 - y2;
             }
-            
+
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
+        public double DistanceFrom(Vector3 position)
+        {
+            return Math.Sqrt(Math.Pow(this.Position.X - position.X, 2) +
+                             Math.Pow(this.Position.Y - position.Y, 2));
+        }
     }
 
     public class PolygonPoint : Point

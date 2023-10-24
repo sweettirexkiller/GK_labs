@@ -65,5 +65,14 @@ namespace polygon_editor.Entities
             double denominator = Math.Sqrt(Math.Pow(y2 - y1, 2) + Math.Pow(x2 - x1, 2));
             return numerator / denominator;
         }
+
+        public double Length
+        {
+            get
+            {
+                return Math.Sqrt(Math.Pow(EndPoint.Position.X - StartPoint.Position.X, 2) + Math.Pow(EndPoint.Position.Y - StartPoint.Position.Y, 2));
+            }
+        }
+       
     }
 }
