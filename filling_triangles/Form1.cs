@@ -160,6 +160,5 @@ namespace filling_triangles
             if (colorDialog1.ShowDialog() == DialogResult.OK)
                 chosenColorPanel.BackColor =  colorDialog1.Color;
         }
-        
     }
 }
