@@ -39,19 +39,24 @@ namespace filling_triangles
                 {
                     // g.DrawRectangle(pen, x + i * stepX, y + j * stepY, stepX, stepY);
                     
-                    Point p1 = new Point(0, 0); // upper left
-                    Point p2 = new Point((int) (x + i * stepX), 0); // upper right
-                    Point p3 = new Point(0, (int)(y + j * stepY)); // down left
+                    Point p1 = new Point(x, y); // upper left
+                    Point p2 = new Point((int) (x + stepX), y); // upper right
+                    Point p3 = new Point(x, (int)(y + stepY)); // down left
                     Point[] points1 = { p1, p2, p3 };
+                    
                     g.DrawPolygon(pen, points1);
                     
-                    Point p4 = new Point((int) (x + i * stepX), (int)(y + j * stepY));// down right
-                    Point p5 = new Point((int) (x + i * stepX), 0); // upper right
-                    Point p6 = new Point(0, (int)(y + j * stepY)); // down left
+                    Point p4 = new Point((int) (x + stepX), (int)(y + stepY));// down right
+                    Point p5 = new Point((int) (x + stepX), y); // upper right
+                    Point p6 = new Point(x, (int)(y +  stepY)); // down left
                     Point[] points2 = { p4, p5, p6 };
+                    
                     g.DrawPolygon(pen, points2);
+                    y += (int)stepY;
                 }
-                
+                x += (int)stepX;
+                y = 0;
+
             }
 
         }
