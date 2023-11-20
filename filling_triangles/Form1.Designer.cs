@@ -32,6 +32,10 @@
             this.components = new System.ComponentModel.Container();
             this.menuContainer = new System.Windows.Forms.ContainerControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.randomColorCheckbox = new System.Windows.Forms.CheckBox();
+            this.chosenColorPanel = new System.Windows.Forms.Panel();
+            this.showColorPickerButton = new System.Windows.Forms.Button();
+            this.pickedColorCheckbox = new System.Windows.Forms.CheckBox();
             this.triangleMeshGroupBox = new System.Windows.Forms.GroupBox();
             this.triangleMeshVisibilityButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,11 +47,7 @@
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.pickedColorCheckbox = new System.Windows.Forms.CheckBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.showColorPickerButton = new System.Windows.Forms.Button();
-            this.chosenColorPanel = new System.Windows.Forms.Panel();
-            this.randomColorCheckbox = new System.Windows.Forms.CheckBox();
             this.menuContainer.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.triangleMeshGroupBox.SuspendLayout();
@@ -61,9 +61,9 @@
             this.menuContainer.BackColor = System.Drawing.SystemColors.Menu;
             this.menuContainer.Controls.Add(this.groupBox1);
             this.menuContainer.Controls.Add(this.triangleMeshGroupBox);
-            this.menuContainer.Location = new System.Drawing.Point(1299, 12);
+            this.menuContainer.Location = new System.Drawing.Point(1323, 12);
             this.menuContainer.Name = "menuContainer";
-            this.menuContainer.Size = new System.Drawing.Size(575, 1441);
+            this.menuContainer.Size = new System.Drawing.Size(575, 1513);
             this.menuContainer.TabIndex = 1;
             this.menuContainer.Text = "containerControl2";
             // 
@@ -79,6 +79,42 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Color";
+            // 
+            // randomColorCheckbox
+            // 
+            this.randomColorCheckbox.Location = new System.Drawing.Point(50, 170);
+            this.randomColorCheckbox.Name = "randomColorCheckbox";
+            this.randomColorCheckbox.Size = new System.Drawing.Size(207, 34);
+            this.randomColorCheckbox.TabIndex = 3;
+            this.randomColorCheckbox.Text = "Random Colors";
+            this.randomColorCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // chosenColorPanel
+            // 
+            this.chosenColorPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.chosenColorPanel.Location = new System.Drawing.Point(299, 83);
+            this.chosenColorPanel.Name = "chosenColorPanel";
+            this.chosenColorPanel.Size = new System.Drawing.Size(51, 49);
+            this.chosenColorPanel.TabIndex = 2;
+            // 
+            // showColorPickerButton
+            // 
+            this.showColorPickerButton.Location = new System.Drawing.Point(374, 83);
+            this.showColorPickerButton.Name = "showColorPickerButton";
+            this.showColorPickerButton.Size = new System.Drawing.Size(121, 43);
+            this.showColorPickerButton.TabIndex = 1;
+            this.showColorPickerButton.Text = "Pick";
+            this.showColorPickerButton.UseVisualStyleBackColor = true;
+            this.showColorPickerButton.Click += new System.EventHandler(this.colorButton_Click);
+            // 
+            // pickedColorCheckbox
+            // 
+            this.pickedColorCheckbox.Location = new System.Drawing.Point(46, 72);
+            this.pickedColorCheckbox.Name = "pickedColorCheckbox";
+            this.pickedColorCheckbox.Size = new System.Drawing.Size(269, 62);
+            this.pickedColorCheckbox.TabIndex = 0;
+            this.pickedColorCheckbox.Text = "Picked Color";
+            this.pickedColorCheckbox.UseVisualStyleBackColor = true;
             // 
             // triangleMeshGroupBox
             // 
@@ -102,8 +138,9 @@
             this.triangleMeshVisibilityButton.Name = "triangleMeshVisibilityButton";
             this.triangleMeshVisibilityButton.Size = new System.Drawing.Size(113, 37);
             this.triangleMeshVisibilityButton.TabIndex = 7;
-            this.triangleMeshVisibilityButton.Text = "Visible";
+            this.triangleMeshVisibilityButton.Text = "Hide";
             this.triangleMeshVisibilityButton.UseVisualStyleBackColor = true;
+            this.triangleMeshVisibilityButton.Click += new System.EventHandler(this.triangleMeshVisibilityButton_Click);
             // 
             // label3
             // 
@@ -120,7 +157,7 @@
             this.columnCountY.Name = "columnCountY";
             this.columnCountY.Size = new System.Drawing.Size(120, 31);
             this.columnCountY.TabIndex = 5;
-            this.columnCountY.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            this.columnCountY.Value = new decimal(new int[] { 9, 0, 0, 0 });
             this.columnCountY.ValueChanged += new System.EventHandler(this.columnCountY_ValueChanged);
             // 
             // columnCountX
@@ -130,7 +167,7 @@
             this.columnCountX.Name = "columnCountX";
             this.columnCountX.Size = new System.Drawing.Size(120, 31);
             this.columnCountX.TabIndex = 4;
-            this.columnCountX.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            this.columnCountX.Value = new decimal(new int[] { 9, 0, 0, 0 });
             this.columnCountX.ValueChanged += new System.EventHandler(this.columnCountX_ValueChanged);
             // 
             // label2
@@ -155,7 +192,7 @@
             this.graphicsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.graphicsPanel.Location = new System.Drawing.Point(12, 12);
             this.graphicsPanel.Name = "graphicsPanel";
-            this.graphicsPanel.Size = new System.Drawing.Size(1272, 1441);
+            this.graphicsPanel.Size = new System.Drawing.Size(1296, 1513);
             this.graphicsPanel.TabIndex = 2;
             this.graphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel_Paint);
             // 
@@ -170,48 +207,12 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // pickedColorCheckbox
-            // 
-            this.pickedColorCheckbox.Location = new System.Drawing.Point(46, 72);
-            this.pickedColorCheckbox.Name = "pickedColorCheckbox";
-            this.pickedColorCheckbox.Size = new System.Drawing.Size(269, 62);
-            this.pickedColorCheckbox.TabIndex = 0;
-            this.pickedColorCheckbox.Text = "Picked Color";
-            this.pickedColorCheckbox.UseVisualStyleBackColor = true;
-            // 
-            // showColorPickerButton
-            // 
-            this.showColorPickerButton.Location = new System.Drawing.Point(374, 83);
-            this.showColorPickerButton.Name = "showColorPickerButton";
-            this.showColorPickerButton.Size = new System.Drawing.Size(121, 43);
-            this.showColorPickerButton.TabIndex = 1;
-            this.showColorPickerButton.Text = "Pick";
-            this.showColorPickerButton.UseVisualStyleBackColor = true;
-            this.showColorPickerButton.Click += new System.EventHandler(this.colorButton_Click);
-            // 
-            // chosenColorPanel
-            // 
-            this.chosenColorPanel.BackColor = System.Drawing.SystemColors.Window;
-            this.chosenColorPanel.Location = new System.Drawing.Point(299, 83);
-            this.chosenColorPanel.Name = "chosenColorPanel";
-            this.chosenColorPanel.Size = new System.Drawing.Size(51, 49);
-            this.chosenColorPanel.TabIndex = 2;
-            // 
-            // randomColorCheckbox
-            // 
-            this.randomColorCheckbox.Location = new System.Drawing.Point(50, 170);
-            this.randomColorCheckbox.Name = "randomColorCheckbox";
-            this.randomColorCheckbox.Size = new System.Drawing.Size(207, 34);
-            this.randomColorCheckbox.TabIndex = 3;
-            this.randomColorCheckbox.Text = "Random Colors";
-            this.randomColorCheckbox.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1886, 1465);
+            this.ClientSize = new System.Drawing.Size(1910, 1537);
             this.Controls.Add(this.graphicsPanel);
             this.Controls.Add(this.menuContainer);
             this.Location = new System.Drawing.Point(15, 15);
