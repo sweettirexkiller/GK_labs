@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace filling_triangles.Geometry
 {
     public class Point3D
@@ -18,12 +20,12 @@ namespace filling_triangles.Geometry
         public double Y { get { return y; } set { y = value; } }
         public double Z { get { return z; } set { z = value; } }
         
-        // - operator
-        public static Point3D operator -(Point3D p1, Point3D p2)
+
+        // create a Vector3 from two points
+        public static Vector3 operator -(Point3D p1, Point3D p2)
         {
-            return new Point3D(p1.X - p2.X, p1.Y - p2.Y, p1.Z - p2.Z);
+            return new Vector3((float)(p1.X - p2.X), (float)(p1.Y - p2.Y), (float)(p1.Z - p2.Z));
         }
-        
-        
+
     }
 }

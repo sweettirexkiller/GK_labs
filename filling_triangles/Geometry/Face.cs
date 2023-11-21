@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace filling_triangles.Geometry
 {
@@ -26,6 +27,13 @@ namespace filling_triangles.Geometry
                 new Edge(_vertices[1], _vertices[2]),
                 new Edge(_vertices[2], _vertices[0])
             };
+        }
+        
+        // constructor but with edges and vertices as parameters
+        public Face(List<Edge> edges, List<Vertex> vertices)
+        {
+            _edges = edges;
+            _vertices = vertices;
         }
     }
 }
