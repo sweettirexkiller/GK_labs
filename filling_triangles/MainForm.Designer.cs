@@ -43,16 +43,17 @@
             this.columnCountX = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.graphicsPanel = new System.Windows.Forms.Panel();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
             this.menuContainer.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.triangleMeshGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.columnCountY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnCountX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuContainer
@@ -61,9 +62,9 @@
             this.menuContainer.BackColor = System.Drawing.SystemColors.Menu;
             this.menuContainer.Controls.Add(this.groupBox1);
             this.menuContainer.Controls.Add(this.triangleMeshGroupBox);
-            this.menuContainer.Location = new System.Drawing.Point(1315, 12);
+            this.menuContainer.Location = new System.Drawing.Point(1323, 12);
             this.menuContainer.Name = "menuContainer";
-            this.menuContainer.Size = new System.Drawing.Size(575, 1489);
+            this.menuContainer.Size = new System.Drawing.Size(575, 1513);
             this.menuContainer.TabIndex = 1;
             this.menuContainer.Text = "containerControl2";
             // 
@@ -186,16 +187,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Count";
             // 
-            // graphicsPanel
-            // 
-            this.graphicsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.graphicsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.graphicsPanel.Location = new System.Drawing.Point(12, 12);
-            this.graphicsPanel.Name = "graphicsPanel";
-            this.graphicsPanel.Size = new System.Drawing.Size(1288, 1489);
-            this.graphicsPanel.TabIndex = 2;
-            this.graphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel_Paint);
-            // 
             // imageList1
             // 
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -207,13 +198,23 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // Form1
+            // pictureBox
+            // 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(1305, 1513);
+            this.pictureBox.TabIndex = 2;
+            this.pictureBox.TabStop = false;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1902, 1513);
-            this.Controls.Add(this.graphicsPanel);
+            this.ClientSize = new System.Drawing.Size(1910, 1537);
+            this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.menuContainer);
             this.Location = new System.Drawing.Point(15, 15);
             this.Name = "MainForm";
@@ -223,8 +224,11 @@
             this.triangleMeshGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.columnCountY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnCountX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.PictureBox pictureBox;
 
         private System.Windows.Forms.CheckBox randomColorCheckbox;
 
@@ -252,8 +256,6 @@
         private System.Windows.Forms.ImageList imageList1;
 
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
-
-        private System.Windows.Forms.Panel graphicsPanel;
 
         private System.Windows.Forms.ContainerControl menuContainer;
 
