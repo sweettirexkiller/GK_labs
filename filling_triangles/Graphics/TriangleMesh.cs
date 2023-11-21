@@ -39,16 +39,28 @@ public class TriangleMesh
         get => _rowsCountY;
         set => _rowsCountY = value;
     }
+    
+    public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height)
+    {
+        Vertices = new List<Vertex>();
+        Faces = new List<Face>();
+        _columnsCountX = columnsCountX;
+        _rowsCountY = rowsCountY;
+        _width = width;
+        _height = height;
+        
+        GenerateTriangles();
+    }
 
     public void GenerateTriangles()
     {
         Vertices = new List<Vertex>();
         Faces = new List<Face>();
         // find triangles mesh vertices, faces;
-        int x = 0;
-        int y = 0;
-        float stepX = _width / ColumnsCountX; // lenght of base of a triange
-        float stepY = _height / RowsCountY; // height of a triangle
+        double x = 0;
+        double y = 0;
+        double stepX = _width / ColumnsCountX; // lenght of base of a triange
+        double stepY = _height / RowsCountY; // height of a triangle
       
         // create a list of active edges
         for (int i = 1; i <= _columnsCountX; i++)
@@ -57,26 +69,26 @@ public class TriangleMesh
             {
                 // points
                 Point3D upperLeft = new Point3D(x, y, 0); // upper left
-                Point3D upperRight = new Point3D((int)(x + stepX), y, 0); // upper right
-                Point3D downLeft = new Point3D(x, (int)(y + stepY), 0); // down left
-                Point3D downRight = new Point3D((int)(x + stepX), (int)(y + stepY), 0); // down right
+                Point3D upperRight = new Point3D(x + stepX, y, 0); // upper right
+                Point3D downLeft = new Point3D(x, y + stepY, 0); // down left
+                Point3D downRight = new Point3D(x + stepX, y + stepY, 0); // down right
 
                 // UPPER TRIANGLE
                 // calculate upper triangle normal vector
                 Vector3 upperTriangleNormal = CalculateTriangleNormal(upperLeft, upperRight, downLeft);
                 // create vertices for upper triangle
-                Vertex upperLeftVertex = new Vertex(upperLeft, x+y+i+j+1,upperTriangleNormal);
-                Vertex upperRightVertex = new Vertex(upperRight, x+y+i+j+2,upperTriangleNormal);
-                Vertex downLeftVertex = new Vertex(downLeft, x+y+i+j+3,upperTriangleNormal);
+                Vertex upperLeftVertex = new Vertex(upperLeft, i*10+j+1,upperTriangleNormal);
+                Vertex upperRightVertex = new Vertex(upperRight, i*10+j+2,upperTriangleNormal);
+                Vertex downLeftVertex = new Vertex(downLeft, i*10+j+3,upperTriangleNormal);
 
 
                 // LOWER TRIANGLE
                 // calculate lower triangle normal vector
                 Vector3 lowerTriangleNormal = CalculateTriangleNormal(downRight, upperRight, downLeft);
                 // create vertices for lower triangle
-                Vertex downRightVertex = new Vertex(downRight, x+y+i+j+4,lowerTriangleNormal);
-                Vertex upperRightVertex2 = new Vertex(upperRight, x+y+i+j+5,lowerTriangleNormal);
-                Vertex downLeftVertex2 = new Vertex(downLeft, x+y+i+j+6,lowerTriangleNormal);
+                Vertex downRightVertex = new Vertex(downRight, i*10+j+4,lowerTriangleNormal);
+                Vertex upperRightVertex2 = new Vertex(upperRight, i*10+j+5,lowerTriangleNormal);
+                Vertex downLeftVertex2 = new Vertex(downLeft, i*10+j+6,lowerTriangleNormal);
                 
                 // create lower triangle face
                 Face lowerTriangle = new Face(new List<Vertex>{downRightVertex, upperRightVertex2, downLeftVertex2});
@@ -96,26 +108,16 @@ public class TriangleMesh
                 Vertices.Add(upperRightVertex2);
                 Vertices.Add(downLeftVertex2);
 
-                y += (int)stepY;
+                y += stepY;
 
             }
-            x += (int)stepX;
+            x += stepX;
             y = 0;
         
         }
     }
 
-    public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height)
-    {
-        Vertices = new List<Vertex>();
-        Faces = new List<Face>();
-        _columnsCountX = columnsCountX;
-        _rowsCountY = rowsCountY;
-        _width = width;
-        _height = height;
-        
-        GenerateTriangles();
-    }
+   
 
     
     // this function calculates normal vector for a triangle
