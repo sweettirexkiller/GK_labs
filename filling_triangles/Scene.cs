@@ -7,18 +7,21 @@ namespace filling_triangles
     {
         private PictureBox _pictureBox;
         private DirectBitmap _directBitmap;
+        private TriangleMesh _triangleMesh;
+        private GraphicTools.Painter _painter;
         
-        public DirectBitmap DirectBitmap
+        public DirectBitmap Bitmap
         {
             get => _directBitmap;
             set => _directBitmap = value;
         }
         
         // contructor that takes pictureBox
-        public Scene(PictureBox pictureBox)
+        public Scene(PictureBox pictureBox, TriangleMesh triangleMesh)
         {
             _pictureBox = pictureBox;
             _directBitmap = new DirectBitmap(pictureBox.Width, pictureBox.Height);
+            _triangleMesh = triangleMesh;
         }
         
     }
