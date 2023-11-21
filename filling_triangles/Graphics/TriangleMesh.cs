@@ -8,39 +8,59 @@ namespace filling_triangles.Graphics;
 
 public class TriangleMesh
 {
-    public List<Face> Faces { get; }
-    public List<Vertex> Vertices { get; }
-    public IEnumerable<Edge> Edges { get; }
+    public List<Face> Faces { get; set;}
+    public List<Vertex> Vertices { get; set; }
+
+    private int _columnsCountX;
+    private int _rowsCountY;
+    private int _width;
+    private int _height;
     
-    public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height)
+    public int Width
+    {
+        get => _width;
+        set => _width = value;
+    }
+    
+    public int Height
+    {
+        get => _height;
+        set => _height = value;
+    }
+
+    public int ColumnsCountX
+    {
+        get => _columnsCountX;
+        set => _columnsCountX = value;
+    }
+
+    public int RowsCountY
+    {
+        get => _rowsCountY;
+        set => _rowsCountY = value;
+    }
+
+    public void GenerateTriangles()
     {
         Vertices = new List<Vertex>();
         Faces = new List<Face>();
-        
         // find triangles mesh vertices, faces;
         int x = 0;
         int y = 0;
-        float stepX = width / columnsCountX; // lenght of base of a triange
-        float stepY = height / rowsCountY; // height of a triangle
-        // create a table of all edges
-
-
-        //write a function that calculates normal vector for a triangle, it takes three Point3D and return one Vector3
-        
-
-
+        float stepX = _width / ColumnsCountX; // lenght of base of a triange
+        float stepY = _height / RowsCountY; // height of a triangle
+      
         // create a list of active edges
-        for (int i = 1; i <= columnsCountX; i++)
+        for (int i = 1; i <= _columnsCountX; i++)
         {
-            for (int j = 1; j <= rowsCountY; j++)
+            for (int j = 1; j <= _rowsCountY; j++)
             {
                 // points
                 Point3D upperLeft = new Point3D(x, y, 0); // upper left
                 Point3D upperRight = new Point3D((int)(x + stepX), y, 0); // upper right
                 Point3D downLeft = new Point3D(x, (int)(y + stepY), 0); // down left
                 Point3D downRight = new Point3D((int)(x + stepX), (int)(y + stepY), 0); // down right
-                
-                
+
                 // UPPER TRIANGLE
                 // calculate upper triangle normal vector
                 Vector3 upperTriangleNormal = CalculateTriangleNormal(upperLeft, upperRight, downLeft);
@@ -75,12 +95,7 @@ public class TriangleMesh
                 Vertices.Add(downRightVertex);
                 Vertices.Add(upperRightVertex2);
                 Vertices.Add(downLeftVertex2);
-                
-                // add edges to the list
-                Edges.Concat(upperTriangle.Edges);
-                Edges.Concat(lowerTriangle.Edges);
-                
-                
+
                 y += (int)stepY;
 
             }
@@ -88,20 +103,47 @@ public class TriangleMesh
             y = 0;
         
         }
-       
-        static Vector3 CalculateTriangleNormal(Point3D A, Point3D B, Point3D C)
-        {
-            // Wektor AB
-            Vector3 AB = B - A;
-            // Wektor AC
-            Vector3 AC = C - A;
-            // Wektor normalny
-            Vector3 normalVector = Vector3.Cross(AB, AC);
-
-            // Normalizacja wektora normalnego
-            normalVector = Vector3.Normalize(normalVector);
-
-            return normalVector;
-        }
     }
+
+    public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height)
+    {
+        Vertices = new List<Vertex>();
+        Faces = new List<Face>();
+        _columnsCountX = columnsCountX;
+        _rowsCountY = rowsCountY;
+        _width = width;
+        _height = height;
+        
+        GenerateTriangles();
+    }
+
+    
+    // this function calculates normal vector for a triangle
+    static Vector3 CalculateTriangleNormal(Point3D A, Point3D B, Point3D C)
+    {
+        // Wektor AB
+        Vector3 AB = B - A;
+        // Wektor AC
+        Vector3 AC = C - A;
+        // Wektor normalny
+        Vector3 normalVector = Vector3.Cross(AB, AC);
+
+        // Normalizacja wektora normalnego
+        normalVector = Vector3.Normalize(normalVector);
+
+        return normalVector;
+    }
+    public void DrawAllEdges(DirectBitmap bitmap)
+    {
+       //draw all edges in all faces
+       using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap.Bitmap))
+         foreach (var face in Faces)
+         {
+              foreach (var edge in face.Edges)
+              {
+                  g.DrawLine(new Pen(Color.Black), (int)edge.V1.X, (int)edge.V1.Y, (int)edge.V2.X, (int)edge.V2.Y);
+              }
+         }
+    }
+    
 }

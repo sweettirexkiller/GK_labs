@@ -5,7 +5,7 @@ using filling_triangles.Graphics;
 
 namespace filling_triangles
 {
-    public class Scene
+    public class Drawing
     {
         private PictureBox _pictureBox;
         private DirectBitmap _directBitmap;
@@ -18,8 +18,8 @@ namespace filling_triangles
             set => _directBitmap = value;
         }
         
-        // contructor that takes pictureBox
-        public Scene(PictureBox pictureBox, TriangleMesh triangleMesh)
+        // constructor that takes pictureBox
+        public Drawing(PictureBox pictureBox, TriangleMesh triangleMesh)
         {
             _pictureBox = pictureBox;
             _directBitmap = new DirectBitmap(pictureBox.Width, pictureBox.Height);
@@ -27,16 +27,15 @@ namespace filling_triangles
         }
 
 
-        public void Render(object? obj, EventArgs arg)
+        public void DrawOnBitmap(object? obj, EventArgs arg)
         {
             // draw all triangles
             // fill all faces in triangleMesh
-            
-            
+            _directBitmap = new DirectBitmap(_pictureBox.Width, _pictureBox.Height);
+            _triangleMesh.DrawAllEdges(_directBitmap);
             //get image from bitmap generated from triangle mesh 
-            using var graphics = System.Drawing.Graphics.FromImage(this._directBitmap.Bitmap);
             //draw one line
-            graphics.DrawLine(Pens.Black,0,0,100,100);
+            _pictureBox.Image = _directBitmap.Bitmap;
             //clear the picture box
             _pictureBox.Invalidate(new Rectangle(0,0,_directBitmap.Width, _directBitmap.Height));
             // update picture box

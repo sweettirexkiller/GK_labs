@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using filling_triangles.Entities;
 using filling_triangles.Graphics;
 
 namespace filling_triangles
@@ -21,7 +20,7 @@ namespace filling_triangles
         private readonly string _projectDir;
         private bool _isFill;
         private bool _isMeshVisible;
-        private Scene _scene;
+        private Drawing _drawing;
         private TriangleMesh _triangleMesh;
         private Configuration _config;
         public MainForm()
@@ -40,10 +39,12 @@ namespace filling_triangles
 
             _triangleMesh = new TriangleMesh((int)this.columnCountX.Value, (int)this.columnCountY.Value,
                 pictureBox.Width, pictureBox.Height);
-            _scene = new Scene(pictureBox, _triangleMesh);
+            _drawing = new Drawing(pictureBox, _triangleMesh);
+         
+            
 
-            _scene.AdjustSizes();
-            _myTimer.Tick += _scene.Render;
+            // _scene.AdjustSizes();
+            _myTimer.Tick += _drawing.DrawOnBitmap;
             _myTimer.Interval = 500;
             _myTimer.Start();
         }
@@ -51,7 +52,12 @@ namespace filling_triangles
         private void columnCountX_ValueChanged(object sender, EventArgs e)
         {
             _myTimer.Stop();
+            
             // change triangles in scene
+            _triangleMesh.ColumnsCountX = (int)columnCountX.Value;
+            _triangleMesh.RowsCountY = (int)columnCountY.Value;
+            _triangleMesh.GenerateTriangles();
+            
             _myTimer.Start();
         }
 
@@ -59,6 +65,9 @@ namespace filling_triangles
         {
             _myTimer.Stop();
             // change triangles in scene
+            _triangleMesh.ColumnsCountX = (int)columnCountX.Value;
+            _triangleMesh.RowsCountY = (int)columnCountY.Value;
+            _triangleMesh.GenerateTriangles();
             _myTimer.Start();
         }
 

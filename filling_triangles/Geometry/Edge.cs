@@ -91,7 +91,7 @@ namespace filling_triangles.Geometry
             g.DrawLine(pen, (float) _vertice1.X, (float) _vertice1.Y, (float) _vertice2.X, (float) _vertice2.Y);
         }
         
-        public void DrawXQ(System.Drawing.Graphics g, System.Drawing.Pen pen)
+        public void DrawXZ(System.Drawing.Graphics g, System.Drawing.Pen pen)
         {
             g.DrawLine(pen, (float) _vertice1.X, (float) _vertice1.Z, (float) _vertice2.X, (float) _vertice2.Z);
         }
