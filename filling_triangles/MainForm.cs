@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,21 +14,37 @@ using filling_triangles.Entities;
 
 namespace filling_triangles
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        static System.Windows.Forms.Timer _myTimer = new System.Windows.Forms.Timer();
+        private readonly string _projectDir;
+        private bool _isFill;
+        private bool _isMeshVisible;
+        private Configuration _config;
+        public MainForm()
         {
+            string workingDirectory = Environment.CurrentDirectory;
+            
+            _projectDir = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            _isFill = false;
+            _isMeshVisible = true;
+            
+            
             InitializeComponent();
-            isFill = false;
-            isMeshVisible = true;
+            graphicsPanel.CreateGraphics(); 
+            
+            _config = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath);
+          
+            // _myTimer.Tick +/
+            _myTimer.Interval = 500;
+            _myTimer.Start();
         }
         
-        private bool isFill;
-        private bool isMeshVisible;
+     
         private void graphicsPanel_Paint(object sender, PaintEventArgs e)
         {
             // draw triangles and lines
-            Graphics g = e.Graphics;
+            System.Drawing.Graphics g = e.Graphics;
             g.Clear(Color.White);
             Pen pen = new Pen(Color.Black, 1);
             // draw triangles mesh 
@@ -87,7 +106,7 @@ namespace filling_triangles
                     edges.Add(downRightToDownLeft);
                     
                     
-                    if (isMeshVisible)
+                    if (_isMeshVisible)
                     {
                         Point[] topTriangle = { upperLeft, upperRight, downLeft };
                         Point[] lowerTriangle = { downRight, upperRight, downLeft };
@@ -105,7 +124,7 @@ namespace filling_triangles
             
             //bucket sort by lowest coordinate of p1 or p2
 
-            if (isFill)// fill all triangles 
+            if (_isFill)// fill all triangles 
             {
                 this.FillAllTriangles(edges, columnCountY);
             }
@@ -139,18 +158,27 @@ namespace filling_triangles
 
         private void columnCountX_ValueChanged(object sender, EventArgs e)
         {
-            graphicsPanel.Refresh();
+            _myTimer.Stop();
+            // change triangles in scene
+            _myTimer.Start();
         }
 
         private void columnCountY_ValueChanged(object sender, EventArgs e)
         {
-            graphicsPanel.Refresh();
+            _myTimer.Stop();
+            // change triangles in scene
+            _myTimer.Start();
         }
 
         private void triangleMeshVisibilityButton_Click(object sender, EventArgs e)
         {
-            isMeshVisible = !isMeshVisible;
-            triangleMeshVisibilityButton.Text = isMeshVisible ? "Hide" : "Show";
+            _myTimer.Stop();
+            // change triangles in scene
+            _isMeshVisible = !_isMeshVisible;
+            //change button text
+            triangleMeshVisibilityButton.Text = _isMeshVisible ? "Hide" : "Show";
+            _myTimer.Start();
+          
             graphicsPanel.Refresh();
         }
 
@@ -158,7 +186,14 @@ namespace filling_triangles
         {
             // Update the text box color if the user clicks OK 
             if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                _myTimer.Stop();
+                // change scene values
+                // change chosenColorPanel backgroundcolor
                 chosenColorPanel.BackColor =  colorDialog1.Color;
+                _myTimer.Start();
+            }
+              
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace filling_triangles
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -61,9 +61,9 @@
             this.menuContainer.BackColor = System.Drawing.SystemColors.Menu;
             this.menuContainer.Controls.Add(this.groupBox1);
             this.menuContainer.Controls.Add(this.triangleMeshGroupBox);
-            this.menuContainer.Location = new System.Drawing.Point(1323, 12);
+            this.menuContainer.Location = new System.Drawing.Point(1315, 12);
             this.menuContainer.Name = "menuContainer";
-            this.menuContainer.Size = new System.Drawing.Size(575, 1513);
+            this.menuContainer.Size = new System.Drawing.Size(575, 1489);
             this.menuContainer.TabIndex = 1;
             this.menuContainer.Text = "containerControl2";
             // 
@@ -192,7 +192,7 @@
             this.graphicsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.graphicsPanel.Location = new System.Drawing.Point(12, 12);
             this.graphicsPanel.Name = "graphicsPanel";
-            this.graphicsPanel.Size = new System.Drawing.Size(1296, 1513);
+            this.graphicsPanel.Size = new System.Drawing.Size(1288, 1489);
             this.graphicsPanel.TabIndex = 2;
             this.graphicsPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel_Paint);
             // 
@@ -212,11 +212,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1910, 1537);
+            this.ClientSize = new System.Drawing.Size(1902, 1513);
             this.Controls.Add(this.graphicsPanel);
             this.Controls.Add(this.menuContainer);
             this.Location = new System.Drawing.Point(15, 15);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.menuContainer.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
