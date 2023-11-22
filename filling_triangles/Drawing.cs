@@ -33,8 +33,11 @@ namespace filling_triangles
             // draw all triangles
             // fill all faces in triangleMesh
             _directBitmap = new DirectBitmap(_pictureBox.Width, _pictureBox.Height);
+           
            _triangleMesh.PaintTriangles(_painter,_directBitmap);
-           _triangleMesh.DrawAllEdges(_directBitmap);
+           
+           if(_triangleMesh.IsMeshVisible)
+               _triangleMesh.DrawAllEdges(_directBitmap);
 
             //get image from bitmap generated from triangle mesh 
             //draw one line

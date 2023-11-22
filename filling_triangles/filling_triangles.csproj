@@ -66,6 +66,7 @@
         <Compile Include="Geometry\Vector.cs" />
         <Compile Include="Geometry\Vertex.cs" />
         <Compile Include="Graphics\AETNode.cs" />
+        <Compile Include="Graphics\ColorCalculator.cs" />
         <Compile Include="Graphics\DirectBitmap.cs" />
         <Compile Include="Graphics\Painter.cs" />
         <Compile Include="Graphics\ScanLineProcedure.cs" />
@@ -104,6 +105,9 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Images\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

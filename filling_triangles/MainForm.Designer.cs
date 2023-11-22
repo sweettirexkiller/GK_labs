@@ -32,11 +32,13 @@
             this.components = new System.ComponentModel.Container();
             this.menuContainer = new System.Windows.Forms.ContainerControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.randomColorCheckbox = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.imageRadioButton = new System.Windows.Forms.RadioButton();
+            this.pickedColorRadioButton = new System.Windows.Forms.RadioButton();
             this.chosenColorPanel = new System.Windows.Forms.Panel();
             this.showColorPickerButton = new System.Windows.Forms.Button();
-            this.pickedColorCheckbox = new System.Windows.Forms.CheckBox();
             this.triangleMeshGroupBox = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.triangleMeshVisibilityButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.columnCountY = new System.Windows.Forms.NumericUpDown();
@@ -48,6 +50,7 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.textureFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuContainer.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.triangleMeshGroupBox.SuspendLayout();
@@ -70,25 +73,48 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.randomColorCheckbox);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.imageRadioButton);
+            this.groupBox1.Controls.Add(this.pickedColorRadioButton);
             this.groupBox1.Controls.Add(this.chosenColorPanel);
             this.groupBox1.Controls.Add(this.showColorPickerButton);
-            this.groupBox1.Controls.Add(this.pickedColorCheckbox);
             this.groupBox1.Location = new System.Drawing.Point(3, 197);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(569, 297);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Color";
+            this.groupBox1.Text = "Object Color";
             // 
-            // randomColorCheckbox
+            // button1
             // 
-            this.randomColorCheckbox.Location = new System.Drawing.Point(50, 170);
-            this.randomColorCheckbox.Name = "randomColorCheckbox";
-            this.randomColorCheckbox.Size = new System.Drawing.Size(207, 34);
-            this.randomColorCheckbox.TabIndex = 3;
-            this.randomColorCheckbox.Text = "Random Colors";
-            this.randomColorCheckbox.UseVisualStyleBackColor = true;
+            this.button1.Location = new System.Drawing.Point(374, 176);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(121, 44);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Open File";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // imageRadioButton
+            // 
+            this.imageRadioButton.Location = new System.Drawing.Point(29, 176);
+            this.imageRadioButton.Name = "imageRadioButton";
+            this.imageRadioButton.Size = new System.Drawing.Size(245, 44);
+            this.imageRadioButton.TabIndex = 5;
+            this.imageRadioButton.TabStop = true;
+            this.imageRadioButton.Text = "Image";
+            this.imageRadioButton.UseVisualStyleBackColor = true;
+            this.imageRadioButton.CheckedChanged += new System.EventHandler(this.imageRadioButton_CheckedChanged);
+            // 
+            // pickedColorRadioButton
+            // 
+            this.pickedColorRadioButton.Location = new System.Drawing.Point(32, 83);
+            this.pickedColorRadioButton.Name = "pickedColorRadioButton";
+            this.pickedColorRadioButton.Size = new System.Drawing.Size(225, 56);
+            this.pickedColorRadioButton.TabIndex = 4;
+            this.pickedColorRadioButton.TabStop = true;
+            this.pickedColorRadioButton.Text = "Constant Color";
+            this.pickedColorRadioButton.UseVisualStyleBackColor = true;
             // 
             // chosenColorPanel
             // 
@@ -108,18 +134,10 @@
             this.showColorPickerButton.UseVisualStyleBackColor = true;
             this.showColorPickerButton.Click += new System.EventHandler(this.colorButton_Click);
             // 
-            // pickedColorCheckbox
-            // 
-            this.pickedColorCheckbox.Location = new System.Drawing.Point(46, 72);
-            this.pickedColorCheckbox.Name = "pickedColorCheckbox";
-            this.pickedColorCheckbox.Size = new System.Drawing.Size(269, 62);
-            this.pickedColorCheckbox.TabIndex = 0;
-            this.pickedColorCheckbox.Text = "Picked Color";
-            this.pickedColorCheckbox.UseVisualStyleBackColor = true;
-            // 
             // triangleMeshGroupBox
             // 
             this.triangleMeshGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.triangleMeshGroupBox.Controls.Add(this.label4);
             this.triangleMeshGroupBox.Controls.Add(this.triangleMeshVisibilityButton);
             this.triangleMeshGroupBox.Controls.Add(this.label3);
             this.triangleMeshGroupBox.Controls.Add(this.columnCountY);
@@ -132,6 +150,14 @@
             this.triangleMeshGroupBox.TabIndex = 0;
             this.triangleMeshGroupBox.TabStop = false;
             this.triangleMeshGroupBox.Text = "Triangle Mesh";
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(46, 122);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(196, 32);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Visibility";
             // 
             // triangleMeshVisibilityButton
             // 
@@ -149,7 +175,6 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Visibility";
             // 
             // columnCountY
             // 
@@ -177,7 +202,6 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(23, 23);
             this.label2.TabIndex = 3;
-            this.label2.Text = "x";
             // 
             // label1
             // 
@@ -208,6 +232,10 @@
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
+            // textureFileDialog
+            // 
+            this.textureFileDialog.FileName = "textureFileDialog";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -228,13 +256,20 @@
             this.ResumeLayout(false);
         }
 
-        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.RadioButton imageRadioButton;
 
-        private System.Windows.Forms.CheckBox randomColorCheckbox;
+        private System.Windows.Forms.Button button1;
+
+        private System.Windows.Forms.OpenFileDialog textureFileDialog;
+
+        private System.Windows.Forms.RadioButton pickedColorRadioButton;
+
+        private System.Windows.Forms.Label label4;
+
+        private System.Windows.Forms.PictureBox pictureBox;
 
         private System.Windows.Forms.Panel chosenColorPanel;
 
-        private System.Windows.Forms.CheckBox pickedColorCheckbox;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button showColorPickerButton;
 

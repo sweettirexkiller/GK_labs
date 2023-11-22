@@ -15,9 +15,13 @@ public class TriangleMesh
     private int _rowsCountY;
     private int _width;
     private int _height;
-    private int _xSpan;
-    private int _ySpan;
-    private readonly int _offset = 10;
+    public int _xSpan;
+    public int _ySpan;
+    public readonly int _offset = 10;
+    public Color ObjectColor;
+    public bool IsColorFilled = true;
+    public bool IsTextureFilled = false;
+    public Bitmap _textureBitmap;
     
     public int Width
     {
@@ -42,8 +46,10 @@ public class TriangleMesh
         get => _rowsCountY;
         set => _rowsCountY = value;
     }
-    
-    public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height)
+
+    public bool IsMeshVisible { get; set; }
+
+    public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height, Color objectColor)
     {
         Vertices = new List<Vertex>();
         Faces = new List<Face>();
@@ -51,6 +57,8 @@ public class TriangleMesh
         _rowsCountY = rowsCountY;
         _width = width;
         _height = height;
+        ObjectColor = objectColor;
+        IsMeshVisible = true;
         
         GenerateTriangles();
     }
@@ -64,6 +72,8 @@ public class TriangleMesh
         double y = _offset;
         double stepX = (_width - 2*_offset) / ColumnsCountX; // lenght of base of a triange
         double stepY = (_height - 2*_offset) / RowsCountY; // height of a triangle
+        _xSpan = (int)stepX*ColumnsCountX;
+        _ySpan = (int)stepY*RowsCountY;
         
       
         // create a list of active edges
@@ -156,7 +166,12 @@ public class TriangleMesh
     {
         foreach (var face in Faces)
         {
-            painter.FillTriangle(face, directBitmap);
+            painter.FillTriangle(this, face, directBitmap);
         }
+    }
+
+    public void SetTexture(Bitmap newTexture)
+    {
+        _textureBitmap = new Bitmap(newTexture, (int)_xSpan, (int)_ySpan);
     }
 }
