@@ -68,7 +68,7 @@
         <Compile Include="Graphics\AETNode.cs" />
         <Compile Include="Graphics\DirectBitmap.cs" />
         <Compile Include="Graphics\Painter.cs" />
-        <Compile Include="Graphics\ScanLine.cs" />
+        <Compile Include="Graphics\ScanLineProcedure.cs" />
         <Compile Include="Graphics\TriangleMesh.cs" />
         <Compile Include="MainForm.cs">
             <SubType>Form</SubType>

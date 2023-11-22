@@ -7,9 +7,9 @@ namespace filling_triangles.Geometry
         private Vertex _vertice1;
         private Vertex _vertice2;
         private double _slope;
-        
         public Vertex V2 { get => _vertice2; set => _vertice2 = value; }
         public Vertex V1 { get => _vertice1; set => _vertice1 = value; }
+        public double Slope { get => _slope; set => _slope = value; }
 
         public Edge(Vertex v1, Vertex v2)
         {

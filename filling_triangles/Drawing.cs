@@ -24,15 +24,18 @@ namespace filling_triangles
             _pictureBox = pictureBox;
             _directBitmap = new DirectBitmap(pictureBox.Width, pictureBox.Height);
             _triangleMesh = triangleMesh;
+            _painter = new Painter();
         }
 
 
-        public void DrawOnBitmap(object? obj, EventArgs arg)
+        public void StartDrawing(object? obj, EventArgs arg)
         {
             // draw all triangles
             // fill all faces in triangleMesh
             _directBitmap = new DirectBitmap(_pictureBox.Width, _pictureBox.Height);
-            _triangleMesh.DrawAllEdges(_directBitmap);
+           _triangleMesh.PaintTriangles(_painter,_directBitmap);
+           _triangleMesh.DrawAllEdges(_directBitmap);
+
             //get image from bitmap generated from triangle mesh 
             //draw one line
             _pictureBox.Image = _directBitmap.Bitmap;

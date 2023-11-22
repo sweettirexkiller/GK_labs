@@ -12,7 +12,7 @@ public class AETNode: IComparable<AETNode>
 
     public AETNode(int yMax, double x, double m)
     {
-        this.YMax = YMax;
+        this.YMax = yMax;
         this._x = x;
         _m = m == 0 ? double.MaxValue : 1.0 / m;
     }
@@ -26,6 +26,7 @@ public class AETNode: IComparable<AETNode>
         _x = Math.Abs(_m - GeometryUtils.Infinity) < 1e-7 ? _x : _x + _m;
     }
     
+    //we use this for sort of Active Edge Table. We sort by x coordinate but if x is zero then we compare Ys
     public int CompareTo(AETNode? other)
     { 
         // if x coordinate is zero then compare Ys

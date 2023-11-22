@@ -15,6 +15,9 @@ public class TriangleMesh
     private int _rowsCountY;
     private int _width;
     private int _height;
+    private int _xSpan;
+    private int _ySpan;
+    private readonly int _offset = 10;
     
     public int Width
     {
@@ -57,10 +60,11 @@ public class TriangleMesh
         Vertices = new List<Vertex>();
         Faces = new List<Face>();
         // find triangles mesh vertices, faces;
-        double x = 0;
-        double y = 0;
-        double stepX = _width / ColumnsCountX; // lenght of base of a triange
-        double stepY = _height / RowsCountY; // height of a triangle
+        double x = _offset;
+        double y = _offset;
+        double stepX = (_width - 2*_offset) / ColumnsCountX; // lenght of base of a triange
+        double stepY = (_height - 2*_offset) / RowsCountY; // height of a triangle
+        
       
         // create a list of active edges
         for (int i = 1; i <= _columnsCountX; i++)
@@ -112,7 +116,7 @@ public class TriangleMesh
 
             }
             x += stepX;
-            y = 0;
+            y = _offset;
         
         }
     }
@@ -147,5 +151,12 @@ public class TriangleMesh
               }
          }
     }
-    
+
+    public void PaintTriangles(Painter painter, DirectBitmap directBitmap)
+    {
+        foreach (var face in Faces)
+        {
+            painter.FillTriangle(face, directBitmap);
+        }
+    }
 }

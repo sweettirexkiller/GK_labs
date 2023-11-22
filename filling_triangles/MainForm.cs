@@ -44,7 +44,7 @@ namespace filling_triangles
             
 
             // _scene.AdjustSizes();
-            _myTimer.Tick += _drawing.DrawOnBitmap;
+            _myTimer.Tick += _drawing.StartDrawing;
             _myTimer.Interval = 500;
             _myTimer.Start();
         }
