@@ -40,10 +40,10 @@ public class TriangleMesh
     public bool IsColorFilled = true;
     public bool IsTextureFilled = false;
     
-    public Bitmap _textureBitmap;
+    public DirectBitmap _textureBitmap;
     public NormalBitMap _normalBitMap;
 
-    public bool IsHeightMap = false;
+    public bool IsNormalMap = false;
     public bool IsConstantNormalVector = false;
     
     public int Width
@@ -73,10 +73,11 @@ public class TriangleMesh
     public bool IsMeshVisible { get; set; }
     public Color LightColor { get; set; }
     public bool IsColorInterpolated { get; set; }
-    public object IsLightConstant { get; set; }
-    public object IsLightAnimated { get; set; }
+    public bool IsLightConstant { get; set; }
+    public bool IsLightAnimated { get; set; }
     
     public Surface Surface { get; set; }
+    public Image Image { get; set; }
 
     public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height, Color objectColor)
     {
@@ -89,7 +90,11 @@ public class TriangleMesh
         ObjectColor = objectColor;
         IsMeshVisible = true;
         Surface = new Surface(0.5, 0.5, 50);
-        
+        _textureBitmap = new DirectBitmap(width,height);
+        IsLightAnimated = true;
+        IsLightConstant = true;
+        IsColorInterpolated = false;
+
         GenerateTriangles();
     }
 
@@ -128,7 +133,7 @@ public class TriangleMesh
 
                 // LOWER TRIANGLE
                 // calculate lower triangle normal vector
-                Vector3 lowerTriangleNormal = CalculateTriangleNormal(downRight, upperRight, downLeft);
+                Vector3 lowerTriangleNormal = CalculateTriangleNormal(downLeft, upperRight, downRight );
                 // create vertices for lower triangle
                 Vertex downRightVertex = new Vertex(downRight, i*10+j+4,lowerTriangleNormal);
                 Vertex upperRightVertex2 = new Vertex(upperRight, i*10+j+5,lowerTriangleNormal);
@@ -179,10 +184,10 @@ public class TriangleMesh
 
         return normalVector;
     }
-    public void DrawAllEdges(DirectBitmap bitmap)
+    public void DrawAllEdges(DirectBitmap canvas)
     {
        //draw all edges in all faces
-       using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bitmap.Bitmap))
+       using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas.Bitmap))
          foreach (var face in Faces)
          {
               foreach (var edge in face.Edges)
@@ -192,17 +197,34 @@ public class TriangleMesh
          }
     }
 
-    public void PaintTriangles(Painter painter, DirectBitmap directBitmap)
+    public void Paint(Brush brush, DirectBitmap canvas, Lamp lamp)
     {
         foreach (var face in Faces)
         {
-            painter.FillTriangle(this, face, directBitmap);
+            brush.FillTriangle(this, face, canvas, lamp);
         }
+        
+        if(IsMeshVisible)
+            DrawAllEdges(canvas);
     }
 
     public void SetTexture(Bitmap newTexture)
     {
-        _textureBitmap = new Bitmap(newTexture, (int)_xSpan, (int)_ySpan);
+        _textureBitmap = new DirectBitmap(newTexture);
+    }
+    
+    public void SetTexture(Color color)
+    {
+        var oldTexture = _textureBitmap;
+        _textureBitmap = new DirectBitmap(oldTexture.Width, oldTexture.Height);
+        for (var i = 0; i < _textureBitmap.Width; i++)
+        {
+            for (var j = 0; j < _textureBitmap.Height; j++)
+            {
+                _textureBitmap.SetPixel(i, j, color);
+            }
+        }
+        // _textureImage = Image.FromHbitmap(_textureBitmap.GetHbitmap());
     }
     
     
@@ -215,7 +237,7 @@ public class TriangleMesh
         }
         else
         {
-            _normalBitMap = new NormalBitMap(newNormalMapImage, new Size(newNormalMapImage.Width, newNormalMapImage.Height));
+            _normalBitMap = new NormalBitMap(newNormalMapImage, new Size(Width, Height));
         }
     }
 }

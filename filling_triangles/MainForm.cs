@@ -7,9 +7,11 @@ using System.Data.SqlTypes;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using filling_triangles.Geometry;
 using filling_triangles.Graphics;
 
 namespace filling_triangles
@@ -22,10 +24,11 @@ namespace filling_triangles
         private bool _isMeshVisible;
         private Color _objectColor;
 
-        private Drawing _drawing;
+        private Painter _painter;
         private TriangleMesh _triangleMesh;
         private Configuration _config;
         private Color _lightColor;
+        private Lamp _lamp;
 
         public MainForm()
         {
@@ -39,15 +42,22 @@ namespace filling_triangles
             pictureBox.CreateGraphics();
 
             _config = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath);
-
+            
+            
             _triangleMesh = new TriangleMesh((int)this.columnCountX.Value, (int)this.columnCountY.Value,
                 pictureBox.Width, pictureBox.Height, _objectColor);
-            _drawing = new Drawing(pictureBox, _triangleMesh);
+            
+            _lamp  = new Lamp(new Point3D(0, 0, 500), Color.White, new Point(_triangleMesh.Width / 2, _triangleMesh.Height / 2), _triangleMesh._xSpan / 2);
+            
+          
+
+            
+            _painter = new Painter(pictureBox, _triangleMesh, _lamp);
 
 
 
             // _scene.AdjustSizes();
-            _myTimer.Tick += _drawing.StartDrawing;
+            _myTimer.Tick += _painter.StartDrawing;
             _myTimer.Interval = 500;
             _myTimer.Start();
         }
@@ -96,8 +106,13 @@ namespace filling_triangles
                 // change scene values
                 // change chosenColorPanel backgroundcolor
                 chosenColorPanel.BackColor = colorDialog1.Color;
+                _triangleMesh.IsColorFilled = true;
                 _objectColor = pickedColorRadioButton.Checked ? chosenColorPanel.BackColor : Color.White;
                 _triangleMesh.ObjectColor = _objectColor;
+                if (_triangleMesh.IsColorFilled)
+                {
+                    _triangleMesh.SetTexture(_objectColor);
+                }
                 _myTimer.Start();
             }
 
@@ -110,6 +125,11 @@ namespace filling_triangles
             // change chosenColorPanel backgroundcolor
             _triangleMesh.IsColorFilled = pickedColorRadioButton.Checked;
             _triangleMesh.IsTextureFilled = !pickedColorRadioButton.Checked;
+            if (_triangleMesh.IsColorFilled)
+            {
+                _triangleMesh.SetTexture(_objectColor);
+            }
+            
 
             _myTimer.Start();
         }
@@ -155,7 +175,7 @@ namespace filling_triangles
             _triangleMesh.IsTextureFilled = imageRadioButton.Checked;
             _triangleMesh.IsColorFilled = !imageRadioButton.Checked;
 
-            if (_triangleMesh._textureBitmap == null)
+            if (_triangleMesh.Image == null&& imageRadioButton.Checked)
             {
                 var filePath = string.Empty;
                 var workingDirectory = Environment.CurrentDirectory;
@@ -173,6 +193,7 @@ namespace filling_triangles
                     //Get the path of specified file
                     filePath = openFileDialog.FileName;
                     var image = Image.FromFile(filePath);
+                    _triangleMesh.Image = image;
                     _triangleMesh.SetTexture(new Bitmap(image));
                     panel1.BackgroundImage = image;
                 }
@@ -186,6 +207,12 @@ namespace filling_triangles
                     panel1.BackgroundImage = null;
                 }
 
+                _myTimer.Start();
+            }
+            else if(imageRadioButton.Checked)
+            {
+                _myTimer.Stop();
+                _triangleMesh.SetTexture(new Bitmap(_triangleMesh.Image));
                 _myTimer.Start();
             }
 
@@ -210,7 +237,7 @@ namespace filling_triangles
                 filePath = openFileDialog.FileName;
                 var image = Image.FromFile(filePath);
                 _triangleMesh.SetNormalMap(new Bitmap(image));
-                _triangleMesh.IsHeightMap = true;
+                _triangleMesh.IsNormalMap = true;
                 constantVectorRadioButton.Checked = false;
                 heightMapFromFileRadioButton.Checked = true;
                 panel2.BackgroundImage = image;
@@ -218,7 +245,7 @@ namespace filling_triangles
             else
             {
                 _triangleMesh._normalBitMap = null;
-                _triangleMesh.IsHeightMap = false;
+                _triangleMesh.IsNormalMap = false;
                 panel2.BackgroundImage = null;
                 heightMapFromFileRadioButton.Checked = true;
             }
@@ -231,7 +258,7 @@ namespace filling_triangles
             _myTimer.Stop();
             // change scene values
             // change chosenColorPanel backgroundcolor
-            _triangleMesh.IsHeightMap = !constantVectorRadioButton.Checked;
+            _triangleMesh.IsNormalMap = !constantVectorRadioButton.Checked;
             _triangleMesh.IsConstantNormalVector = constantVectorRadioButton.Checked;
             _myTimer.Start();
         }
@@ -241,7 +268,7 @@ namespace filling_triangles
             _myTimer.Stop();
             // change scene values
             // change chosenColorPanel backgroundcolor
-            _triangleMesh.IsHeightMap = heightMapFromFileRadioButton.Checked;
+            _triangleMesh.IsNormalMap = heightMapFromFileRadioButton.Checked;
             _triangleMesh.IsConstantNormalVector = !heightMapFromFileRadioButton.Checked;
 
 
@@ -269,7 +296,7 @@ namespace filling_triangles
                 else
                 {
                     _triangleMesh._normalBitMap = null;
-                    _triangleMesh.IsHeightMap = false;
+                    _triangleMesh.IsNormalMap = false;
                     panel2.BackgroundImage = null;
                     heightMapFromFileRadioButton.Checked = false;
                     constantVectorRadioButton.Checked = true;
@@ -290,6 +317,7 @@ namespace filling_triangles
                 // change scene values
                 lightColorPanel.BackColor = colorDialog1.Color;
                 _lightColor = lightColorPanel.BackColor;
+                _lamp.Color = (_lightColor.R/255.0, _lightColor.G/255.0, _lightColor.B/2555.0);;
                 _triangleMesh.LightColor = _lightColor;
                 _myTimer.Start();
             }
@@ -308,6 +336,11 @@ namespace filling_triangles
             _myTimer.Stop();
             // change scene values
             _triangleMesh.IsLightConstant = constantLightVectorRadioButton.Checked;
+            _lamp.IsConstant = constantLightVectorRadioButton.Checked;
+            
+            if(_lamp.IsConstant)
+                _lamp.Position = new Point3D(0, 0, 500);
+            
             _myTimer.Start();
         }
 
@@ -316,6 +349,7 @@ namespace filling_triangles
             _myTimer.Stop();
             // change scene values
             _triangleMesh.IsLightAnimated = animatedLightVectorRadioButton.Checked;
+            _lamp.IsAnimated = animatedLightVectorRadioButton.Checked;
             _myTimer.Start();
             
         }

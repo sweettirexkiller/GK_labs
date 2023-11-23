@@ -68,8 +68,10 @@
         <Compile Include="Graphics\AETNode.cs" />
         <Compile Include="Graphics\ColorCalculator.cs" />
         <Compile Include="Graphics\DirectBitmap.cs" />
-        <Compile Include="Graphics\NormalBitMap.cs" />
         <Compile Include="Graphics\Painter.cs" />
+        <Compile Include="Graphics\Lamp.cs" />
+        <Compile Include="Graphics\NormalBitMap.cs" />
+        <Compile Include="Graphics\Brush.cs" />
         <Compile Include="Graphics\ScanLineProcedure.cs" />
         <Compile Include="Graphics\TriangleMesh.cs" />
         <Compile Include="MainForm.cs">
@@ -80,7 +82,6 @@
         </Compile>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Drawing.cs" />
         <EmbeddedResource Include="MainForm.resx">
           <DependentUpon>MainForm.cs</DependentUpon>
         </EmbeddedResource>

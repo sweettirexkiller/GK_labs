@@ -1,68 +1,56 @@
-using System.Collections.Generic;
+using System;
 using System.Drawing;
-using System.Linq;
-using filling_triangles.Geometry;
+using System.Windows.Forms;
+using filling_triangles.Graphics;
+using Brush = filling_triangles.Graphics.Brush;
 
-namespace filling_triangles.Graphics;
-
-public class Painter
+namespace filling_triangles
 {
-    
-    //props
-    private ScanLineProcedure _scanLineProcedure;
-    //constructor
-    public Painter()
+    public class Painter
     {
-        // scan line procedure accepts triangle and fill it 
+        private PictureBox _pictureBox;
+        private DirectBitmap _canvas;
+        private TriangleMesh _triangleMesh;
+        private Brush _brush;
+        private Lamp _lamp;
         
-        _scanLineProcedure = new ScanLineProcedure();
-    }
-    public void FillTriangle(TriangleMesh triangleMesh, Face face, DirectBitmap directBitmap)
-    {
-        // feels edges table
-        _scanLineProcedure.Init(face.Edges);
-        
-        var vertices = face.Vertices;
-        ColorCalculator colorCalculator = new ColorCalculator(directBitmap.Bitmap, vertices);
-        
-        while(!_scanLineProcedure.IsDone)
+        public DirectBitmap Canvas
         {
-            _scanLineProcedure.UpdateAETBeforeDrawing();
-            
-            // intersections are just x coordinates of nodes in active edge table
-            IEnumerable<int> intersections = _scanLineProcedure.Intersections;
-
-            // if there is more than one intersection
-            if (intersections.Count() > 1)
-            {
-                // this works because there are only triangles in our app
-                for(int x = intersections.First(); x <= intersections.Last(); x++)
-                {
-                    if(triangleMesh.IsColorFilled)
-                    {
-                        directBitmap.SetPixel(x, _scanLineProcedure.CurrentY,  triangleMesh.ObjectColor);
-                    }
-                    else if(triangleMesh.IsTextureFilled)
-                    {
-                        // get color from texture
-                        int y = _scanLineProcedure.CurrentY;
-                        // if it is drawing inside of offset 
-                        if (x >= triangleMesh._offset && x < (triangleMesh._offset + triangleMesh._xSpan) && y >= triangleMesh._offset && y < triangleMesh._offset + triangleMesh._ySpan)
-                        {
-                            directBitmap.SetPixel(x, y, triangleMesh._textureBitmap.GetPixel(x - triangleMesh._offset, y - triangleMesh._offset));
-                        }
-                        else
-                        {
-                            directBitmap.SetPixel(x, y, Color.White);
-                        }
-
-                    }
-                }
-                
-            }
-            
-            _scanLineProcedure.UpdateAETAfterDrawing();
-            
+            get => _canvas;
+            set => _canvas = value;
         }
+        
+        // constructor that takes pictureBox
+        public Painter(PictureBox pictureBox, TriangleMesh triangleMesh, Lamp lamp)
+        {
+            _pictureBox = pictureBox;
+            _canvas= new DirectBitmap(pictureBox.Width, pictureBox.Height);
+            _triangleMesh = triangleMesh;
+            _brush = new Brush();
+            _lamp = lamp;
+        }
+
+
+        public void StartDrawing(object? obj, EventArgs arg)
+        {
+            // draw all triangles
+            // fill all faces in triangleMesh
+            _canvas = new DirectBitmap(_pictureBox.Width, _pictureBox.Height);
+           
+           _triangleMesh.Paint(_brush,_canvas, _lamp);
+           
+           if(_lamp.IsAnimated)
+               _lamp.Rotate();
+           
+
+            //get image from bitmap generated from triangle mesh 
+            //draw one line
+            _pictureBox.Image = _canvas.Bitmap;
+            //clear the picture box
+            _pictureBox.Invalidate(new Rectangle(0,0,_canvas.Width, _canvas.Height));
+            // update picture box
+            _pictureBox.Update();
+        }
+
     }
 }
