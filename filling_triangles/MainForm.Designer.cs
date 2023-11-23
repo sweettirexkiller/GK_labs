@@ -32,6 +32,9 @@
             this.components = new System.ComponentModel.Container();
             this.menuContainer = new System.Windows.Forms.ContainerControl();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.trackBar3 = new System.Windows.Forms.TrackBar();
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
@@ -69,9 +72,8 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.textureFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.menuContainer.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
@@ -112,12 +114,36 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Location = new System.Drawing.Point(6, 857);
+            this.groupBox3.Location = new System.Drawing.Point(9, 985);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(566, 379);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Coefficients";
+            // 
+            // label11
+            // 
+            this.label11.Location = new System.Drawing.Point(493, 261);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(100, 23);
+            this.label11.TabIndex = 8;
+            this.label11.Text = "label11";
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(493, 165);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(100, 23);
+            this.label10.TabIndex = 7;
+            this.label10.Text = "label10";
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(493, 67);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(100, 23);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "label9";
             // 
             // trackBar3
             // 
@@ -147,7 +173,6 @@
             this.label8.Size = new System.Drawing.Size(100, 23);
             this.label8.TabIndex = 2;
             this.label8.Text = "ks";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label7
             // 
@@ -167,12 +192,14 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.radioButton2);
+            this.groupBox2.Controls.Add(this.radioButton1);
             this.groupBox2.Controls.Add(this.panel3);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Location = new System.Drawing.Point(6, 710);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(566, 141);
+            this.groupBox2.Size = new System.Drawing.Size(566, 274);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Light";
@@ -442,29 +469,25 @@
             // 
             this.textureFileDialog.FileName = "textureFileDialog";
             // 
-            // label9
+            // radioButton1
             // 
-            this.label9.Location = new System.Drawing.Point(493, 67);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(100, 23);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "label9";
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(51, 145);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(269, 35);
+            this.radioButton1.TabIndex = 12;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Constant Light [0,0,1]";
+            this.radioButton1.UseVisualStyleBackColor = true;
             // 
-            // label10
+            // radioButton2
             // 
-            this.label10.Location = new System.Drawing.Point(493, 165);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(100, 23);
-            this.label10.TabIndex = 7;
-            this.label10.Text = "label10";
-            // 
-            // label11
-            // 
-            this.label11.Location = new System.Drawing.Point(493, 261);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(100, 23);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "label11";
+            this.radioButton2.Location = new System.Drawing.Point(51, 202);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(269, 36);
+            this.radioButton2.TabIndex = 13;
+            this.radioButton2.Text = "Circle Animation";
+            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -492,6 +515,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
 
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
