@@ -109,5 +109,9 @@
     <ItemGroup>
       <Folder Include="Images\" />
     </ItemGroup>
+    <ItemGroup>
+      <Content Include="NormalMaps\brick_normalmap.png" />
+      <Content Include="NormalMaps\normal_map.jpg" />
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

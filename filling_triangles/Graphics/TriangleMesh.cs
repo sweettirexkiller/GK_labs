@@ -22,6 +22,9 @@ public class TriangleMesh
     public bool IsColorFilled = true;
     public bool IsTextureFilled = false;
     public Bitmap _textureBitmap;
+    public Bitmap _heightBitmap;
+    public bool IsHeightMap = false;
+    public bool IsConstantNormalVector = false;
     
     public int Width
     {
@@ -48,6 +51,8 @@ public class TriangleMesh
     }
 
     public bool IsMeshVisible { get; set; }
+    public Color LightColor { get; set; }
+    public bool IsColorInterpolated { get; set; }
 
     public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height, Color objectColor)
     {
@@ -173,5 +178,10 @@ public class TriangleMesh
     public void SetTexture(Bitmap newTexture)
     {
         _textureBitmap = new Bitmap(newTexture, (int)_xSpan, (int)_ySpan);
+    }
+    
+    public void SetHeightMap(Bitmap newHeightMap)
+    {
+        _heightBitmap = new Bitmap(newHeightMap, (int)_xSpan, (int)_ySpan);
     }
 }
