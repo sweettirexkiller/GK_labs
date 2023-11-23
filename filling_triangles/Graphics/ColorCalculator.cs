@@ -116,6 +116,7 @@ public class ColorCalculator
     
     private Color InterpolateColor(float w, float u, float v)
     {
+        // wektor normalny ma wspolrzedne barycentryczne
         // p = wV0 + uV1 + vV2 
         var R = Math.Min(_vertexColors[0].R * w + _vertexColors[1].R * u + _vertexColors[2].R * v, 255);
         var G = Math.Min(_vertexColors[0].G * w + _vertexColors[1].G * u + _vertexColors[2].G * v, 255);
@@ -132,7 +133,7 @@ public class ColorCalculator
        // get color from texture
        calculateColor = _triangleMesh._textureBitmap.GetPixel(x - _triangleMesh._offset, y - _triangleMesh._offset);
        
-       
+       // p = (x,y)
        // p = wV0 + uV1 + vV2 
        var v1p = new Vector3((int)(x - _vertices[1].X), (int)(y - _vertices[1].Y), 0);
        var v1v2 = new Vector3((int)(_vertices[2].X - _vertices[1].X), (int)(_vertices[2].Y - _vertices[1].Y), 0);
