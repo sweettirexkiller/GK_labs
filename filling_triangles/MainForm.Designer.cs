@@ -32,17 +32,19 @@
             this.components = new System.ComponentModel.Container();
             this.menuContainer = new System.Windows.Forms.ContainerControl();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.trackBar3 = new System.Windows.Forms.TrackBar();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.mLabel = new System.Windows.Forms.Label();
+            this.ksLabel = new System.Windows.Forms.Label();
+            this.kdLabel = new System.Windows.Forms.Label();
+            this.mTrackBar = new System.Windows.Forms.TrackBar();
+            this.ksTrackBar = new System.Windows.Forms.TrackBar();
+            this.kdTrackBar = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.animatedLightVectorRadioButton = new System.Windows.Forms.RadioButton();
+            this.constantLightVectorRadioButton = new System.Windows.Forms.RadioButton();
+            this.lightColorPanel = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.normalVectorGroupBox = new System.Windows.Forms.GroupBox();
@@ -72,13 +74,11 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.textureFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.menuContainer.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ksTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kdTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.normalVectorGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -105,12 +105,12 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.trackBar3);
-            this.groupBox3.Controls.Add(this.trackBar2);
-            this.groupBox3.Controls.Add(this.trackBar1);
+            this.groupBox3.Controls.Add(this.mLabel);
+            this.groupBox3.Controls.Add(this.ksLabel);
+            this.groupBox3.Controls.Add(this.kdLabel);
+            this.groupBox3.Controls.Add(this.mTrackBar);
+            this.groupBox3.Controls.Add(this.ksTrackBar);
+            this.groupBox3.Controls.Add(this.kdTrackBar);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
@@ -121,50 +121,60 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Coefficients";
             // 
-            // label11
+            // mLabel
             // 
-            this.label11.Location = new System.Drawing.Point(493, 261);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(100, 23);
-            this.label11.TabIndex = 8;
-            this.label11.Text = "label11";
+            this.mLabel.Location = new System.Drawing.Point(493, 261);
+            this.mLabel.Name = "mLabel";
+            this.mLabel.Size = new System.Drawing.Size(100, 23);
+            this.mLabel.TabIndex = 8;
+            this.mLabel.Text = "50";
             // 
-            // label10
+            // ksLabel
             // 
-            this.label10.Location = new System.Drawing.Point(493, 165);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(100, 23);
-            this.label10.TabIndex = 7;
-            this.label10.Text = "label10";
+            this.ksLabel.Location = new System.Drawing.Point(493, 165);
+            this.ksLabel.Name = "ksLabel";
+            this.ksLabel.Size = new System.Drawing.Size(100, 23);
+            this.ksLabel.TabIndex = 7;
+            this.ksLabel.Text = "0.5";
             // 
-            // label9
+            // kdLabel
             // 
-            this.label9.Location = new System.Drawing.Point(493, 67);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(100, 23);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "label9";
+            this.kdLabel.Location = new System.Drawing.Point(493, 67);
+            this.kdLabel.Name = "kdLabel";
+            this.kdLabel.Size = new System.Drawing.Size(100, 23);
+            this.kdLabel.TabIndex = 6;
+            this.kdLabel.Text = "0.5";
             // 
-            // trackBar3
+            // mTrackBar
             // 
-            this.trackBar3.Location = new System.Drawing.Point(71, 261);
-            this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(399, 90);
-            this.trackBar3.TabIndex = 5;
+            this.mTrackBar.LargeChange = 20;
+            this.mTrackBar.Location = new System.Drawing.Point(71, 261);
+            this.mTrackBar.Maximum = 100;
+            this.mTrackBar.Minimum = 1;
+            this.mTrackBar.Name = "mTrackBar";
+            this.mTrackBar.Size = new System.Drawing.Size(399, 90);
+            this.mTrackBar.SmallChange = 5;
+            this.mTrackBar.TabIndex = 5;
+            this.mTrackBar.Value = 1;
+            this.mTrackBar.Scroll += new System.EventHandler(this.mTrackBar_Scroll);
             // 
-            // trackBar2
+            // ksTrackBar
             // 
-            this.trackBar2.Location = new System.Drawing.Point(71, 151);
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(399, 90);
-            this.trackBar2.TabIndex = 4;
+            this.ksTrackBar.Location = new System.Drawing.Point(71, 151);
+            this.ksTrackBar.Name = "ksTrackBar";
+            this.ksTrackBar.Size = new System.Drawing.Size(399, 90);
+            this.ksTrackBar.TabIndex = 4;
+            this.ksTrackBar.Value = 5;
+            this.ksTrackBar.Scroll += new System.EventHandler(this.trackBar2_Scroll);
             // 
-            // trackBar1
+            // kdTrackBar
             // 
-            this.trackBar1.Location = new System.Drawing.Point(71, 55);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(399, 90);
-            this.trackBar1.TabIndex = 3;
+            this.kdTrackBar.Location = new System.Drawing.Point(71, 55);
+            this.kdTrackBar.Name = "kdTrackBar";
+            this.kdTrackBar.Size = new System.Drawing.Size(399, 90);
+            this.kdTrackBar.TabIndex = 3;
+            this.kdTrackBar.Value = 5;
+            this.kdTrackBar.Scroll += new System.EventHandler(this.kdTrackBar_Scroll);
             // 
             // label8
             // 
@@ -192,9 +202,9 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.radioButton2);
-            this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Controls.Add(this.panel3);
+            this.groupBox2.Controls.Add(this.animatedLightVectorRadioButton);
+            this.groupBox2.Controls.Add(this.constantLightVectorRadioButton);
+            this.groupBox2.Controls.Add(this.lightColorPanel);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Location = new System.Drawing.Point(6, 710);
@@ -204,13 +214,35 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Light";
             // 
-            // panel3
+            // animatedLightVectorRadioButton
             // 
-            this.panel3.BackColor = System.Drawing.SystemColors.Window;
-            this.panel3.Location = new System.Drawing.Point(296, 63);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(51, 49);
-            this.panel3.TabIndex = 9;
+            this.animatedLightVectorRadioButton.Location = new System.Drawing.Point(51, 202);
+            this.animatedLightVectorRadioButton.Name = "animatedLightVectorRadioButton";
+            this.animatedLightVectorRadioButton.Size = new System.Drawing.Size(269, 36);
+            this.animatedLightVectorRadioButton.TabIndex = 13;
+            this.animatedLightVectorRadioButton.Text = "Circle Animation";
+            this.animatedLightVectorRadioButton.UseVisualStyleBackColor = true;
+            this.animatedLightVectorRadioButton.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            // 
+            // constantLightVectorRadioButton
+            // 
+            this.constantLightVectorRadioButton.Checked = true;
+            this.constantLightVectorRadioButton.Location = new System.Drawing.Point(51, 145);
+            this.constantLightVectorRadioButton.Name = "constantLightVectorRadioButton";
+            this.constantLightVectorRadioButton.Size = new System.Drawing.Size(269, 35);
+            this.constantLightVectorRadioButton.TabIndex = 12;
+            this.constantLightVectorRadioButton.TabStop = true;
+            this.constantLightVectorRadioButton.Text = "Constant Light [0,0,1]";
+            this.constantLightVectorRadioButton.UseVisualStyleBackColor = true;
+            this.constantLightVectorRadioButton.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // lightColorPanel
+            // 
+            this.lightColorPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.lightColorPanel.Location = new System.Drawing.Point(296, 63);
+            this.lightColorPanel.Name = "lightColorPanel";
+            this.lightColorPanel.Size = new System.Drawing.Size(51, 49);
+            this.lightColorPanel.TabIndex = 9;
             // 
             // label5
             // 
@@ -222,7 +254,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(371, 63);
+            this.button2.Location = new System.Drawing.Point(371, 69);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(121, 43);
             this.button2.TabIndex = 9;
@@ -259,7 +291,7 @@
             this.heightMapFileButton.TabIndex = 2;
             this.heightMapFileButton.Text = "Choose";
             this.heightMapFileButton.UseVisualStyleBackColor = true;
-            this.heightMapFileButton.Click += new System.EventHandler(this.heightMapFileButton_Click);
+            this.heightMapFileButton.Click += new System.EventHandler(this.normalMapFileButton_Click);
             // 
             // heightMapFromFileRadioButton
             // 
@@ -274,7 +306,7 @@
             // constantVectorRadioButton
             // 
             this.constantVectorRadioButton.Checked = true;
-            this.constantVectorRadioButton.Location = new System.Drawing.Point(36, 58);
+            this.constantVectorRadioButton.Location = new System.Drawing.Point(26, 61);
             this.constantVectorRadioButton.Name = "constantVectorRadioButton";
             this.constantVectorRadioButton.Size = new System.Drawing.Size(160, 36);
             this.constantVectorRadioButton.TabIndex = 0;
@@ -469,26 +501,6 @@
             // 
             this.textureFileDialog.FileName = "textureFileDialog";
             // 
-            // radioButton1
-            // 
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(51, 145);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(269, 35);
-            this.radioButton1.TabIndex = 12;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Constant Light [0,0,1]";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.Location = new System.Drawing.Point(51, 202);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(269, 36);
-            this.radioButton2.TabIndex = 13;
-            this.radioButton2.Text = "Circle Animation";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -503,9 +515,9 @@
             this.menuContainer.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ksTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kdTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.normalVectorGroupBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -516,17 +528,17 @@
             this.ResumeLayout(false);
         }
 
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton constantLightVectorRadioButton;
+        private System.Windows.Forms.RadioButton animatedLightVectorRadioButton;
 
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label kdLabel;
+        private System.Windows.Forms.Label ksLabel;
+        private System.Windows.Forms.Label mLabel;
 
-        private System.Windows.Forms.TrackBar trackBar2;
-        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.TrackBar ksTrackBar;
+        private System.Windows.Forms.TrackBar mTrackBar;
 
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar kdTrackBar;
 
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label6;
@@ -538,7 +550,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel lightColorPanel;
 
         private System.Windows.Forms.CheckBox interpolatedCheckbox;
 

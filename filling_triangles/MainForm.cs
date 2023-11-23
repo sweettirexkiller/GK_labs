@@ -192,7 +192,7 @@ namespace filling_triangles
 
         }
 
-        private void heightMapFileButton_Click(object sender, EventArgs e)
+        private void normalMapFileButton_Click(object sender, EventArgs e)
         {
             var filePath = string.Empty;
             var workingDirectory = Environment.CurrentDirectory;
@@ -209,7 +209,7 @@ namespace filling_triangles
                 //Get the path of specified file
                 filePath = openFileDialog.FileName;
                 var image = Image.FromFile(filePath);
-                _triangleMesh.SetHeightMap(new Bitmap(image));
+                _triangleMesh.SetNormalMap(new Bitmap(image));
                 _triangleMesh.IsHeightMap = true;
                 constantVectorRadioButton.Checked = false;
                 heightMapFromFileRadioButton.Checked = true;
@@ -217,7 +217,7 @@ namespace filling_triangles
             }
             else
             {
-                _triangleMesh._heightBitmap = null;
+                _triangleMesh._normalBitMap = null;
                 _triangleMesh.IsHeightMap = false;
                 panel2.BackgroundImage = null;
                 heightMapFromFileRadioButton.Checked = true;
@@ -245,7 +245,7 @@ namespace filling_triangles
             _triangleMesh.IsConstantNormalVector = !heightMapFromFileRadioButton.Checked;
 
 
-            if (_triangleMesh._heightBitmap == null)
+            if (_triangleMesh._normalBitMap == null)
             {
                 var filePath = string.Empty;
                 var workingDirectory = Environment.CurrentDirectory;
@@ -263,12 +263,12 @@ namespace filling_triangles
                     //Get the path of specified file
                     filePath = openFileDialog.FileName;
                     var image = Image.FromFile(filePath);
-                    _triangleMesh.SetHeightMap(new Bitmap(image));
+                    _triangleMesh.SetNormalMap(new Bitmap(image));
                     panel2.BackgroundImage = image;
                 }
                 else
                 {
-                    _triangleMesh._heightBitmap = null;
+                    _triangleMesh._normalBitMap = null;
                     _triangleMesh.IsHeightMap = false;
                     panel2.BackgroundImage = null;
                     heightMapFromFileRadioButton.Checked = false;
@@ -288,9 +288,8 @@ namespace filling_triangles
             {
                 _myTimer.Stop();
                 // change scene values
-                // change chosenColorPanel backgroundcolor
-                panel3.BackColor = colorDialog1.Color;
-                _lightColor = panel3.BackColor;
+                lightColorPanel.BackColor = colorDialog1.Color;
+                _lightColor = lightColorPanel.BackColor;
                 _triangleMesh.LightColor = _lightColor;
                 _myTimer.Start();
             }
@@ -300,8 +299,50 @@ namespace filling_triangles
         {
             _myTimer.Stop();
             // change scene values
-            // change chosenColorPanel backgroundcolor
             _triangleMesh.IsColorInterpolated = interpolatedCheckbox.Checked;
+            _myTimer.Start();
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            // change scene values
+            _triangleMesh.IsLightConstant = constantLightVectorRadioButton.Checked;
+            _myTimer.Start();
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            // change scene values
+            _triangleMesh.IsLightAnimated = animatedLightVectorRadioButton.Checked;
+            _myTimer.Start();
+            
+        }
+
+        private void mTrackBar_Scroll(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            // change scene values
+            _triangleMesh.Surface.M = mTrackBar.Value;
+            mLabel.Text = mTrackBar.Value.ToString();
+            _myTimer.Start();
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            // change scene values
+            _triangleMesh.Surface.Ks = ksTrackBar.Value/10.0;
+            ksLabel.Text = (ksTrackBar.Value/10.0).ToString();
+            _myTimer.Start();
+        }
+
+        private void kdTrackBar_Scroll(object sender, EventArgs e)
+        {  
+            _myTimer.Stop();
+            _triangleMesh.Surface.Kd = kdTrackBar.Value/10.0;
+            kdLabel.Text = (kdTrackBar.Value/10.0).ToString();
             _myTimer.Start();
         }
     }

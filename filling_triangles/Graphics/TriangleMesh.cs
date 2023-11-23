@@ -6,6 +6,24 @@ using filling_triangles.Geometry;
 
 namespace filling_triangles.Graphics;
 
+
+public class Surface
+{
+    private double _kd;
+    private double _ks;
+    private double _m;
+
+    public double Kd { get => _kd; set => _kd = value; }
+    public double Ks { get => _ks; set => _ks = value; }
+    public double M { get => _m; set => _m = value; }
+
+    public Surface(double kd, double ks, double m)
+    {
+        _ks = kd;
+        _kd = ks;
+        _m = m;
+    }
+}
 public class TriangleMesh
 {
     public List<Face> Faces { get; set;}
@@ -21,8 +39,10 @@ public class TriangleMesh
     public Color ObjectColor;
     public bool IsColorFilled = true;
     public bool IsTextureFilled = false;
+    
     public Bitmap _textureBitmap;
-    public Bitmap _heightBitmap;
+    public NormalBitMap _normalBitMap;
+
     public bool IsHeightMap = false;
     public bool IsConstantNormalVector = false;
     
@@ -53,6 +73,10 @@ public class TriangleMesh
     public bool IsMeshVisible { get; set; }
     public Color LightColor { get; set; }
     public bool IsColorInterpolated { get; set; }
+    public object IsLightConstant { get; set; }
+    public object IsLightAnimated { get; set; }
+    
+    public Surface Surface { get; set; }
 
     public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height, Color objectColor)
     {
@@ -64,6 +88,7 @@ public class TriangleMesh
         _height = height;
         ObjectColor = objectColor;
         IsMeshVisible = true;
+        Surface = new Surface(0.5, 0.5, 50);
         
         GenerateTriangles();
     }
@@ -180,8 +205,17 @@ public class TriangleMesh
         _textureBitmap = new Bitmap(newTexture, (int)_xSpan, (int)_ySpan);
     }
     
-    public void SetHeightMap(Bitmap newHeightMap)
+    
+    public void SetNormalMap(Image newNormalMapImage)
     {
-        _heightBitmap = new Bitmap(newHeightMap, (int)_xSpan, (int)_ySpan);
+        var oldNormalMap = _normalBitMap;
+        if(oldNormalMap is not null)
+        {
+            _normalBitMap = new NormalBitMap(newNormalMapImage, new Size(oldNormalMap.Width, oldNormalMap.Height));
+        }
+        else
+        {
+            _normalBitMap = new NormalBitMap(newNormalMapImage, new Size(newNormalMapImage.Width, newNormalMapImage.Height));
+        }
     }
 }
