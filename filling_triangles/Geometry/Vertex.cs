@@ -68,5 +68,11 @@ namespace filling_triangles.Geometry
         {
             return HashCode.Combine(X, Y, Z);
         }
+        
+        // casting operator to Vector3
+        public static implicit operator Vector3(Vertex v)
+        {
+            return new Vector3((float)v.X, (float)v.Y, (float)v.Z);
+        }
     }
 }

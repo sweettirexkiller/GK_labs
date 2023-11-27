@@ -61,6 +61,12 @@
             this.chosenColorPanel = new System.Windows.Forms.Panel();
             this.showColorPickerButton = new System.Windows.Forms.Button();
             this.triangleMeshGroupBox = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.alfaUpDown = new System.Windows.Forms.Label();
+            this.betaUpDown = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.button3 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.triangleMeshVisibilityButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -83,6 +89,8 @@
             this.normalVectorGroupBox.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.triangleMeshGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.betaUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnCountY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnCountX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -97,9 +105,9 @@
             this.menuContainer.Controls.Add(this.normalVectorGroupBox);
             this.menuContainer.Controls.Add(this.groupBox1);
             this.menuContainer.Controls.Add(this.triangleMeshGroupBox);
-            this.menuContainer.Location = new System.Drawing.Point(1323, 12);
+            this.menuContainer.Location = new System.Drawing.Point(1690, 12);
             this.menuContainer.Name = "menuContainer";
-            this.menuContainer.Size = new System.Drawing.Size(575, 1513);
+            this.menuContainer.Size = new System.Drawing.Size(575, 1475);
             this.menuContainer.TabIndex = 1;
             this.menuContainer.Text = "containerControl2";
             // 
@@ -114,9 +122,9 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Location = new System.Drawing.Point(9, 985);
+            this.groupBox3.Location = new System.Drawing.Point(9, 1072);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(566, 379);
+            this.groupBox3.Size = new System.Drawing.Size(566, 344);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Coefficients";
@@ -207,7 +215,7 @@
             this.groupBox2.Controls.Add(this.lightColorPanel);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Location = new System.Drawing.Point(6, 710);
+            this.groupBox2.Location = new System.Drawing.Point(9, 792);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(566, 274);
             this.groupBox2.TabIndex = 3;
@@ -268,7 +276,7 @@
             this.normalVectorGroupBox.Controls.Add(this.heightMapFileButton);
             this.normalVectorGroupBox.Controls.Add(this.heightMapFromFileRadioButton);
             this.normalVectorGroupBox.Controls.Add(this.constantVectorRadioButton);
-            this.normalVectorGroupBox.Location = new System.Drawing.Point(6, 525);
+            this.normalVectorGroupBox.Location = new System.Drawing.Point(9, 607);
             this.normalVectorGroupBox.Name = "normalVectorGroupBox";
             this.normalVectorGroupBox.Size = new System.Drawing.Size(569, 179);
             this.normalVectorGroupBox.TabIndex = 2;
@@ -324,9 +332,9 @@
             this.groupBox1.Controls.Add(this.pickedColorRadioButton);
             this.groupBox1.Controls.Add(this.chosenColorPanel);
             this.groupBox1.Controls.Add(this.showColorPickerButton);
-            this.groupBox1.Location = new System.Drawing.Point(3, 197);
+            this.groupBox1.Location = new System.Drawing.Point(3, 296);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(569, 322);
+            this.groupBox1.Size = new System.Drawing.Size(569, 305);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Object Color";
@@ -391,6 +399,7 @@
             // 
             // showColorPickerButton
             // 
+            this.showColorPickerButton.ForeColor = System.Drawing.SystemColors.WindowText;
             this.showColorPickerButton.Location = new System.Drawing.Point(374, 83);
             this.showColorPickerButton.Name = "showColorPickerButton";
             this.showColorPickerButton.Size = new System.Drawing.Size(121, 43);
@@ -402,6 +411,12 @@
             // triangleMeshGroupBox
             // 
             this.triangleMeshGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.triangleMeshGroupBox.Controls.Add(this.label10);
+            this.triangleMeshGroupBox.Controls.Add(this.alfaUpDown);
+            this.triangleMeshGroupBox.Controls.Add(this.betaUpDown);
+            this.triangleMeshGroupBox.Controls.Add(this.numericUpDown1);
+            this.triangleMeshGroupBox.Controls.Add(this.button3);
+            this.triangleMeshGroupBox.Controls.Add(this.checkBox1);
             this.triangleMeshGroupBox.Controls.Add(this.label4);
             this.triangleMeshGroupBox.Controls.Add(this.triangleMeshVisibilityButton);
             this.triangleMeshGroupBox.Controls.Add(this.label3);
@@ -409,12 +424,66 @@
             this.triangleMeshGroupBox.Controls.Add(this.columnCountX);
             this.triangleMeshGroupBox.Controls.Add(this.label2);
             this.triangleMeshGroupBox.Controls.Add(this.label1);
-            this.triangleMeshGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.triangleMeshGroupBox.Location = new System.Drawing.Point(9, 3);
             this.triangleMeshGroupBox.Name = "triangleMeshGroupBox";
-            this.triangleMeshGroupBox.Size = new System.Drawing.Size(569, 188);
+            this.triangleMeshGroupBox.Size = new System.Drawing.Size(538, 287);
             this.triangleMeshGroupBox.TabIndex = 0;
             this.triangleMeshGroupBox.TabStop = false;
             this.triangleMeshGroupBox.Text = "Triangle Mesh";
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(192, 239);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(60, 23);
+            this.label10.TabIndex = 14;
+            this.label10.Text = "Beta\r\n";
+            // 
+            // alfaUpDown
+            // 
+            this.alfaUpDown.Location = new System.Drawing.Point(6, 235);
+            this.alfaUpDown.Name = "alfaUpDown";
+            this.alfaUpDown.Size = new System.Drawing.Size(54, 31);
+            this.alfaUpDown.TabIndex = 13;
+            this.alfaUpDown.Text = "Alfa";
+            // 
+            // betaUpDown
+            // 
+            this.betaUpDown.Location = new System.Drawing.Point(267, 235);
+            this.betaUpDown.Maximum = new decimal(new int[] { 45, 0, 0, 0 });
+            this.betaUpDown.Name = "betaUpDown";
+            this.betaUpDown.Size = new System.Drawing.Size(120, 31);
+            this.betaUpDown.TabIndex = 12;
+            this.betaUpDown.ValueChanged += new System.EventHandler(this.betaUpDown_ValueChanged);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(66, 235);
+            this.numericUpDown1.Maximum = new decimal(new int[] { 45, 0, 0, 0 });
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 31);
+            this.numericUpDown1.TabIndex = 11;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(393, 222);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(111, 59);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "Rotate";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Location = new System.Drawing.Point(46, 168);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(338, 54);
+            this.checkBox1.TabIndex = 9;
+            this.checkBox1.Text = "z(x,y)=sin(pi/2x+pi/2y)";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label4
             // 
@@ -493,7 +562,7 @@
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox.Location = new System.Drawing.Point(12, 12);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(1305, 1513);
+            this.pictureBox.Size = new System.Drawing.Size(1672, 1475);
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
@@ -505,13 +574,17 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1910, 1537);
+            this.ClientSize = new System.Drawing.Size(2277, 1499);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.menuContainer);
             this.Location = new System.Drawing.Point(15, 15);
             this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin_1);
             this.menuContainer.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -522,11 +595,23 @@
             this.normalVectorGroupBox.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.triangleMeshGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.betaUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnCountY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.columnCountX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Label label10;
+
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown betaUpDown;
+        private System.Windows.Forms.Label alfaUpDown;
+
+        private System.Windows.Forms.Button button3;
+
+        private System.Windows.Forms.CheckBox checkBox1;
 
         private System.Windows.Forms.RadioButton constantLightVectorRadioButton;
         private System.Windows.Forms.RadioButton animatedLightVectorRadioButton;

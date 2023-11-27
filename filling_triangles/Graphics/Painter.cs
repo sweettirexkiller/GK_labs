@@ -38,7 +38,7 @@ namespace filling_triangles
             _canvas = new DirectBitmap(_pictureBox.Width, _pictureBox.Height);
            
            _triangleMesh.Paint(_brush,_canvas, _lamp);
-           
+           // _triangleMesh.ShouldRotateOnce = false;
            if(_lamp.IsAnimated)
                _lamp.Rotate();
            

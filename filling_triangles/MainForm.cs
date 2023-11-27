@@ -379,5 +379,46 @@ namespace filling_triangles
             kdLabel.Text = (kdTrackBar.Value/10.0).ToString();
             _myTimer.Start();
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            // functional z instead of bezier 
+            _myTimer.Stop();
+            _triangleMesh.IsFunctionalZ = checkBox1.Checked;
+            _triangleMesh.GenerateTriangles();
+            _myTimer.Start();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            _triangleMesh.ShouldRotateOnce = true;
+            // _triangleMesh.GenerateTriangles();
+            _myTimer.Start();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            _triangleMesh.AlfaForZRotation = (((double)numericUpDown1.Value)/180.0) * (Math.PI);
+            _myTimer.Start();
+        }
+
+        private void betaUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            // angel to radian
+            _triangleMesh.BetaForXRotation = (((double)betaUpDown.Value)/180.0) * (Math.PI);
+            _myTimer.Start();
+        }
+
+        private void MainForm_ResizeBegin_1(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            _triangleMesh.GenerateTriangles();
+            _myTimer.Start();
+        }
+
+      
     }
 }

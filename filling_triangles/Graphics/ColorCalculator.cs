@@ -34,13 +34,13 @@ public class ColorCalculator
         var colors = new Color[3];
         for (int i = 0; i < 3; i++)
         {
-            colors[i] = CalculateColor(vertices[i]);
+            colors[i] = CalculateColorOnVertex(vertices[i]);
         }
 
         return colors;
     }
     
-    private Color CalculateColor(Vertex vertex)
+    private Color CalculateColorOnVertex(Vertex vertex)
     {
         Vector3 N = vertex.NormalVector;
 
@@ -52,6 +52,7 @@ public class ColorCalculator
         
         double cosNL = Math.Max(Vector3.Dot(N,L), 0);
 
+        // R=2<N,L>N-L
         var R = Vector3.Subtract(2 * (float)cosNL * N, L);
         double cosVR = Math.Max(R.Z, 0);
 
@@ -60,6 +61,11 @@ public class ColorCalculator
         var objRedColor =  pixelColor.R / 255.0;
         var objGreenColor = pixelColor.G / 255.0;
         var objBlueColor = pixelColor.B / 255.0;
+
+        
+        //  kd*IL*IO*cos(kąt(N,L)) + ks*IL*IO*cosm(kąt(V,R))
+        
+        //obliczenia wykonujemy dla wartości kolorów z przedziału 0..1, dopiero ostateczny wynik konwerujemy do przedziału 0..255 (obcinając do 255)
 
         var Ir = objRedColor * _lamp.Color.R * (_triangleMesh.Surface.Kd * cosNL + _triangleMesh.Surface.Ks * Math.Pow(cosVR, _triangleMesh.Surface.M));
         Ir = Math.Max(Ir, 0);
@@ -76,8 +82,8 @@ public class ColorCalculator
         return Color.FromArgb((byte)Ir, (byte)Ig, (byte)Ib);
     }
     
-    
-    public Color CalculateColorInPoint(int x, int y, Vector3 N)
+    // kolor w punkcie z uwglednieniem wartosci normalnej
+    public Color CalculateColorInPointWithVectorInterpolation(int x, int y, Vector3 N)
     {
         var L = Vector3.Normalize(new Vector3((float)(_lamp.Position.X - x),
             (float)(_lamp.Position.Y - y),(float)_lamp.Position.Z));
@@ -110,6 +116,7 @@ public class ColorCalculator
     
     public Vector3 InterpolateVector(float w, float u, float v)
     {
+        // po prostu zwraca wektor dla punktu p uzyskany ze współrzędnych barycentrycznych
         return Vector3.Normalize(Vector3.Add(Vector3.Add(_vertices[0].NormalVector * w, _vertices[1].NormalVector * u),
             _vertices[2].NormalVector * v));
     }
@@ -118,41 +125,41 @@ public class ColorCalculator
     {
         // wektor normalny ma wspolrzedne barycentryczne
         // p = wV0 + uV1 + vV2 
+        // maks lub suma
         var R = Math.Min(_vertexColors[0].R * w + _vertexColors[1].R * u + _vertexColors[2].R * v, 255);
+        // maks lub suma
         var G = Math.Min(_vertexColors[0].G * w + _vertexColors[1].G * u + _vertexColors[2].G * v, 255);
+        // maks lub suma
         var B = Math.Min(_vertexColors[0].B * w + _vertexColors[1].B * u + _vertexColors[2].B * v, 255);
 
         return Color.FromArgb((int)R, (int)G, (int)B);
     }
     
+    private Vector3 CalculateBarycentricCoordinates(Vector3 A, Vector3 B, Vector3 C, Vector3 P)
+    {
+        // Obliczanie wektorów krawędzi
+        Vector3 edgeAB = B - A;
+        Vector3 edgeAC = C - A;
+
+        // Obliczanie wektora normalnego do płaszczyzny trójkąta
+        Vector3 normal = Vector3.Cross(edgeAB, edgeAC);
+
+        // Obliczanie współrzędnych barycentrycznych
+        float alpha = Vector3.Dot(Vector3.Cross(B - P, C - P), normal) / normal.LengthSquared();
+        float beta = Vector3.Dot(Vector3.Cross(C - P, A - P), normal) / normal.LengthSquared();
+        float gamma = 1 - alpha - beta;
+
+        return new Vector3(alpha, beta, gamma);
+    }
+    
    public Color CalculateColor(int x, int y)
    {
-       // get color from bitmap
-       Color calculateColor = Color.White;
-     
-       // get color from texture
-       calculateColor = _triangleMesh._textureBitmap.GetPixel(x - _triangleMesh._offset, y - _triangleMesh._offset);
        
-       // p = (x,y)
-       // p = wV0 + uV1 + vV2 
-       var v1p = new Vector3((int)(x - _vertices[1].X), (int)(y - _vertices[1].Y), 0);
-       var v1v2 = new Vector3((int)(_vertices[2].X - _vertices[1].X), (int)(_vertices[2].Y - _vertices[1].Y), 0);
-       var w = Vector3.Cross(v1p, v1v2).Length();
- 
-       var v1v0 = new Vector3((int)(_vertices[0].X - _vertices[1].X), (int)(_vertices[0].Y - _vertices[1].Y), 0);
+       Vector3 barycentric = CalculateBarycentricCoordinates(_vertices[0], _vertices[1], _vertices[2], new Vector3(x, y, (int)_triangleMesh.ZFunction(x,y)));
 
-       var v = Vector3.Cross(v1p, v1v0).Length();
- 
-       var v0p = new Vector3((int)(x - _vertices[0].X), (int)(y - _vertices[0].Y), 0);
-       var v0v2 = new Vector3((int)(_vertices[2].X - _vertices[0].X), (int)(_vertices[2].Y - _vertices[0].Y), 0);
-
-       var u = Vector3.Cross(v0p, v0v2).Length();
- 
-       // normalization
-       var surface = w + u + v;
-       w /= surface;
-       u /= surface;
-       v /= surface;
+       float w = barycentric.X;
+       float u = barycentric.Y;
+       float v = barycentric.Z;
 
        switch (_triangleMesh.IsNormalMap )
        {
@@ -161,16 +168,19 @@ public class ColorCalculator
                {
                    case true:
                    {
+                       // po prostu wartosc wektora dla punktu p uzyskana ze współrzędnych barycentrycznych
                        var N = InterpolateVector(w, u, v);
+                       // uwzglddniona mapa noramalnych
                        if (_triangleMesh._normalBitMap is not null)
                        {
                            N = _triangleMesh._normalBitMap.GetNormalVector(N, x, y);
                        }
 
-                       return CalculateColorInPoint(x, y, N);
+                       return CalculateColorInPointWithVectorInterpolation(x, y, N);
                    }
                    case false:
                    {
+                       // maks lub suma kolorow
                        return InterpolateColor(w, u, v);
                    }
                }
@@ -181,7 +191,7 @@ public class ColorCalculator
                    {
                        var N = InterpolateVector(w, u, v);
 
-                       return CalculateColorInPoint(x, y, N);
+                       return CalculateColorInPointWithVectorInterpolation(x, y, N);
                    }
                    case false:
                    {
