@@ -24,6 +24,21 @@ namespace polygon_editor
             BresenhamAlg = false;
             LibraryAlg = false;
             SymetricBresenham = false;
+            currentPolygon = new Polygon();
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 0, new Vector3(10, 10)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 1, new Vector3(10, 50)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 2, new Vector3(50, 50)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 3, new Vector3(10, 10)));
+            polygons.Add(currentPolygon);
+            
+            currentPolygon = new Polygon();
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 5, new Vector3(20 +50, 20)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 6, new Vector3(25+50, 20)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 7, new Vector3(25+50, 25)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 8, new Vector3(20+50, 25)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 9, new Vector3(20+50, 20)));
+            
+            polygons.Add(currentPolygon);
             
         }
         
@@ -515,7 +530,7 @@ namespace polygon_editor
                         if (selectedLine != null)
                         {
                             //open form to set line parameters
-                            LineForm lineForm = new LineForm(ref selectedLine);
+                            LineForm lineForm = new LineForm(selectedLine);
                             lineForm.ShowDialog();
                         }
 
@@ -578,16 +593,16 @@ namespace polygon_editor
                     {
                         if (line.MustBeHorizontal)
                         {
-                            Pen pen = new Pen(Color.Red, 1);
+                            Pen pen = new Pen(Color.Red, (float)line.Thikness);
                             pen.DashPattern = new float[] { 2, 2 };
                             e.Graphics.DrawLine(pen, line);
                         }
                         else if(line.MustBeVertical)
                         {
-                            e.Graphics.DrawLine(new Pen(Color.Blue, 1), line);}
+                            e.Graphics.DrawLine(new Pen(Color.Blue, (float)line.Thikness), line);}
                         else
                         {
-                            e.Graphics.DrawLine(new Pen(Color.Gray, 1), line);
+                            e.Graphics.DrawLine(new Pen(Color.Gray, (float)line.Thikness), line);
                         }
                        
                     }

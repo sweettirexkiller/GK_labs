@@ -67,7 +67,7 @@ namespace polygon_editor
             Brush aBrush = (Brush)Brushes.Black;
             for (int i=0;i<=longest;i++) {
                 
-                g.FillRectangle(aBrush,(float) x,(float) y, (float)1, (float)1);
+                g.FillRectangle(aBrush,(float) x,(float) y, (float)line.Thikness, (float)line.Thikness);
                 
                 numerator += shortest ;
                 if (!(numerator<longest)) {

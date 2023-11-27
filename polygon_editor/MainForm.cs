@@ -9,6 +9,15 @@ namespace polygon_editor
         public MainForm()
         {
             InitializeComponent();
+            
+            
+            EditorForm = new EditorForm();
+            EditorForm.Name=string.Concat("PolygonEditor ", counter.ToString());
+            EditorForm.Text = EditorForm.Name;
+            EditorForm.MdiParent = this;
+            EditorForm.Show();
+            EditorForm.WindowState = FormWindowState.Maximized;
+            counter++;
         }
 
         private ToolStripMenuItem windowsBtn = new ToolStripMenuItem();

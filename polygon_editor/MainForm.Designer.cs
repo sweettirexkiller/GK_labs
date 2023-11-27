@@ -43,7 +43,7 @@ namespace polygon_editor
             this.mainmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.fileToolStripMenuItem });
             this.mainmenu.Location = new System.Drawing.Point(0, 0);
             this.mainmenu.Name = "mainmenu";
-            this.mainmenu.Size = new System.Drawing.Size(1482, 40);
+            this.mainmenu.Size = new System.Drawing.Size(1196, 40);
             this.mainmenu.TabIndex = 1;
             this.mainmenu.Text = "menuStrip1";
             // 
@@ -72,7 +72,7 @@ namespace polygon_editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1482, 553);
+            this.ClientSize = new System.Drawing.Size(1196, 1087);
             this.Controls.Add(this.mainmenu);
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mainmenu;
