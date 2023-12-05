@@ -110,6 +110,8 @@ namespace polygon_editor.Entities
                {
                    angle = angle+90.0;
                }
+               if(angle > 360)
+                   angle -= 360;
 
                 Vector3 start = l1.StartPoint.Position.Transfer2D(offsetValue, angle);
                 Vector3 end = l1.EndPoint.Position.Transfer2D(offsetValue, angle);

@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "polygon_editor", "polygon_e
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "filling_triangles", "filling_triangles\filling_triangles.csproj", "{D5FAE299-5545-4BF8-BC6B-187D0F20DDA7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "octree_visual", "octree_visual\octree_visual.csproj", "{1DA53C0C-8803-488A-9ADD-1DCBAC5C9E86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{D5FAE299-5545-4BF8-BC6B-187D0F20DDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5FAE299-5545-4BF8-BC6B-187D0F20DDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5FAE299-5545-4BF8-BC6B-187D0F20DDA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA53C0C-8803-488A-9ADD-1DCBAC5C9E86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA53C0C-8803-488A-9ADD-1DCBAC5C9E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA53C0C-8803-488A-9ADD-1DCBAC5C9E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA53C0C-8803-488A-9ADD-1DCBAC5C9E86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -25,18 +25,20 @@ namespace polygon_editor
             LibraryAlg = false;
             SymetricBresenham = false;
             currentPolygon = new Polygon();
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 0, new Vector3(10, 10)));
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 1, new Vector3(10, 50)));
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 2, new Vector3(50, 50)));
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 3, new Vector3(10, 10)));
+            int moveX = 0;
+            int moveY = 0;
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 0, new Vector3(10 + moveX, 10+ moveY)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 1, new Vector3(10+ moveX, 50+ moveY)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 2, new Vector3(50+ moveX, 50+ moveY)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 3, new Vector3(10+ moveX, 10+ moveY)));
             polygons.Add(currentPolygon);
             
             currentPolygon = new Polygon();
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 5, new Vector3(20 +50, 20)));
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 6, new Vector3(25+50, 20)));
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 7, new Vector3(25+50, 25)));
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 8, new Vector3(20+50, 25)));
-            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 9, new Vector3(20+50, 20)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 5, new Vector3(20 + moveX, 20+ moveY)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 6, new Vector3(25+ moveX, 20+ moveY)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 7, new Vector3(25+ moveX, 25+ moveY)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 8, new Vector3(20+ moveX, 25+ moveY)));
+            currentPolygon.AddPoint(new PolygonPoint(currentPolygon, 9, new Vector3(20+moveX, 20+ moveY)));
             
             polygons.Add(currentPolygon);
             

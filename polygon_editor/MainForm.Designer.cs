@@ -78,6 +78,7 @@ namespace polygon_editor
             this.MainMenuStrip = this.mainmenu;
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.mainmenu.ResumeLayout(false);
             this.mainmenu.PerformLayout();
             this.ResumeLayout(false);

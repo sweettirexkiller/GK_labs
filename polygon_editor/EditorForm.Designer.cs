@@ -79,7 +79,7 @@
             this.EditorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.EditorPictureBox.Location = new System.Drawing.Point(12, 206);
             this.EditorPictureBox.Name = "EditorPictureBox";
-            this.EditorPictureBox.Size = new System.Drawing.Size(1169, 1162);
+            this.EditorPictureBox.Size = new System.Drawing.Size(1169, 1240);
             this.EditorPictureBox.TabIndex = 4;
             this.EditorPictureBox.TabStop = false;
             this.EditorPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.EditorPictureBox_Paint);
@@ -240,7 +240,7 @@
             this.statusStrip1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.coordinate });
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1371);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 1449);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1582, 50);
             this.statusStrip1.TabIndex = 8;
@@ -301,7 +301,7 @@
             // trackBar1
             // 
             this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.Location = new System.Drawing.Point(15, 615);
+            this.trackBar1.Location = new System.Drawing.Point(15, 654);
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(237, 90);
             this.trackBar1.TabIndex = 9;
@@ -310,7 +310,7 @@
             // libraryAlgBtn
             // 
             this.libraryAlgBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.libraryAlgBtn.Location = new System.Drawing.Point(15, 249);
+            this.libraryAlgBtn.Location = new System.Drawing.Point(15, 288);
             this.libraryAlgBtn.Name = "libraryAlgBtn";
             this.libraryAlgBtn.Size = new System.Drawing.Size(200, 30);
             this.libraryAlgBtn.TabIndex = 10;
@@ -322,7 +322,7 @@
             // bresenhamAlgBtn
             // 
             this.bresenhamAlgBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.bresenhamAlgBtn.Location = new System.Drawing.Point(15, 335);
+            this.bresenhamAlgBtn.Location = new System.Drawing.Point(15, 374);
             this.bresenhamAlgBtn.Name = "bresenhamAlgBtn";
             this.bresenhamAlgBtn.Size = new System.Drawing.Size(181, 45);
             this.bresenhamAlgBtn.TabIndex = 11;
@@ -334,7 +334,7 @@
             // radioButton1
             // 
             this.radioButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.radioButton1.Location = new System.Drawing.Point(15, 424);
+            this.radioButton1.Location = new System.Drawing.Point(15, 463);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(214, 37);
             this.radioButton1.TabIndex = 12;
@@ -348,7 +348,7 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Location = new System.Drawing.Point(122, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(130, 371);
+            this.label1.Size = new System.Drawing.Size(130, 449);
             this.label1.TabIndex = 13;
             this.label1.Text = "Algorythms:";
             // 
@@ -363,7 +363,7 @@
             // offsetLabel
             // 
             this.offsetLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.offsetLabel.Location = new System.Drawing.Point(69, 535);
+            this.offsetLabel.Location = new System.Drawing.Point(69, 574);
             this.offsetLabel.Name = "offsetLabel";
             this.offsetLabel.Size = new System.Drawing.Size(100, 23);
             this.offsetLabel.TabIndex = 14;
@@ -380,7 +380,7 @@
             this.containerControl1.Controls.Add(this.label1);
             this.containerControl1.Location = new System.Drawing.Point(1187, 206);
             this.containerControl1.Name = "containerControl1";
-            this.containerControl1.Size = new System.Drawing.Size(383, 1162);
+            this.containerControl1.Size = new System.Drawing.Size(383, 1240);
             this.containerControl1.TabIndex = 15;
             this.containerControl1.Text = "containerControl1";
             // 
@@ -390,7 +390,7 @@
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.Window;
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1582, 1421);
+            this.ClientSize = new System.Drawing.Size(1582, 1499);
             this.ContextMenuStrip = this.menuStrip;
             this.Controls.Add(this.containerControl1);
             this.Controls.Add(this.statusStrip1);
@@ -400,6 +400,7 @@
             this.Menu = this.mainMenu1;
             this.Name = "EditorForm";
             this.Text = "PolygonEditor";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.EditorForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.EditorPictureBox)).EndInit();
             this.statusStrip1.ResumeLayout(false);
