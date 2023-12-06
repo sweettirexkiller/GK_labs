@@ -8,11 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using octree_visual.Entities;
 
 namespace octree_visual
 {
     public partial class Form1 : Form
     {
+        
+        OctreeNode octreeRoot;
         public Form1()
         {
             InitializeComponent();
@@ -22,8 +25,17 @@ namespace octree_visual
             string fileName = Path.Combine(projectDir, "octree_visual\\Images\\lena_color32.png");
             Image image = Image.FromFile(fileName);
 
-            originalPictureBox.Image = image;
+            // resize image to pictureBox width and height 
+            image = new Bitmap(image, originalPictureBox.Width, originalPictureBox.Height);
 
+            originalPictureBox.Image = image;
+            
+            octreeRoot = new OctreeNode();
+
+            octreeRoot.BuildOctree(image);
+            
+            // draw actree on pictureBox
+            octreeRoot.DrawOctree(octreePictureBox);
         }
 
         private void label1_Click(object sender, EventArgs e)

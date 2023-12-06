@@ -37,14 +37,14 @@
             this.reducedPictureGroupBox = new System.Windows.Forms.GroupBox();
             this.reducedPictureBox = new System.Windows.Forms.PictureBox();
             this.octreeGroupBox = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.octreePictureBox = new System.Windows.Forms.PictureBox();
             this.dataGroupBox = new System.Windows.Forms.GroupBox();
             this.originalPictureGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.originalPictureBox)).BeginInit();
             this.reducedPictureGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reducedPictureBox)).BeginInit();
             this.octreeGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.octreePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // originalPictureGroupBox
@@ -120,7 +120,7 @@
             // octreeGroupBox
             // 
             this.octreeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.octreeGroupBox.Controls.Add(this.pictureBox1);
+            this.octreeGroupBox.Controls.Add(this.octreePictureBox);
             this.octreeGroupBox.Location = new System.Drawing.Point(742, 12);
             this.octreeGroupBox.Name = "octreeGroupBox";
             this.octreeGroupBox.Size = new System.Drawing.Size(930, 626);
@@ -128,16 +128,16 @@
             this.octreeGroupBox.TabStop = false;
             this.octreeGroupBox.Text = "Octree";
             // 
-            // pictureBox1
+            // octreePictureBox
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 30);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(918, 548);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
+            this.octreePictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.octreePictureBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.octreePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.octreePictureBox.Location = new System.Drawing.Point(6, 30);
+            this.octreePictureBox.Name = "octreePictureBox";
+            this.octreePictureBox.Size = new System.Drawing.Size(918, 548);
+            this.octreePictureBox.TabIndex = 0;
+            this.octreePictureBox.TabStop = false;
             // 
             // dataGroupBox
             // 
@@ -166,14 +166,14 @@
             this.reducedPictureGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.reducedPictureBox)).EndInit();
             this.octreeGroupBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.octreePictureBox)).EndInit();
             this.ResumeLayout(false);
         }
 
         private System.Windows.Forms.Label numOfColorsLabel;
         private System.Windows.Forms.Label numberOfColors;
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox octreePictureBox;
         private System.Windows.Forms.GroupBox dataGroupBox;
 
         private System.Windows.Forms.PictureBox reducedPictureBox;
