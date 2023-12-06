@@ -105,6 +105,8 @@ namespace octree_visual.Entities
             // find all unique colors in image
             // for each color insert color into octree
             
+            // find all unique colors in image
+            
             InsertColor(this, 90, 113, 157);
             InsertColor(this, 255, 100, 0);
             InsertColor(this, 0, 255, 0);
