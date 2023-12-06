@@ -30,17 +30,23 @@ namespace octree_visual
 
             originalPictureBox.Image = image;
             
-            octreeRoot = new OctreeNode();
+            octreeRoot = new OctreeNode(7);
 
+            octreePictureBox.Image = new Bitmap(octreePictureBox.Width, octreePictureBox.Height);
             octreeRoot.BuildOctree(image);
             
-            // draw actree on pictureBox
-            octreeRoot.DrawOctree(octreePictureBox);
+            // octreePictureBox.Refresh();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
             throw new System.NotImplementedException();
+        }
+
+        private void octreePictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            // draw octree on pictureBox
+            octreeRoot.DrawOctree(octreePictureBox);
         }
     }
 }

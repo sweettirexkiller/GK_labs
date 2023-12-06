@@ -56,7 +56,7 @@
             this.originalPictureGroupBox.Controls.Add(this.originalPictureBox);
             this.originalPictureGroupBox.Location = new System.Drawing.Point(12, 12);
             this.originalPictureGroupBox.Name = "originalPictureGroupBox";
-            this.originalPictureGroupBox.Size = new System.Drawing.Size(724, 399);
+            this.originalPictureGroupBox.Size = new System.Drawing.Size(724, 415);
             this.originalPictureGroupBox.TabIndex = 0;
             this.originalPictureGroupBox.TabStop = false;
             this.originalPictureGroupBox.Text = "Original Picture";
@@ -102,7 +102,7 @@
             this.reducedPictureGroupBox.Controls.Add(this.reducedPictureBox);
             this.reducedPictureGroupBox.Location = new System.Drawing.Point(12, 417);
             this.reducedPictureGroupBox.Name = "reducedPictureGroupBox";
-            this.reducedPictureGroupBox.Size = new System.Drawing.Size(724, 690);
+            this.reducedPictureGroupBox.Size = new System.Drawing.Size(724, 706);
             this.reducedPictureGroupBox.TabIndex = 1;
             this.reducedPictureGroupBox.TabStop = false;
             this.reducedPictureGroupBox.Text = "Reduced Picture";
@@ -123,7 +123,7 @@
             this.octreeGroupBox.Controls.Add(this.octreePictureBox);
             this.octreeGroupBox.Location = new System.Drawing.Point(742, 12);
             this.octreeGroupBox.Name = "octreeGroupBox";
-            this.octreeGroupBox.Size = new System.Drawing.Size(930, 626);
+            this.octreeGroupBox.Size = new System.Drawing.Size(930, 642);
             this.octreeGroupBox.TabIndex = 2;
             this.octreeGroupBox.TabStop = false;
             this.octreeGroupBox.Text = "Octree";
@@ -138,13 +138,14 @@
             this.octreePictureBox.Size = new System.Drawing.Size(918, 548);
             this.octreePictureBox.TabIndex = 0;
             this.octreePictureBox.TabStop = false;
+            this.octreePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.octreePictureBox_Paint);
             // 
             // dataGroupBox
             // 
             this.dataGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGroupBox.Location = new System.Drawing.Point(742, 596);
             this.dataGroupBox.Name = "dataGroupBox";
-            this.dataGroupBox.Size = new System.Drawing.Size(930, 511);
+            this.dataGroupBox.Size = new System.Drawing.Size(930, 527);
             this.dataGroupBox.TabIndex = 3;
             this.dataGroupBox.TabStop = false;
             this.dataGroupBox.Text = "Octree Data";
@@ -153,7 +154,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1684, 1119);
+            this.ClientSize = new System.Drawing.Size(1684, 1135);
             this.Controls.Add(this.dataGroupBox);
             this.Controls.Add(this.octreeGroupBox);
             this.Controls.Add(this.reducedPictureGroupBox);
