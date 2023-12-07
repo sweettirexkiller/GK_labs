@@ -23,61 +23,28 @@ namespace octree_visual
             // get lena_color image from images folder and set it as image of originalPictureBox
             string workingDirectory = Environment.CurrentDirectory;
             var projectDir = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            string fileName = Path.Combine(projectDir, "octree_visual\\Images\\circle.jpg");
+            string fileName = Path.Combine(projectDir, "octree_visual\\Images\\more.png");
             Image image = Image.FromFile(fileName);
 
             // resize image to pictureBox width and height 
-            Bitmap bitmap = new Bitmap(image, originalPictureBox.Width, originalPictureBox.Height);
+            originalPictureBox.Image  = new Bitmap(image, originalPictureBox.Width, originalPictureBox.Height);
+            reducedPictureBox.Image = new Bitmap(image, reducedPictureBox.Width, reducedPictureBox.Height);
 
-            originalPictureBox.Image = bitmap;
-            
             octreeRoot = new OctreeNode(7);
-
             octreePictureBox.Image = new Bitmap(octreePictureBox.Width, octreePictureBox.Height);
             octreeRoot.BuildOctree(image);
             
-         
-
-            int cnt = CountColors(bitmap);
-
-            numberOfColors.Text = $"{cnt}";
+            originalNumberOfColors.Text = $"{octreeRoot.colorCount}";
+            reducedNumberOfColors.Text = $"{octreeRoot.colorCount}";
             
-            // octreePictureBox.Refresh();
-        }
-
-        private static unsafe int CountColors(Bitmap bmp)
-        {
-            // get the dimensions of the bitmap image
-            int width = bmp.Width;
-            int height = bmp.Height;
-            // lock the bitmap in system memory
-            var rect = new Rectangle(0, 0, width, height);
-            BitmapData bmpData = bmp.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            // create a hashset to store unique integer values
-            var colors = new HashSet<int>();
-            // get the address of the first pixel data in unmanaged memory
-            var bmpPtr = (int*)bmpData.Scan0;
-            // loop through the pixel data
-            for (int i = 0; i < width * height; i++)
-            {
-                // add the 32-bit value to the hashset
-                colors.Add(bmpPtr[0]);
-                // move the pointer by 4 bytes
-                bmpPtr++;
-            }
-            // unlock the bitmap from system memory
-            bmp.UnlockBits(bmpData);
-            // return the unique color count
-            return colors.Count;
-        }
-        private void label1_Click(object sender, EventArgs e)
-        {
-            throw new System.NotImplementedException();
+            octreePictureBox.Refresh();
+            originalPictureBox.Refresh();
+            reducedPictureBox.Refresh();
+            
         }
 
         private void octreePictureBox_Paint(object sender, PaintEventArgs e)
         {
-            // draw octree on pictureBox
             octreeRoot.DrawOctree(octreePictureBox);
         }
 
@@ -99,22 +66,35 @@ namespace octree_visual
                 
                 Image image = Image.FromFile(filePath);
 
-                // resize image to pictureBox width and height 
-                Bitmap bitmap = new Bitmap(image, originalPictureBox.Width, originalPictureBox.Height);
+                originalPictureBox.Image  = new Bitmap(image, originalPictureBox.Width, originalPictureBox.Height);
+                reducedPictureBox.Image = new Bitmap(image, reducedPictureBox.Width, reducedPictureBox.Height);
 
-                originalPictureBox.Image = bitmap;
-            
                 octreeRoot = new OctreeNode(7);
-
                 octreePictureBox.Image = new Bitmap(octreePictureBox.Width, octreePictureBox.Height);
                 octreeRoot.BuildOctree(image);
-                
-                int cnt = CountColors(bitmap);
 
-                
-                numberOfColors.Text = $"{cnt}";
+
+
+                originalNumberOfColors.Text = $"{octreeRoot.colorCount}";
+                reducedNumberOfColors.Text = $"{octreeRoot.colorCount}";
+
              
+                octreePictureBox.Refresh();
+                originalPictureBox.Refresh();
+                reducedPictureBox.Refresh();
             }
+        }
+
+        private void reduceButton_Click(object sender, EventArgs e)
+        {
+            // modify recudedPictureBox image based on octree reduction
+            // reduce octree
+            
+            int reduceBy = int.Parse(reduceNumber.Value.ToString());
+            octreeRoot.ReduceOctree(reduceBy);
+            
+            octreeRoot.DrawOctree(octreePictureBox);
+            
         }
     }
 }

@@ -82,9 +82,7 @@
         <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Images\baboon.png" />
-      <Content Include="Images\lena_color32.png" />
-      <Content Include="Images\lena_grayscale.bmp" />
+      <Folder Include="Images\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

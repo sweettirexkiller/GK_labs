@@ -10,7 +10,7 @@ namespace octree_visual.Entities
     
     // Octree is a tree where each node has up to 8 children. Leaf node has no active children.
     // Each leaf node have a number of pixels with this color (pixel_count) and color value.
-    
+
     public class OctreeNode
     {
         OctreeNode[] children;
@@ -24,7 +24,8 @@ namespace octree_visual.Entities
         public int middleX;
         public int middleY;
         OctreeNode parent;
-        
+        public int colorCount;
+
         // constructor
         public OctreeNode(int? level, OctreeNode parent = null)
         {
@@ -34,21 +35,21 @@ namespace octree_visual.Entities
             green = 0;
             references = 0;
             children = new OctreeNode[8];
-            
+
             for (int i = 0; i < 8; i++)
             {
                 children[i] = null;
             }
-            
-            if(level != null)
+
+            if (level != null)
             {
-                this.level = (int) level;
+                this.level = (int)level;
             }
-            
+
             this.parent = parent;
         }
-        
-        
+
+
         // insert color into octree
         //We start at the root-node of the tree and examine our RGB-Trippes.
         //From each element we take the most significant bit combine them into a index-byte
@@ -65,7 +66,7 @@ namespace octree_visual.Entities
             {
                 indexes[level] = GetColorIndex(red, green, blue, level);
             }
-       
+
             // indexes are 0 to 7 and they represent the number children of the node on that level
             // if the child node is null, create a new node and insert it into the tree
             // level 7 is root and roots children 
@@ -73,10 +74,11 @@ namespace octree_visual.Entities
             {
                 if (node.children[indexes[level]] == null)
                 {
-                    node.children[indexes[level]] = new OctreeNode(node.level - 1, node); 
+                    node.children[indexes[level]] = new OctreeNode(node.level - 1, node);
                 }
+
                 node = node.children[indexes[level]];
-                if(node.level == 0)
+                if (node.level == 0)
                 {
                     node.isLeaf = true;
                     node.red += red;
@@ -87,8 +89,8 @@ namespace octree_visual.Entities
             }
 
         }
-        
-        
+
+
         //InitializeOctree
         int GetColorIndex(int red, int green, int blue, int level)
         {
@@ -104,14 +106,27 @@ namespace octree_visual.Entities
         {
             // find all unique colors in image
             // for each color insert color into octree
-            
+
             // find all unique colors in image
-            
-            InsertColor(this, 90, 113, 157);
-            InsertColor(this, 255, 100, 0);
-            InsertColor(this, 0, 255, 0);
-            InsertColor(this, 0, 100, 255);
-            
+            HashSet<Color> uniqueColors = new HashSet<Color>();
+            Bitmap bitmap = new Bitmap(image);
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    Color pixelColor = bitmap.GetPixel(i, j);
+                    uniqueColors.Add(pixelColor);
+                    InsertColor(this, pixelColor.R, pixelColor.G, pixelColor.B);
+                }
+            }
+
+            colorCount = uniqueColors.Count;
+
+
+            // foreach (Color c in uniqueColors)
+            // {
+            //     InsertColor(this, c.R, c.G, c.B);
+            // }
         }
 
         public int[] CountNodesOnLevels()
@@ -133,6 +148,7 @@ namespace octree_visual.Entities
                 {
                     currentLevel = node.level;
                 }
+
                 nodesOnLevel[currentLevel]++;
                 if (node.children != null)
                 {
@@ -145,7 +161,7 @@ namespace octree_visual.Entities
                     }
                 }
             }
-            
+
             return nodesOnLevel;
         }
 
@@ -155,8 +171,8 @@ namespace octree_visual.Entities
             int offsetX = 5;
             int width = octreePictureBox.Width;
             int height = octreePictureBox.Height;
-            int heightStep = (height - 2*offsetY) / 8;
-            
+            int heightStep = (height - 2 * offsetY) / 8;
+
             using (Graphics g = Graphics.FromImage(octreePictureBox.Image))
             {
                 g.Clear(Color.White);
@@ -167,9 +183,14 @@ namespace octree_visual.Entities
                 int[] widthOfSpaceForNode = new int[8];
                 for (int i = 0; i < 8; i++)
                 {
-                    widthOfSpaceForNode[i] = (width - 2*offsetX) / nodesOnLevel[i];
+                    if (nodesOnLevel[i] > 0)
+                    {
+                        widthOfSpaceForNode[i] = (width - 2 * offsetX) / nodesOnLevel[i];
+                    } else {
+                        widthOfSpaceForNode[i] = width - 2 * offsetX;
+                    }
                 }
-                
+
                 // draw horizontal lines as borders for each level
                 // int currentY = offsetY + heightStep;
                 // for (int i = 0; i < 8; i++)
@@ -177,7 +198,7 @@ namespace octree_visual.Entities
                 //     g.DrawLine(pen, offsetX, currentY, width - offsetX, currentY);
                 //     currentY += heightStep;
                 // }
-                
+
                 // draw octree with BFS
                 Queue<OctreeNode> queue = new Queue<OctreeNode>();
                 queue.Enqueue(this);
@@ -193,17 +214,18 @@ namespace octree_visual.Entities
                         x = offsetX + widthOfSpaceForNode[currentLevel] / 2;
                         y = offsetY + (7 - currentLevel) * heightStep;
                     }
+
                     // in the middle of the space for the node
                     node.middleX = x;
                     node.middleY = y;
                     g.DrawEllipse(pen, x, y, 3, 3);
                     x += widthOfSpaceForNode[currentLevel];
-                    
-                    if(node.parent != null)
+
+                    if (node.parent != null)
                     {
                         g.DrawLine(pen, node.middleX, node.middleY, node.parent.middleX, node.parent.middleY);
                     }
-                    
+
                     if (node.children != null)
                     {
                         for (int i = 0; i < 8; i++)
@@ -215,16 +237,116 @@ namespace octree_visual.Entities
                         }
                     }
                 }
-            
+
             }
-            
+
             // when done with all drawing you can enforce the display update by calling:
             octreePictureBox.Refresh();
 
         }
+
+
+
+        // reduce octree to value colors function 
+        // Reduction
+        // To make image color palette with for example 256 colors maximum,
+        // from palette with far more colors the tree leaves must be reduced.
+        //
+        // The reduction of nodes:
+        //
+        //  As we have a sum of R, G and B values and the number of pixels with this color,
+        // we can ADD ALL LEAVES PIXELS COUNT AND COLOR channels to parent node and make it a leaf node
+        //  (we could not even remove it, because get leaves method will not go deeper if current node is leaf).
+        //  Reduction continues while leaves count it more than needed maximum colors (in our case 256).
+        //  The main disadvantage of this approach is that up to 8 leaves can be reduced from node and the palette could have only 248 colors (in worst case) instead of expected 256 colors.
+        //  As soon as we've got count of leaves less or equal needed maximum colors we can build a palette.
+
+
+        public void ReduceOctree(int reduceBy)
+        {
+
+            int maxColorCount = colorCount - reduceBy;
+            // We count all the nodes that have a reference greater than zero (only leafes can have a reference). 
+            // WHILE (number of leafes>maxColorCount)
+            // search the node, where the sum of the childs references is minimal and reduce it.
+            // ENDWHILE
+            
+            
+            int numberOfLeafes = colorCount;
+            while (numberOfLeafes > maxColorCount)
+            {
+                // search the node, where the sum of the childs references is minimal and reduce it.
+                OctreeNode nodeToReduce = null;
+                long minReferences = long.MaxValue;
+                Queue<OctreeNode> queue = new Queue<OctreeNode>();
+                queue.Enqueue(this);
+                while (queue.Count > 0)
+                {
+                    OctreeNode node = queue.Dequeue();
+
+                    if(node.isLeaf && node.parent!=nodeToReduce){
+
+                        long sumOfReferences = 0;
+                        for (int i = 0; i < 8; i++)
+                        {
+                            if (node.parent.children[i] != null)
+                            {
+                                sumOfReferences += node.parent.children[i].references;
+                            }
+                        }
+
+                        if (sumOfReferences < minReferences)
+                        {
+                            minReferences = sumOfReferences;
+                            nodeToReduce = node.parent;
+                        }
+                    
+                    }
+                    
+
+                    if (node.children != null)
+                    {
+                        for (int i = 0; i < 8; i++)
+                        {
+                            if (node.children[i] != null)
+                            {
+                                queue.Enqueue(node.children[i]);
+                            }
+                        }
+                    }
+                }
+                
+                
+                // reduce nodeToReduce
+                if (nodeToReduce != null)
+                {
+                    int numberOfChildrenRemoved = 0;
+                    for (int n = 0; n<8; n++)
+                    {
+                        if (nodeToReduce.children[n] != null) {
+                            nodeToReduce.references += nodeToReduce.children[n].references;
+                            nodeToReduce.red       += nodeToReduce.children[n].red;
+                            nodeToReduce.green     += nodeToReduce.children[n].green;
+                            nodeToReduce.blue      += nodeToReduce.children[n].blue;
+                            // free the node. We don't need it anymore
+                            nodeToReduce.children[n]=null;
+                            numberOfChildrenRemoved++;
+                        }
+                    }
+
+                    // if deleted more than one children then it means that we have less leaves (colors)
+                    if (numberOfChildrenRemoved > 1)
+                    {
+                        numberOfLeafes -= (numberOfChildrenRemoved - 1);
+                    }
+                    nodeToReduce.isLeaf = true;
+                    
+                }
+            }
+            
+        }
         
         
     }
-    
-    
+
 }
