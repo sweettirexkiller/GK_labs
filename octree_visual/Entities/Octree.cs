@@ -191,14 +191,6 @@ namespace octree_visual.Entities
                     }
                 }
 
-                // draw horizontal lines as borders for each level
-                // int currentY = offsetY + heightStep;
-                // for (int i = 0; i < 8; i++)
-                // {
-                //     g.DrawLine(pen, offsetX, currentY, width - offsetX, currentY);
-                //     currentY += heightStep;
-                // }
-
                 // draw octree with BFS
                 Queue<OctreeNode> queue = new Queue<OctreeNode>();
                 queue.Enqueue(this);
@@ -245,6 +237,27 @@ namespace octree_visual.Entities
 
         }
 
+        public int RecGetChildrenReferenceSum(OctreeNode node)
+        {
+            if (node.children == null)
+            {
+                return 0;
+            }
+
+            int sum = 0;
+            
+            for(int i = 0; i < 8; i++)
+            {
+                if (node.children[i] != null)
+                {
+                    sum += RecGetChildrenReferenceSum(node.children[i]);
+                }
+            }
+
+
+            return sum;
+        }
+
 
 
         // reduce octree to value colors function 
@@ -268,12 +281,12 @@ namespace octree_visual.Entities
             int maxColorCount = colorCount - reduceBy;
             // We count all the nodes that have a reference greater than zero (only leafes can have a reference). 
             // WHILE (number of leafes>maxColorCount)
-            // search the node, where the sum of the childs references is minimal and reduce it.
+            //  search the node, where the sum of the childs references is minimal and reduce it.
             // ENDWHILE
             
             
-            int numberOfLeafes = colorCount;
-            while (numberOfLeafes > maxColorCount)
+            int numberOfLeaves = colorCount;
+            while (numberOfLeaves > maxColorCount)
             {
                 // search the node, where the sum of the childs references is minimal and reduce it.
                 OctreeNode nodeToReduce = null;
@@ -337,7 +350,7 @@ namespace octree_visual.Entities
                     // if deleted more than one children then it means that we have less leaves (colors)
                     if (numberOfChildrenRemoved > 1)
                     {
-                        numberOfLeafes -= (numberOfChildrenRemoved - 1);
+                        numberOfLeaves -= (numberOfChildrenRemoved - 1);
                     }
                     nodeToReduce.isLeaf = true;
                     
