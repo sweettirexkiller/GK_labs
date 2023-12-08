@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace octree_visual.Entities
@@ -237,14 +238,14 @@ namespace octree_visual.Entities
 
         }
 
-        public int RecGetChildrenReferenceSum(OctreeNode node)
+        public long RecGetChildrenReferenceSum(OctreeNode node)
         {
             if (node.children == null)
             {
                 return 0;
             }
 
-            int sum = 0;
+            long sum = node.references;
             
             for(int i = 0; i < 8; i++)
             {
@@ -297,21 +298,15 @@ namespace octree_visual.Entities
                 {
                     OctreeNode node = queue.Dequeue();
 
-                    if(node.isLeaf && node.parent!=nodeToReduce){
+                    // pomysl jest by sprawdzic czy node ma więcej niż 1 dziecko i czy nie jest liściem 
+                    if(node.isLeaf && node.children.Count(x => x != null) > 1){
 
-                        long sumOfReferences = 0;
-                        for (int i = 0; i < 8; i++)
-                        {
-                            if (node.parent.children[i] != null)
-                            {
-                                sumOfReferences += node.parent.children[i].references;
-                            }
-                        }
+                        long sumOfReferences = RecGetChildrenReferenceSum(node);
 
                         if (sumOfReferences < minReferences)
                         {
                             minReferences = sumOfReferences;
-                            nodeToReduce = node.parent;
+                            nodeToReduce = node;
                         }
                     
                     }
@@ -333,19 +328,8 @@ namespace octree_visual.Entities
                 // reduce nodeToReduce
                 if (nodeToReduce != null)
                 {
-                    int numberOfChildrenRemoved = 0;
-                    for (int n = 0; n<8; n++)
-                    {
-                        if (nodeToReduce.children[n] != null) {
-                            nodeToReduce.references += nodeToReduce.children[n].references;
-                            nodeToReduce.red       += nodeToReduce.children[n].red;
-                            nodeToReduce.green     += nodeToReduce.children[n].green;
-                            nodeToReduce.blue      += nodeToReduce.children[n].blue;
-                            // free the node. We don't need it anymore
-                            nodeToReduce.children[n]=null;
-                            numberOfChildrenRemoved++;
-                        }
-                    }
+
+                    int numberOfChildrenRemoved = ReduceNode(nodeToReduce);
 
                     // if deleted more than one children then it means that we have less leaves (colors)
                     if (numberOfChildrenRemoved > 1)
@@ -360,6 +344,37 @@ namespace octree_visual.Entities
         }
         
         
+        public int ReduceNode(OctreeNode node)
+        {
+            int numberOfChildrenReduced = 0;
+        
+            for (int i = 0; i < 8; i++)
+            {
+                if (node.children[i] != null)
+                {
+                    numberOfChildrenReduced += ReduceNode(node.children[i]);
+                    node.references += node.children[i].references;
+                    node.red += node.children[i].red;
+                    node.green += node.children[i].green;
+                    node.blue += node.children[i].blue;
+                    node.children[i] = null;
+                    numberOfChildrenReduced++;
+                }
+            }
+        
+            
+            
+        
+        
+        
+            // returns number of leaves removed
+        
+            return numberOfChildrenReduced;
+        }
+        
+        
     }
+
+    
 
 }
