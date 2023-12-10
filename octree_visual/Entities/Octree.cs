@@ -122,12 +122,7 @@ namespace octree_visual.Entities
             }
 
             colorCount = uniqueColors.Count;
-
-
-            // foreach (Color c in uniqueColors)
-            // {
-            //     InsertColor(this, c.R, c.G, c.B);
-            // }
+            
         }
 
         public int[] CountNodesOnLevels()
@@ -240,21 +235,28 @@ namespace octree_visual.Entities
 
         public long RecGetChildrenReferenceSum(OctreeNode node)
         {
+            if(node.isLeaf)
+            {
+                return node.references;
+            }
+            
             if (node.children == null)
             {
                 return 0;
             }
 
             long sum = node.references;
-            
-            for(int i = 0; i < 8; i++)
+
+            if (!node.isLeaf)
             {
-                if (node.children[i] != null)
+                for(int i = 0; i < 8; i++)
                 {
-                    sum += RecGetChildrenReferenceSum(node.children[i]);
+                    if (node.children[i] != null)
+                    {
+                        sum += RecGetChildrenReferenceSum(node.children[i]);
+                    }
                 }
             }
-
 
             return sum;
         }
@@ -299,7 +301,7 @@ namespace octree_visual.Entities
                     OctreeNode node = queue.Dequeue();
 
                     // pomysl jest by sprawdzic czy node ma więcej niż 1 dziecko i czy nie jest liściem 
-                    if(node.isLeaf && node.children.Count(x => x != null) > 1){
+                    if(!node.isLeaf && node.children.Count(x => x != null) > 1){
 
                         long sumOfReferences = RecGetChildrenReferenceSum(node);
 
@@ -329,12 +331,12 @@ namespace octree_visual.Entities
                 if (nodeToReduce != null)
                 {
 
-                    int numberOfChildrenRemoved = ReduceNode(nodeToReduce);
+                    int numberOfLeavesRemoved = ReduceNode(nodeToReduce);
 
                     // if deleted more than one children then it means that we have less leaves (colors)
-                    if (numberOfChildrenRemoved > 1)
+                    if (numberOfLeavesRemoved > 1)
                     {
-                        numberOfLeaves -= (numberOfChildrenRemoved - 1);
+                        numberOfLeaves -= (numberOfLeavesRemoved - 1);
                     }
                     nodeToReduce.isLeaf = true;
                     
@@ -344,32 +346,39 @@ namespace octree_visual.Entities
         }
         
         
-        public int ReduceNode(OctreeNode node)
+        private int ReduceNode(OctreeNode node)
         {
-            int numberOfChildrenReduced = 0;
-        
+            // we must return total number of leaves removed from the tree
+            
+            
+            if(node.isLeaf)
+            {
+                return 0;
+            }
+            
+            int numberOfLeavesRemoved = 0;
+            
             for (int i = 0; i < 8; i++)
             {
                 if (node.children[i] != null)
                 {
-                    numberOfChildrenReduced += ReduceNode(node.children[i]);
+                    numberOfLeavesRemoved += ReduceNode(node.children[i]);
                     node.references += node.children[i].references;
                     node.red += node.children[i].red;
                     node.green += node.children[i].green;
                     node.blue += node.children[i].blue;
+                    if (node.children[i].isLeaf)
+                    {
+                        numberOfLeavesRemoved++;
+                    }
                     node.children[i] = null;
-                    numberOfChildrenReduced++;
+                    
                 }
             }
-        
             
-            
-        
-        
-        
             // returns number of leaves removed
         
-            return numberOfChildrenReduced;
+            return numberOfLeavesRemoved;
         }
         
         
