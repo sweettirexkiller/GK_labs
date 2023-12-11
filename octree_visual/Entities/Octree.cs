@@ -287,7 +287,10 @@ namespace octree_visual.Entities
             //  search the node, where the sum of the childs references is minimal and reduce it.
             // ENDWHILE
             
-            
+            if(children == null || colorCount <= reduceBy || colorCount == 1)
+            {
+                return;
+            }
             int numberOfLeaves = colorCount;
             while (numberOfLeaves > maxColorCount)
             {
@@ -300,7 +303,7 @@ namespace octree_visual.Entities
                 {
                     OctreeNode node = queue.Dequeue();
 
-                    // pomysl jest by sprawdzic czy node ma więcej niż 1 dziecko i czy nie jest liściem 
+                    // sprawdzic czy node ma więcej niż 1 dziecko i czy nie jest liściem 
                     if(!node.isLeaf && node.children.Count(x => x != null) > 1){
 
                         long sumOfReferences = RecGetChildrenReferenceSum(node);
@@ -343,6 +346,8 @@ namespace octree_visual.Entities
                 }
             }
             
+            colorCount = numberOfLeaves;
+            
         }
         
         
@@ -380,8 +385,40 @@ namespace octree_visual.Entities
         
             return numberOfLeavesRemoved;
         }
-        
-        
+
+
+        public Color GetReducedColor(Color pixelColor)
+        {
+            // find levels of the color in the tree
+            int[] indexes = new int[8];
+            for (int level = 7; level >= 0; level--)
+            {
+                indexes[level] = GetColorIndex(pixelColor.R, pixelColor.G, pixelColor.B, level);
+            }
+            
+            // find last node on the path of indexes
+            OctreeNode node = this;
+            for (int level = 7; level > 0; level--)
+            {
+                if (node.children[indexes[level]] == null)
+                {
+                    break;
+                }
+
+                node = node.children[indexes[level]];
+            }
+            
+            // return color of the node
+            if (node.references > 0)
+            {
+                return Color.FromArgb((int)(node.red / node.references), (int)(node.green / node.references), (int)(node.blue / node.references));
+            }
+            else
+            {
+                return Color.FromArgb(0, 0, 0);
+            }
+            
+        }
     }
 
     

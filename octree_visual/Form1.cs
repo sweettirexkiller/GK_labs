@@ -23,7 +23,7 @@ namespace octree_visual
             // get lena_color image from images folder and set it as image of originalPictureBox
             string workingDirectory = Environment.CurrentDirectory;
             var projectDir = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            string fileName = Path.Combine(projectDir, "octree_visual\\Images\\more.png");
+            string fileName = Path.Combine(projectDir, "octree_visual\\Images\\pallete.png");
             Image image = Image.FromFile(fileName);
 
             // resize image to pictureBox width and height 
@@ -82,6 +82,8 @@ namespace octree_visual
                 octreePictureBox.Refresh();
                 originalPictureBox.Refresh();
                 reducedPictureBox.Refresh();
+                
+                this.Refresh();
             }
         }
 
@@ -92,8 +94,30 @@ namespace octree_visual
             
             int reduceBy = int.Parse(reduceNumber.Value.ToString());
             octreeRoot.ReduceOctree(reduceBy);
-            
             octreeRoot.DrawOctree(octreePictureBox);
+            
+           
+            
+            // reduce image
+            Image image = reducedPictureBox.Image;
+            Bitmap bitmap = new Bitmap(image);
+            Bitmap reducedBitmap = new Bitmap(image.Width, image.Height);
+            for (int i = 0; i < image.Width; i++)
+            {
+                for (int j = 0; j <image.Height; j++)
+                {
+                    Color pixelColor = bitmap.GetPixel(i, j);
+                    Color reducedColor = octreeRoot.GetReducedColor(pixelColor);
+                    reducedBitmap.SetPixel(i, j, reducedColor);
+                }
+            }
+            
+            // set reduced map as reducedPictureBox image
+            reducedPictureBox.Image = reducedBitmap;
+            reducedPictureBox.Refresh();
+            reducedNumberOfColors.Text = $"{octreeRoot.colorCount}";
+            this.Refresh();
+
             
         }
     }
