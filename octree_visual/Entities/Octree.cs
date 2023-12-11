@@ -11,6 +11,9 @@ namespace octree_visual.Entities
     
     // Octree is a tree where each node has up to 8 children. Leaf node has no active children.
     // Each leaf node have a number of pixels with this color (pixel_count) and color value.
+    
+    
+    
 
     public class OctreeNode
     {
@@ -18,6 +21,7 @@ namespace octree_visual.Entities
 
         public long red;
         public long green;
+        public static List<OctreeNode>[] nodesOnLevelList;
         public long blue;
         public long references;
         public bool isLeaf;
@@ -36,11 +40,25 @@ namespace octree_visual.Entities
             green = 0;
             references = 0;
             children = new OctreeNode[8];
+           
 
             for (int i = 0; i < 8; i++)
             {
                 children[i] = null;
             }
+
+            // initialize list of nodes on each level only for root node
+            if (parent == null)
+            {
+                nodesOnLevelList = new List<OctreeNode>[8];
+                for (int i = 0; i < 8; i++)
+                {
+                    nodesOnLevelList[i] = new List<OctreeNode>();
+                }
+                // root node is on level 7
+                nodesOnLevelList[7].Add(this);
+            }
+           
 
             if (level != null)
             {
@@ -76,7 +94,10 @@ namespace octree_visual.Entities
                 if (node.children[indexes[level]] == null)
                 {
                     node.children[indexes[level]] = new OctreeNode(node.level - 1, node);
+                    nodesOnLevelList[level - 1].Add(node.children[indexes[level]]);
                 }
+                
+                
 
                 node = node.children[indexes[level]];
                 if (node.level == 0)
@@ -134,28 +155,35 @@ namespace octree_visual.Entities
             }
 
             // count how many nodes are on each level with BFS
-            Queue<OctreeNode> queue = new Queue<OctreeNode>();
-            queue.Enqueue(this);
-            int currentLevel = 7;
-            while (queue.Count > 0)
+            // Queue<OctreeNode> queue = new Queue<OctreeNode>();
+            // queue.Enqueue(this);
+            // int currentLevel = 7;
+            // while (queue.Count > 0)
+            // {
+            //     OctreeNode node = queue.Dequeue();
+            //     if (node.level != currentLevel)
+            //     {
+            //         currentLevel = node.level;
+            //     }
+            //
+            //     nodesOnLevel[currentLevel]++;
+            //     if (node.children != null)
+            //     {
+            //         for (int i = 0; i < 8; i++)
+            //         {
+            //             if (node.children[i] != null)
+            //             {
+            //                 queue.Enqueue(node.children[i]);
+            //             }
+            //         }
+            //     }
+            // }
+            
+            // instead of BFS just count nodes on each level with nodesOnLevelList
+            
+            for (int i = 0; i < 8; i++)
             {
-                OctreeNode node = queue.Dequeue();
-                if (node.level != currentLevel)
-                {
-                    currentLevel = node.level;
-                }
-
-                nodesOnLevel[currentLevel]++;
-                if (node.children != null)
-                {
-                    for (int i = 0; i < 8; i++)
-                    {
-                        if (node.children[i] != null)
-                        {
-                            queue.Enqueue(node.children[i]);
-                        }
-                    }
-                }
+                nodesOnLevel[i] = nodesOnLevelList[i].Count;
             }
 
             return nodesOnLevel;
@@ -206,7 +234,12 @@ namespace octree_visual.Entities
                     // in the middle of the space for the node
                     node.middleX = x;
                     node.middleY = y;
-                    g.DrawEllipse(pen, x, y, 3, 3);
+                    if(node.isLeaf)
+                    {
+                        g.FillEllipse(new SolidBrush(Color.FromArgb((int)(node.red / node.references), (int)(node.green / node.references), (int)(node.blue / node.references))), x, y, 5, 5);
+                    } else {
+                        g.DrawEllipse(pen, x, y, 3, 3);
+                    }
                     x += widthOfSpaceForNode[currentLevel];
 
                     if (node.parent != null)
@@ -232,8 +265,10 @@ namespace octree_visual.Entities
             octreePictureBox.Refresh();
 
         }
-
-        public long RecGetChildrenReferenceSum(OctreeNode node)
+        
+        
+        // remove recursion from this function
+        public long GetChildrenReferenceSum(OctreeNode node)
         {
             if(node.isLeaf)
             {
@@ -253,7 +288,7 @@ namespace octree_visual.Entities
                 {
                     if (node.children[i] != null)
                     {
-                        sum += RecGetChildrenReferenceSum(node.children[i]);
+                        sum += node.children[i].references;
                     }
                 }
             }
@@ -297,37 +332,68 @@ namespace octree_visual.Entities
                 // search the node, where the sum of the childs references is minimal and reduce it.
                 OctreeNode nodeToReduce = null;
                 long minReferences = long.MaxValue;
-                Queue<OctreeNode> queue = new Queue<OctreeNode>();
-                queue.Enqueue(this);
-                while (queue.Count > 0)
-                {
-                    OctreeNode node = queue.Dequeue();
+                // Queue<OctreeNode> queue = new Queue<OctreeNode>();
+                // queue.Enqueue(this);
+                // while (queue.Count > 0)
+                // {
+                //     OctreeNode node = queue.Dequeue();
 
                     // sprawdzic czy node ma więcej niż 1 dziecko i czy nie jest liściem 
-                    if(!node.isLeaf && node.children.Count(x => x != null) > 1){
-
-                        long sumOfReferences = RecGetChildrenReferenceSum(node);
-
-                        if (sumOfReferences < minReferences)
-                        {
-                            minReferences = sumOfReferences;
-                            nodeToReduce = node;
-                        }
+                    // if(!node.isLeaf && node.children.Count(x => x != null) > 1){
+                    //
+                    //     long sumOfReferences = RecGetChildrenReferenceSum(node);
+                    //
+                    //     if (sumOfReferences < minReferences)
+                    //     {
+                    //         minReferences = sumOfReferences;
+                    //         nodeToReduce = node;
+                    //     }
+                    //
+                    // }
                     
-                    }
-                    
-
-                    if (node.children != null)
+                    // szukaj minimum tylko na najniższym poziomie na ktorym jeszcze sa wierzcholki w NodeOnLevelList
+                    //     if (node.children != null)
+                    //     {
+                    //         for (int i = 0; i < 8; i++)
+                    //         {
+                    //             if (node.children[i] != null)
+                    //             {
+                    //                 queue.Enqueue(node.children[i]);
+                    //             }
+                    //         }
+                    //     }
+                // }
+                
+                // level 7 is root , level 0 is leafs
+                for (int i = 1; i < 8; i++)
+                {
+                    // until there are nodes on level remove only from second lowest level
+                    if(nodesOnLevelList[i].Count > 0 && nodesOnLevelList[i].Count(node => !node.isLeaf) > 0)
                     {
-                        for (int i = 0; i < 8; i++)
+                        // find node with minimum references on this level
+                        bool found = false;
+                        foreach (var octreeNode in nodesOnLevelList[i])
                         {
-                            if (node.children[i] != null)
+                            if(octreeNode.isLeaf)
                             {
-                                queue.Enqueue(node.children[i]);
+                                continue;
                             }
+                            long sumOfReferences = GetChildrenReferenceSum(octreeNode);
+                            if (sumOfReferences < minReferences)
+                            {
+                                minReferences = sumOfReferences;
+                                nodeToReduce = octreeNode;
+                                found = true;
+                            }
+                        }
+
+                        if (found)
+                        {
+                            break;
                         }
                     }
                 }
+
                 
                 
                 // reduce nodeToReduce
@@ -335,6 +401,8 @@ namespace octree_visual.Entities
                 {
 
                     int numberOfLeavesRemoved = ReduceNode(nodeToReduce);
+                    // remove this node from nodesOnLevelList
+                   
 
                     // if deleted more than one children then it means that we have less leaves (colors)
                     if (numberOfLeavesRemoved > 1)
@@ -367,7 +435,7 @@ namespace octree_visual.Entities
             {
                 if (node.children[i] != null)
                 {
-                    numberOfLeavesRemoved += ReduceNode(node.children[i]);
+                    // numberOfLeavesRemoved += ReduceNode(node.children[i]);
                     node.references += node.children[i].references;
                     node.red += node.children[i].red;
                     node.green += node.children[i].green;
@@ -376,6 +444,8 @@ namespace octree_visual.Entities
                     {
                         numberOfLeavesRemoved++;
                     }
+                    // remove this child from nodesOnLevelList
+                    nodesOnLevelList[node.children[i].level].Remove(node.children[i]);
                     node.children[i] = null;
                     
                 }
