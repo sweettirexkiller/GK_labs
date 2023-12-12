@@ -26,8 +26,8 @@ namespace octree_visual.Entities
         public long references;
         public bool isLeaf;
         public int level;
-        public int middleX;
-        public int middleY;
+        public float middleX;
+        public float middleY;
         OctreeNode parent;
         public int colorCount;
 
@@ -204,7 +204,7 @@ namespace octree_visual.Entities
                 // count how many nodes are on each level
                 int[] nodesOnLevel = CountNodesOnLevels();
                 // find width for each node in each level
-                int[] widthOfSpaceForNode = new int[8];
+                float[] widthOfSpaceForNode = new float[8];
                 for (int i = 0; i < 8; i++)
                 {
                     if (nodesOnLevel[i] > 0)
@@ -219,8 +219,8 @@ namespace octree_visual.Entities
                 Queue<OctreeNode> queue = new Queue<OctreeNode>();
                 queue.Enqueue(this);
                 int currentLevel = 7;
-                int x = offsetX + widthOfSpaceForNode[currentLevel] / 2;
-                int y = offsetY;
+                float x = offsetX + widthOfSpaceForNode[currentLevel] / 2;
+                float y = offsetY;
                 while (queue.Count > 0)
                 {
                     OctreeNode node = queue.Dequeue();
