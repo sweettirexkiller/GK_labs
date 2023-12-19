@@ -84,6 +84,8 @@ public class TriangleMesh
     public bool ShouldRotateOnce { get; set; }
     public double AlfaForZRotation { get; set; }
     public double BetaForXRotation { get; set; }
+    
+    public Camera Camera { get; set; }
 
     public TriangleMesh(int columnsCountX, int rowsCountY, int width, int height, Color objectColor)
     {
@@ -101,6 +103,8 @@ public class TriangleMesh
         IsLightConstant = true;
         IsColorInterpolated = false;
         ShouldRotateOnce = false;
+        // position in the middle of the screen
+        Camera = new Camera(new Vector3(0,50,50),new Vector3((float)(_width/2.0),(float)(_height/2.0),0), new Vector3(0,0,1));
         
         
         for(int i = 0; i < width; i++)
@@ -139,6 +143,10 @@ public class TriangleMesh
         _xSpan = (int)stepX*ColumnsCountX;
         _ySpan = (int)stepY*RowsCountY;
         
+        float angle = (float)(60.0/180.0*Math.PI);
+        Matrix4x4 perspective = Matrix4x4.CreatePerspectiveFieldOfView(angle, 1, (float)2.5, 100);
+        Matrix4x4 lookAt = Matrix4x4.CreateLookAt(Camera.Position, Camera.Target, Camera.UpVector);
+        Matrix4x4 perspectiveLookAt = lookAt * perspective;
       
         // create a list of active edges
         for (int i = 1; i <= _columnsCountX; i++)
@@ -171,6 +179,10 @@ public class TriangleMesh
                 }
 
 
+                // transform vertices with LookAt matrix
+               
+                
+                
                 // UPPER TRIANGLE
                 // calculate upper triangle normal vector
                 Vector3 upperTriangleNormal = CalculateTriangleNormal(upperLeft, upperRight, downLeft);
@@ -178,6 +190,12 @@ public class TriangleMesh
                 Vertex upperLeftVertex = new Vertex(upperLeft, i*10+j+1,upperTriangleNormal);
                 Vertex upperRightVertex = new Vertex(upperRight, i*10+j+2,upperTriangleNormal);
                 Vertex downLeftVertex = new Vertex(downLeft, i*10+j+3,upperTriangleNormal);
+                
+                // project vertices
+                upperLeftVertex.Project(perspectiveLookAt);
+                upperRightVertex.Project(perspectiveLookAt);
+                downLeftVertex.Project(perspectiveLookAt);
+                
 
 
                 // LOWER TRIANGLE
@@ -187,6 +205,12 @@ public class TriangleMesh
                 Vertex downRightVertex = new Vertex(downRight, i*10+j+4,lowerTriangleNormal);
                 Vertex upperRightVertex2 = new Vertex(upperRight, i*10+j+5,lowerTriangleNormal);
                 Vertex downLeftVertex2 = new Vertex(downLeft, i*10+j+6,lowerTriangleNormal);
+                
+                // project vertices
+                downRightVertex.Project(perspectiveLookAt);
+                upperRightVertex2.Project(perspectiveLookAt);
+                downLeftVertex2.Project(perspectiveLookAt);
+                
                 
                 // create lower triangle face
                 Face lowerTriangle = new Face(new List<Vertex>{downRightVertex, upperRightVertex2, downLeftVertex2});
@@ -319,10 +343,10 @@ public class TriangleMesh
 
     public void Paint(Brush brush, DirectBitmap canvas, Lamp lamp)
     {
-        foreach (var face in Faces)
-        {
-            brush.FillTriangle(this, face, canvas, lamp);
-        }
+        // foreach (var face in Faces)
+        // {
+        //     brush.FillTriangle(this, face, canvas, lamp);
+        // }
         
         if(IsMeshVisible)
             DrawAllEdges(canvas);

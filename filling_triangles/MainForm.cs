@@ -419,6 +419,10 @@ namespace filling_triangles
             _myTimer.Start();
         }
 
-      
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

@@ -7,18 +7,31 @@ namespace filling_triangles.Geometry
         private double x;
         private double y;
         private double z;
+        private double w = 1.0;
         
-        //contructor
+        //constructor
         public Point3D(double x, double y, double z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
+            this.w = 1.0;
+        }
+        
+        // constructor
+        public Point3D(double x, double y, double z, double w)
+        {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+            
         }
         
         public double X { get { return x; } set { x = value; } }
         public double Y { get { return y; } set { y = value; } }
         public double Z { get { return z; } set { z = value; } }
+        public double W { get { return w; } set { w = value; } }
         
 
         // create a Vector3 from two points

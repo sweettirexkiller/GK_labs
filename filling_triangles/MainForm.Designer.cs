@@ -105,9 +105,9 @@
             this.menuContainer.Controls.Add(this.normalVectorGroupBox);
             this.menuContainer.Controls.Add(this.groupBox1);
             this.menuContainer.Controls.Add(this.triangleMeshGroupBox);
-            this.menuContainer.Location = new System.Drawing.Point(1690, 12);
+            this.menuContainer.Location = new System.Drawing.Point(1258, 12);
             this.menuContainer.Name = "menuContainer";
-            this.menuContainer.Size = new System.Drawing.Size(575, 1475);
+            this.menuContainer.Size = new System.Drawing.Size(575, 1441);
             this.menuContainer.TabIndex = 1;
             this.menuContainer.Text = "containerControl2";
             // 
@@ -562,7 +562,7 @@
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox.Location = new System.Drawing.Point(12, 12);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(1672, 1475);
+            this.pictureBox.Size = new System.Drawing.Size(1240, 1441);
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
@@ -572,18 +572,20 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(2277, 1499);
+            this.ClientSize = new System.Drawing.Size(1845, 1465);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.menuContainer);
             this.Location = new System.Drawing.Point(15, 15);
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin_1);
             this.menuContainer.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);

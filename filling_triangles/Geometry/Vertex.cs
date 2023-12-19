@@ -7,12 +7,15 @@ namespace filling_triangles.Geometry
     {
         public Vector3 NormalVector { get; }
         public int Id { get; }
+        
+        public Point3D BeforeProjection { get; set; }
 
         public Vertex(Point3D point, int id, Vector3 normalVector) : base(point.X, point.Y, point.Z)
         {
             Id = id;
             //normalize a 3D vector
             NormalVector = Vector3.Normalize(normalVector);
+            BeforeProjection = point;
         }
 
         // - operator
@@ -73,6 +76,26 @@ namespace filling_triangles.Geometry
         public static implicit operator Vector3(Vertex v)
         {
             return new Vector3((float)v.X, (float)v.Y, (float)v.Z);
+        }
+
+        public void Project(Matrix4x4 perspectiveLookAt)
+        {
+            // create Matrix4x4 from point
+            Matrix4x4 pointMatrix = new Matrix4x4(
+                (float)X, 0, 0, 0,
+                0, (float)Y, 0, 0,
+                0, 0, (float)Z, 0,
+                0, 0, 0, 1
+            );
+            
+            // multiply pointMatrix by perspectiveLookAt
+            Matrix4x4 result = Matrix4x4.Multiply(pointMatrix, perspectiveLookAt);
+            
+            //change point to result
+            X = result.M11;
+            Y = result.M21;
+            Z = result.M31;
+            W = result.M41;
         }
     }
 }
