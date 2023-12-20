@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
-using System.Data.SqlTypes;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using filling_triangles.Geometry;
 using filling_triangles.Graphics;
@@ -47,7 +39,7 @@ namespace filling_triangles
             _triangleMesh = new TriangleMesh((int)this.columnCountX.Value, (int)this.columnCountY.Value,
                 pictureBox.Width, pictureBox.Height, _objectColor);
             
-            _lamp  = new Lamp(new Point3D(0, 0, 500), Color.White, new Point(_triangleMesh.Width / 2, _triangleMesh.Height / 2), _triangleMesh._xSpan / 2);
+            _lamp  = new Lamp(new Point3D(0, 0, 500), Color.White, new Point(_triangleMesh.Width / 2, _triangleMesh.Height / 2), (int)_triangleMesh._xSpan / 2);
             
           
 
@@ -58,7 +50,7 @@ namespace filling_triangles
 
             // _scene.AdjustSizes();
             _myTimer.Tick += _painter.StartDrawing;
-            _myTimer.Interval = 500;
+            _myTimer.Interval = 100;
             _myTimer.Start();
         }
 
@@ -415,7 +407,9 @@ namespace filling_triangles
         private void MainForm_ResizeBegin_1(object sender, EventArgs e)
         {
             _myTimer.Stop();
-            _triangleMesh.GenerateTriangles();
+            // _triangleMesh.Width = pictureBox.Width;
+            // _triangleMesh.Height = pictureBox.Height;
+            // // _triangleMesh.DrawMesh();
             _myTimer.Start();
         }
 
@@ -423,6 +417,26 @@ namespace filling_triangles
         private void MainForm_Load(object sender, EventArgs e)
         {
             
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            _triangleMesh.Width = pictureBox.Width;
+            _triangleMesh.Height = pictureBox.Height;
+            _myTimer.Start();
+        }
+
+        private void MainForm_ResizeMainForm_Resize(object sender, EventArgs e)
+        {
+            _myTimer.Stop();
+            if (_triangleMesh != null)
+            {
+                _triangleMesh.Width = pictureBox.Width;
+                _triangleMesh.Height = pictureBox.Height;
+            }
+            
+            _myTimer.Start();
         }
     }
 }

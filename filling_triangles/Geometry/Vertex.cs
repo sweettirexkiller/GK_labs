@@ -78,24 +78,19 @@ namespace filling_triangles.Geometry
             return new Vector3((float)v.X, (float)v.Y, (float)v.Z);
         }
 
-        public void Project(Matrix4x4 perspectiveLookAt)
+        public void Project(Matrix4x4 lookAt, Matrix4x4 perspective)
         {
-            // create Matrix4x4 from point
-            Matrix4x4 pointMatrix = new Matrix4x4(
-                (float)X, 0, 0, 0,
-                0, (float)Y, 0, 0,
-                0, 0, (float)Z, 0,
-                0, 0, 0, 1
-            );
-            
             // multiply pointMatrix by perspectiveLookAt
-            Matrix4x4 result = Matrix4x4.Multiply(pointMatrix, perspectiveLookAt);
+            Matrix4x4 lookAtPerspective =  lookAt * perspective ;
+            
+            // transform this point by lookAtPerspective
+            Vector4 result = Vector4.Transform(this, lookAtPerspective);
             
             //change point to result
-            X = result.M11;
-            Y = result.M21;
-            Z = result.M31;
-            W = result.M41;
+            X = result.X;
+            Y = result.Y;
+            Z = result.Z;
+            W = result.W;
         }
     }
 }

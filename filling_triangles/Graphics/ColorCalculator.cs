@@ -56,7 +56,7 @@ public class ColorCalculator
         var R = Vector3.Subtract(2 * (float)cosNL * N, L);
         double cosVR = Math.Max(R.Z, 0);
 
-        var pixelColor = _triangleMesh._textureBitmap.GetPixel((int)vertex.X - _triangleMesh._offset, (int)vertex.Y - _triangleMesh._offset);
+        var pixelColor = _triangleMesh._textureBitmap.GetPixel((int)vertex.X, (int)vertex.Y);
     
         var objRedColor =  pixelColor.R / 255.0;
         var objGreenColor = pixelColor.G / 255.0;

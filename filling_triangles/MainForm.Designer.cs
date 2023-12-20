@@ -105,14 +105,15 @@
             this.menuContainer.Controls.Add(this.normalVectorGroupBox);
             this.menuContainer.Controls.Add(this.groupBox1);
             this.menuContainer.Controls.Add(this.triangleMeshGroupBox);
-            this.menuContainer.Location = new System.Drawing.Point(1258, 12);
+            this.menuContainer.Location = new System.Drawing.Point(897, 12);
             this.menuContainer.Name = "menuContainer";
-            this.menuContainer.Size = new System.Drawing.Size(575, 1441);
+            this.menuContainer.Size = new System.Drawing.Size(624, 1855);
             this.menuContainer.TabIndex = 1;
             this.menuContainer.Text = "containerControl2";
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.mLabel);
             this.groupBox3.Controls.Add(this.ksLabel);
             this.groupBox3.Controls.Add(this.kdLabel);
@@ -124,7 +125,7 @@
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Location = new System.Drawing.Point(9, 1072);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(566, 344);
+            this.groupBox3.Size = new System.Drawing.Size(612, 360);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Coefficients";
@@ -210,14 +211,15 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.animatedLightVectorRadioButton);
             this.groupBox2.Controls.Add(this.constantLightVectorRadioButton);
             this.groupBox2.Controls.Add(this.lightColorPanel);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Location = new System.Drawing.Point(9, 792);
+            this.groupBox2.Location = new System.Drawing.Point(3, 801);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(566, 274);
+            this.groupBox2.Size = new System.Drawing.Size(612, 277);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Light";
@@ -254,6 +256,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.Location = new System.Drawing.Point(36, 72);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(196, 32);
@@ -272,13 +275,14 @@
             // 
             // normalVectorGroupBox
             // 
+            this.normalVectorGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.normalVectorGroupBox.Controls.Add(this.panel2);
             this.normalVectorGroupBox.Controls.Add(this.heightMapFileButton);
             this.normalVectorGroupBox.Controls.Add(this.heightMapFromFileRadioButton);
             this.normalVectorGroupBox.Controls.Add(this.constantVectorRadioButton);
-            this.normalVectorGroupBox.Location = new System.Drawing.Point(9, 607);
+            this.normalVectorGroupBox.Location = new System.Drawing.Point(3, 613);
             this.normalVectorGroupBox.Name = "normalVectorGroupBox";
-            this.normalVectorGroupBox.Size = new System.Drawing.Size(569, 179);
+            this.normalVectorGroupBox.Size = new System.Drawing.Size(612, 182);
             this.normalVectorGroupBox.TabIndex = 2;
             this.normalVectorGroupBox.TabStop = false;
             this.normalVectorGroupBox.Text = "Vector N";
@@ -325,6 +329,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Controls.Add(this.interpolatedCheckbox);
             this.groupBox1.Controls.Add(this.button1);
@@ -332,9 +337,9 @@
             this.groupBox1.Controls.Add(this.pickedColorRadioButton);
             this.groupBox1.Controls.Add(this.chosenColorPanel);
             this.groupBox1.Controls.Add(this.showColorPickerButton);
-            this.groupBox1.Location = new System.Drawing.Point(3, 296);
+            this.groupBox1.Location = new System.Drawing.Point(3, 299);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(569, 305);
+            this.groupBox1.Size = new System.Drawing.Size(618, 308);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Object Color";
@@ -426,7 +431,7 @@
             this.triangleMeshGroupBox.Controls.Add(this.label1);
             this.triangleMeshGroupBox.Location = new System.Drawing.Point(9, 3);
             this.triangleMeshGroupBox.Name = "triangleMeshGroupBox";
-            this.triangleMeshGroupBox.Size = new System.Drawing.Size(538, 287);
+            this.triangleMeshGroupBox.Size = new System.Drawing.Size(612, 290);
             this.triangleMeshGroupBox.TabIndex = 0;
             this.triangleMeshGroupBox.TabStop = false;
             this.triangleMeshGroupBox.Text = "Triangle Mesh";
@@ -559,10 +564,10 @@
             // pictureBox
             // 
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Location = new System.Drawing.Point(12, 12);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(1240, 1441);
+            this.pictureBox.Size = new System.Drawing.Size(879, 1855);
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
             // 
@@ -577,16 +582,19 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1845, 1465);
+            this.ClientSize = new System.Drawing.Size(1524, 1879);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.menuContainer);
-            this.Location = new System.Drawing.Point(15, 15);
+            this.IsMdiContainer = true;
+            this.MinimumSize = new System.Drawing.Size(1550, 1822);
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeBegin += new System.EventHandler(this.MainForm_ResizeBegin_1);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
+            this.Resize += new System.EventHandler(this.MainForm_ResizeMainForm_Resize);
             this.menuContainer.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
