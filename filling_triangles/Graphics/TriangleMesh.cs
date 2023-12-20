@@ -190,10 +190,7 @@ public class TriangleMesh
         _xSpan = (float)stepX*ColumnsCountX;
         _ySpan = (float)stepY*RowsCountY;
         
-        float angle = (float)(120.0/180.0*Math.PI);
-        Camera = new Camera(new Vector3(0,-2,2),new Vector3((float)0.5,(float)0.5,0), new Vector3(0,0,1));
-        Matrix4x4 perspective = Matrix4x4.CreatePerspectiveFieldOfView(angle, 1, (float)0.25, 10);
-        Matrix4x4 lookAt = Matrix4x4.CreateLookAt(Camera.Position, Camera.Target, Camera.UpVector);
+       
         // Matrix4x4 lookAtPerspective = lookAt * perspective;
 
         // create a list of active edges
@@ -223,9 +220,9 @@ public class TriangleMesh
                 Vertex downLeftVertex = new Vertex(downLeft, i*10+j+3,upperTriangleNormal);
                 
                 // project vertices
-                upperLeftVertex.Project(lookAt, perspective);
-                upperRightVertex.Project(lookAt, perspective);
-                downLeftVertex.Project(lookAt, perspective);
+                // upperLeftVertex.Project(lookAt, perspective);
+                // upperRightVertex.Project(lookAt, perspective);
+                // downLeftVertex.Project(lookAt, perspective);
 
                 // LOWER TRIANGLE
                 // calculate lower triangle normal vector
@@ -236,9 +233,9 @@ public class TriangleMesh
                 Vertex downLeftVertex2 = new Vertex(downLeft, i*10+j+6,lowerTriangleNormal);
                 
                 // project vertices
-                downRightVertex.Project(lookAt, perspective);
-                upperRightVertex2.Project(lookAt, perspective);
-                downLeftVertex2.Project(lookAt, perspective);
+                // downRightVertex.Project(lookAt, perspective);
+                // upperRightVertex2.Project(lookAt, perspective);
+                // downLeftVertex2.Project(lookAt, perspective);
                 
                 
                 // create lower triangle face
@@ -296,83 +293,49 @@ public class TriangleMesh
          {
               foreach (var edge in face.Edges)
               {
-                  // if (ShouldRotateOnce)
-                  // {
-                  //     double X1 = edge.V1.X;
-                  //     double Y1 = edge.V1.Y;
-                  //     double X2 = edge.V2.X;
-                  //     double Y2 = edge.V2.Y;
-                  //    
-                  //       
-                  //
-                  //       //1. translate to origin
-                  //       X1 = X1 - Width / 2;
-                  //       Y1 = Y1 - Height / 2;
-                  //       X2 = X2 - Width / 2;
-                  //       Y2 = Y2 - Height / 2;
-                  //       
-                  //       //scale to <0,1>
-                  //       // X1 = X1 / Width;
-                  //       // Y1 = Y1 / Height;
-                  //       // X2 = X2 / Width;
-                  //       // Y2 = Y2 / Height;
-                  //       
-                  //                   
-                  //     if (AlfaForZRotation != 0.0)
-                  //     {
-                  //         //2. rotate
-                  //         int newX1 = (int)(X1*Math.Cos(AlfaForZRotation) - Y1*Math.Sin(AlfaForZRotation));
-                  //       int newY1 = (int)(X1*Math.Sin(AlfaForZRotation) + Y1*Math.Cos(AlfaForZRotation));
-                  //       int newX2 = (int)(X2*Math.Cos(AlfaForZRotation) - Y2*Math.Sin(AlfaForZRotation));
-                  //       int newY2 = (int)(X2*Math.Sin(AlfaForZRotation) + Y2*Math.Cos(AlfaForZRotation));
-                  //       X1 = newX1;
-                  //       Y1 = newY1;
-                  //       X2 = newX2;
-                  //       Y2 = newY2;
-                  //     }
-                      // if (BetaForXRotation != 0.0)
-                      // {
-                      //     // 2. rotate
-                      //       int newY1 = (int)(Y1 * Math.Cos(BetaForXRotation) - ZFunction(X1, Y1) * Math.Sin(BetaForXRotation));
-                      //       // X1 = (int)(Y1 * Math.Sin(BetaForXRotation) + ZFunction(X1, Y1) * Math.Cos(BetaForXRotation));
-                      //       int newY2 = (int)(Y2 * Math.Cos(BetaForXRotation) - ZFunction(X2, Y2) * Math.Sin(BetaForXRotation));
-                      //       // X2 = (int)(Y2 * Math.Sin(BetaForXRotation) + ZFunction(X2, Y2) * Math.Cos(BetaForXRotation));
-                      //       Y2 = newY2;
-                      //       Y1 = newY1;
-                      //
-                      // }
-                      //3. translate back
-                        // un-scale
-                        // X1 = X1 * Width;
-                        // Y1 = Y1 * Height;
-                        // X2 = X2 * Width;
-                        // Y2 = Y2 * Height;
-                      
-                        // X1 = X1 + Width / 2;
-                        // Y1 = Y1 + Height / 2;
-                        // X2 = X2 + Width / 2;
-                        // Y2 = Y2 + Height / 2;
-                        //
-                        //
-                        // // if line leaves the canvas, dont draw it
-                        // if (X1 < 0 || X1 > Width || X2 < 0 || X2 > Width || Y1 < 0 || Y1 > Height || Y2 < 0 || Y2 > Height)
-                        // {
-                        //     continue;
-                        // }
-                      // g.DrawLine(new Pen(Color.Black),(int) X1, (int) Y1,(int)  X2,(int)  Y2);
-                  // }
-                  // else
-                  // {
+                  if (ShouldRotateOnce)
+                  {
+                 
+                    // if (AlfaForZRotation != 0.0) { }
+                    // if (BetaForXRotation != 0.0) { }
+                    
+                    // project each vertex
+                    float angle = (float)(120.0/180.0*Math.PI);
+                    Camera = new Camera(new Vector3(0,-2,2),new Vector3((float)0.5,(float)0.5,0), new Vector3(0,0,1));
+                    Matrix4x4 perspective = Matrix4x4.CreatePerspectiveFieldOfView(angle, 1, (float)0.25, 10);
+                    Matrix4x4 lookAt = Matrix4x4.CreateLookAt(Camera.Position, Camera.Target, Camera.UpVector);
+
+                    if (!edge.V1.isProjected)
+                        edge.V1.Project(lookAt, perspective);
+                    
+                    if(!edge.V2.isProjected)
+                        edge.V2.Project(lookAt, perspective);
+                   
+
+
+                    double X1 = (edge.V1.X + 1)/2 * Width;
+                    double Y1 = (edge.V1.Y + 1)/2 * Height;
+                    double X2 = (edge.V2.X + 1)/2 * Width;
+                    double Y2 = (edge.V2.Y  + 1)/2* Height;
+                    
+                    g.DrawLine(new Pen(Color.Black),(int) X1, (int) Y1,(int)  X2,(int)  Y2);
+                  }
+                  else
+                  {
                       // scale points from <0-1> to <0-width> and <0-height>
-                        double X1 = (edge.V1.X + 1)/2 * Width;
-                        double Y1 = (edge.V1.Y + 1)/2 * Height;
-                        double X2 = (edge.V2.X + 1)/2 * Width;
-                        double Y2 = (edge.V2.Y  + 1)/2* Height;
+                      
+                        
                         // draw this line 
+                        // just draw a line between two points
+                        
+                        double X1 = edge.V1.X * Width;
+                        double Y1 = edge.V1.Y * Height;
+                        double X2 = edge.V2.X * Width;
+                        double Y2 = edge.V2.Y * Height;
                         
 
                         g.DrawLine(new Pen(Color.Black),(int) X1, (int)Y1,(int) X2, (int)Y2);
-                  // }
+                  }
               }
          }
     }

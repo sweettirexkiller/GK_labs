@@ -155,7 +155,7 @@ public class ColorCalculator
    public Color CalculateColor(int x, int y)
    {
        
-       Vector3 barycentric = CalculateBarycentricCoordinates(_vertices[0], _vertices[1], _vertices[2], new Vector3(x, y, (int)_triangleMesh.ZFunction(x,y)));
+       Vector3 barycentric = CalculateBarycentricCoordinates(_vertices[0], _vertices[1], _vertices[2], new Vector3(x, y, (float)_triangleMesh.ZFunction(x,y)));
 
        float w = barycentric.X;
        float u = barycentric.Y;

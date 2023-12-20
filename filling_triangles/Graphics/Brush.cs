@@ -20,10 +20,46 @@ public class Brush
     }
     public void FillTriangle(TriangleMesh triangleMesh, Face face, DirectBitmap canvas, Lamp lamp)
     {
-        // feels edges table
-        _scanLineProcedure.Init(face.Edges);
+       
+        List<Edge> scaledEdges = new List<Edge>();
+        List<Vertex> vertices = new List<Vertex>();
+        if (triangleMesh.ShouldRotateOnce)
+        {
+            // double X1 = (x + 1)/2 * triangleMesh.Width;
+            // double Y1 = (y + 1)/2 * triangleMesh.Height;
+            foreach (var edge in face.Edges)
+            {
+                double X1 = (edge.V1.X + 1)/2 * triangleMesh.Width;
+                double Y1 = (edge.V1.Y + 1)/2 * triangleMesh.Height;
+                double X2 = (edge.V2.X + 1)/2 * triangleMesh.Width;
+                double Y2 = (edge.V2.Y + 1)/2 * triangleMesh.Height;
+                // scaledEdges.Add(new Edge(new Vertex(X1,Y1,0), new Vertex(X2,Y2,0)));
+            }
+            
+        }
+        else
+        {
+            // scale each vertise to fit the screen
+            foreach (var edge in face.Edges)
+            {
+                double X1 = edge.V1.X* triangleMesh.Width;
+                double Y1 = edge.V1.Y * triangleMesh.Height;
+                double X2 = edge.V2.X * triangleMesh.Width;
+                double Y2 = edge.V2.Y * triangleMesh.Height;
+                Point3D p1 = new Point3D(X1,Y1,edge.V1.Z*1000);
+                Vertex one = new Vertex(p1, edge.V1.Id, edge.V1.NormalVector);
+                Point3D p2 = new Point3D(X2,Y2,edge.V2.Z*1000);
+                Vertex two = new Vertex(p2, edge.V2.Id, edge.V2.NormalVector);
+                vertices.Add(one);
+                vertices.Add(two);
+                scaledEdges.Add(new Edge(one,two));
+            }
+                       
+        }
         
-        var vertices = face.Vertices;
+        _scanLineProcedure.Init(scaledEdges);
+        
+       
         // translate each vertex to middle
         ColorCalculator colorCalculator = new ColorCalculator(lamp, vertices, triangleMesh);
         
@@ -41,70 +77,13 @@ public class Brush
                 for(int x = intersections.First(); x <= intersections.Last(); x++)
                 {
                     // get color from texture
-                        Color color = colorCalculator.CalculateColor(x,_scanLineProcedure.CurrentY);
-                        int y = _scanLineProcedure.CurrentY;
-                        // int Y = _scanLineProcedure.CurrentY;
-                        // int X = x;
-                        //
-                            if (triangleMesh.ShouldRotateOnce)
-                            {
-                               
-                                    // //1. translate to origin
-                                    // X = X - triangleMesh.Width/2;
-                                    // Y = Y - triangleMesh.Height/2;
-                                    // // scale X and Y to <0,1>
-                                    // // X = X / triangleMesh.Width;
-                                    // // Y = Y / triangleMesh.Height;
-                                    //
-                                    // if (triangleMesh.AlfaForZRotation != 0.0)
-                                    // {
-                                    //     //2. rotate
-                                    //     int newX = (int)(X*Math.Cos(triangleMesh.AlfaForZRotation) - Y*Math.Sin(triangleMesh.AlfaForZRotation));
-                                    //     int newY = (int)(X*Math.Sin(triangleMesh.AlfaForZRotation) + Y*Math.Cos(triangleMesh.AlfaForZRotation));
-                                    //     X = newX;
-                                    //     Y = newY;
-                                    // }
-                                    // if (triangleMesh.BetaForXRotation != 0.0)
-                                    // {
-                                    //     // 2. rotate
-                                    //     int newY = (int)(Y * Math.Cos(triangleMesh.BetaForXRotation) - triangleMesh.ZFunction(X, Y) * Math.Sin(triangleMesh.BetaForXRotation));
-                                    //     int newZ = (int)(Y * Math.Sin(triangleMesh.BetaForXRotation) + triangleMesh.ZFunction(x, Y) * Math.Cos(triangleMesh.BetaForXRotation));
-                                    //     Y = newY;
-                                    //     // co zrobic z nowym Z?
-                                    // }
-                                    // //3. translate back
-                                    // // un-scale
-                                    // // X = X * triangleMesh.Width;
-                                    // // Y = Y * triangleMesh.Height;
-                                    //
-                                    // X = X + triangleMesh.Width / 2;
-                                    // Y = Y + triangleMesh.Height / 2;
-                                    //
-                                    // // if point is outside of canvas then skip it
-                                    // if (X < 0 || X >= triangleMesh.Width || Y < 0 || Y >= triangleMesh.Height)
-                                    // {
-                                    //     continue;
-                                    // }
-                                    //
-                                    // // draw only inside offset
-                                    // if (X >= triangleMesh._offset && X < (triangleMesh._offset + triangleMesh._xSpan) && Y >= triangleMesh._offset && Y < triangleMesh._offset + triangleMesh._ySpan)
-                                    // {
-                                    //     canvas.SetPixel(X, Y,color);
-                                    // }
-                                    // else
-                                    // {
-                                    //     canvas.SetPixel(X,Y , Color.White);
-                                    // }
-                            }
-                            else
-                            {
-                               
-                                    canvas.SetPixel(x, y,color);
-                               
-                            }
-                          
-                            
-                       
+                    Color color = colorCalculator.CalculateColor(x,_scanLineProcedure.CurrentY);
+                    int y = _scanLineProcedure.CurrentY;
+                        
+                    
+                    canvas.SetPixel(x, y,color);
+                    
+
                 }
                 
             }

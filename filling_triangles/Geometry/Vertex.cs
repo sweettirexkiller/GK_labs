@@ -9,6 +9,8 @@ namespace filling_triangles.Geometry
         public int Id { get; }
         
         public Point3D BeforeProjection { get; set; }
+        
+        public bool isProjected = false;
 
         public Vertex(Point3D point, int id, Vector3 normalVector) : base(point.X, point.Y, point.Z)
         {
@@ -91,6 +93,8 @@ namespace filling_triangles.Geometry
             Y = result.Y;
             Z = result.Z;
             W = result.W;
+            
+            isProjected = true;
         }
     }
 }
