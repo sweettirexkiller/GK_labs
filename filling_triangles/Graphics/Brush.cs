@@ -21,45 +21,38 @@ public class Brush
     public void FillTriangle(TriangleMesh triangleMesh, Face face, DirectBitmap canvas, Lamp lamp)
     {
        
-        List<Edge> scaledEdges = new List<Edge>();
-        List<Vertex> vertices = new List<Vertex>();
+        
+        // create new face but in scaled coordinates
+        List<Vertex> scaledVertices = new List<Vertex>();
+       
         if (triangleMesh.ShouldRotateOnce)
         {
-            // double X1 = (x + 1)/2 * triangleMesh.Width;
-            // double Y1 = (y + 1)/2 * triangleMesh.Height;
-            foreach (var edge in face.Edges)
+            foreach (Vertex v in face.Vertices)
             {
-                double X1 = (edge.V1.X + 1)/2 * triangleMesh.Width;
-                double Y1 = (edge.V1.Y + 1)/2 * triangleMesh.Height;
-                double X2 = (edge.V2.X + 1)/2 * triangleMesh.Width;
-                double Y2 = (edge.V2.Y + 1)/2 * triangleMesh.Height;
-                // scaledEdges.Add(new Edge(new Vertex(X1,Y1,0), new Vertex(X2,Y2,0)));
+                // add scaled new vertex to list
+                Vertex clone = v.Clone();
+                clone.Project(triangleMesh.LookAt, triangleMesh.Perspective);
+                clone.FitToScreenWithPerspective(triangleMesh.Width, triangleMesh.Height);
+                scaledVertices.Add(clone);
             }
             
         }
         else
         {
-            // scale each vertise to fit the screen
-            foreach (var edge in face.Edges)
+            foreach (Vertex v in face.Vertices)
             {
-                double X1 = edge.V1.X* triangleMesh.Width;
-                double Y1 = edge.V1.Y * triangleMesh.Height;
-                double X2 = edge.V2.X * triangleMesh.Width;
-                double Y2 = edge.V2.Y * triangleMesh.Height;
-                Point3D p1 = new Point3D(X1,Y1,edge.V1.Z*1000);
-                Vertex one = new Vertex(p1, edge.V1.Id, edge.V1.NormalVector);
-                Point3D p2 = new Point3D(X2,Y2,edge.V2.Z*1000);
-                Vertex two = new Vertex(p2, edge.V2.Id, edge.V2.NormalVector);
-                vertices.Add(one);
-                vertices.Add(two);
-                scaledEdges.Add(new Edge(one,two));
+                // add scaled new vertex to list
+                Vertex clone = v.Clone();
+                clone.FitToScreen(triangleMesh.Width, triangleMesh.Height);
+                scaledVertices.Add(clone);
             }
-                       
         }
         
-        _scanLineProcedure.Init(scaledEdges);
         
-       
+        Face faceToDraw = new Face(scaledVertices);
+        _scanLineProcedure.Init(faceToDraw.Edges);
+        
+        var vertices = faceToDraw.Vertices;
         // translate each vertex to middle
         ColorCalculator colorCalculator = new ColorCalculator(lamp, vertices, triangleMesh);
         
@@ -80,6 +73,8 @@ public class Brush
                     Color color = colorCalculator.CalculateColor(x,_scanLineProcedure.CurrentY);
                     int y = _scanLineProcedure.CurrentY;
                         
+                    if(x < 0 || x >= canvas.Width || y < 0 || y >= canvas.Height)
+                        continue;
                     
                     canvas.SetPixel(x, y,color);
                     

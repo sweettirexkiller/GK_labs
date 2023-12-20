@@ -96,5 +96,26 @@ namespace filling_triangles.Geometry
             
             isProjected = true;
         }
+        
+        // create copy method
+        public Vertex Clone()
+        {
+            return new Vertex(new Point3D(X, Y, Z), Id, NormalVector);
+        }
+
+        public void FitToScreen(int width, int height)
+        {
+            X = X * width;
+            Y = Y * height;
+        }
+        
+        public void FitToScreenWithPerspective(int width, int height)
+        {
+            X = (X+1)/2 * width;
+            Y = (Y+1)/2 * height;
+        }
+        
+            
+       
     }
 }

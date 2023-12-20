@@ -106,8 +106,11 @@ public class TriangleMesh
         IsColorInterpolated = false;
         ShouldRotateOnce = false;
         // position in the middle of the screen
-        Camera = new Camera(new Vector3(5,-5,5),new Vector3((float)0.5,(float)0.5,0), new Vector3(0,0,1));
-        
+        Camera = new Camera(new Vector3(0,-2,2),new Vector3((float)0.5,(float)0.5,0), new Vector3(0,0,1));
+        Angle = (float)(120.0/180.0*Math.PI);
+        Perspective = Matrix4x4.CreatePerspectiveFieldOfView(Angle, 1, (float)0.25, 10);
+        LookAt = Matrix4x4.CreateLookAt(Camera.Position, Camera.Target, Camera.UpVector);
+       
         
         for(int i = 0; i < width; i++)
         {
@@ -132,6 +135,12 @@ public class TriangleMesh
 
         GenerateTriangles();
     }
+
+    public Matrix4x4 LookAt { get; set; }
+
+    public Matrix4x4 Perspective { get; set; }
+
+    public float Angle { get; set; }
 
     public double ZFunction(double x, double y)
     {
@@ -300,16 +309,11 @@ public class TriangleMesh
                     // if (BetaForXRotation != 0.0) { }
                     
                     // project each vertex
-                    float angle = (float)(120.0/180.0*Math.PI);
-                    Camera = new Camera(new Vector3(0,-2,2),new Vector3((float)0.5,(float)0.5,0), new Vector3(0,0,1));
-                    Matrix4x4 perspective = Matrix4x4.CreatePerspectiveFieldOfView(angle, 1, (float)0.25, 10);
-                    Matrix4x4 lookAt = Matrix4x4.CreateLookAt(Camera.Position, Camera.Target, Camera.UpVector);
-
                     if (!edge.V1.isProjected)
-                        edge.V1.Project(lookAt, perspective);
+                        edge.V1.Project(LookAt, Perspective);
                     
                     if(!edge.V2.isProjected)
-                        edge.V2.Project(lookAt, perspective);
+                        edge.V2.Project(LookAt, Perspective);
                    
 
 
